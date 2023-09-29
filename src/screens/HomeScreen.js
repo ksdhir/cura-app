@@ -88,23 +88,26 @@
 // });
 
 import { StatusBar } from "expo-status-bar";
-import { Button, Text, View } from "react-native";
+import { Button, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import TestButton from "../components/TestButton";
+import { auth } from "../utils/FirebaseConfig";
 
 export default function Home() {
   const navigation = useNavigation();
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
-    <View
-      View
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-    >
-      <StatusBar style="auto" />
-      <Text> Home Screen </Text>
-      <Button
-        title="Go to Second Screen"
-        onPress={() => navigation.navigate("SecondScreen")}
-      />
-    </View>
+    <SafeAreaView className="flex-1 justify-center items-center">
+      <Text> Hi, I'm a home screen! </Text>
+      <TestButton title="Log Out" onPress={handleLogout} />
+    </SafeAreaView>
   );
 }
