@@ -11,18 +11,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.cura-app"
+      "bundleIdentifier": "com.anonymous.cura-app",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.curapp.cura"
     },
     "web": {
@@ -31,6 +31,7 @@
     "plugins": [
       "react-native-health",
       "react-native-health-connect",
+      "@react-native-google-signin/google-signin",
       [
         "expo-build-properties",
         {
