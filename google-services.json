@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "547674373172",
+    "project_id": "cura-5aa30",
+    "storage_bucket": "cura-5aa30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547674373172:android:43f22b2317640559e21e61",
+        "android_client_info": {
+          "package_name": "com.curapp.cura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547674373172-s9brmdbpmp4ruc67pahlfkcmb1mpgni9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.curapp.cura",
+            "certificate_hash": "54880bd67d45b00e98c89fab0792dcbf0f5c5a9d"
+          }
+        },
+        {
+          "client_id": "547674373172-ljlld4shohia9uo53nekvad6lnn8nmt3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBonyF0cUF18eCrCjFpRTPyKbu5mQ_-ovI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547674373172-ljlld4shohia9uo53nekvad6lnn8nmt3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
