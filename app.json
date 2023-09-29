@@ -14,15 +14,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.cura-app",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "bundleIdentifier": "com.anonymous.cura-app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./google-services.json",
+      // "googleServicesFile": "./google-services.json",
       "package": "com.curapp.cura"
     },
     "web": {
