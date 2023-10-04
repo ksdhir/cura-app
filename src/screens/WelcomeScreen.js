@@ -34,6 +34,21 @@ export default function WelcomeScreen() {
               <Text className="font-semibold text-yellow-400"> Log In</Text>
             </TouchableOpacity>
           </View>
+          <View className="flex-row justify-around">
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TestAccelerometer")}
+            >
+              <Text className="font-semibold text-yellow-400">Accel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("TestGyro")}>
+              <Text className="font-semibold text-yellow-400">Gyro</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("TestGoogleHealth")}
+            >
+              <Text className="font-semibold text-yellow-400">HR</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>

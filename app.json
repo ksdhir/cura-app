@@ -21,13 +21,18 @@
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      // "googleServicesFile": "./google-services.json",
-      "package": "com.curapp.cura"
+      "package": "com.curapp.cura",
+      "permissions": [
+        "android.permission.health.READ_STEPS",
+        "android.permission.health.READ_FLOORS_CLIMBED",
+        "android.permission.health.READ_DISTANCE"
+      ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
+      "./androidManifestPlugin.js",
       "react-native-health",
       "react-native-health-connect",
       "@react-native-google-signin/google-signin",
