@@ -1,55 +1,35 @@
 {
   "expo": {
-    "name": "cura-app",
-    "slug": "cura-app",
+    "name": "2023-cura-app",
+    "slug": "2023-cura-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/images/splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.cura-app"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.curapp.cura",
-      "permissions": [
-        "android.permission.health.READ_STEPS",
-        "android.permission.health.READ_FLOORS_CLIMBED",
-        "android.permission.health.READ_DISTANCE"
-      ]
+      "package": "com.curaapp.cura"
     },
     "web": {
-      "favicon": "./src/assets/images/favicon.png"
+      "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "./androidManifestPlugin.js",
-      "react-native-health",
-      "react-native-health-connect",
-      "@react-native-google-signin/google-signin",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "minSdkVersion": 26
-          }
-        }
-      ]
-    ],
     "extra": {
       "eas": {
-        "projectId": "c10a03af-9191-45bf-beb1-73fdd2c1bd28"
+        "projectId": "3530e860-2704-44f6-9474-8af811f20d97"
       }
     }
   }
