@@ -3,10 +3,6 @@
 # dependencies
 node_modules/
 
-#builds
-ios/
-android/
-
 # Expo
 .expo/
 dist/
@@ -37,9 +33,3 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
-
-# firebaseConfig
-./utils/FirebaseConfig.js
-
-# google-services
-.google-services.json
