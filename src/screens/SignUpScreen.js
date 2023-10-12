@@ -6,7 +6,6 @@ import { auth } from "../utils/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 
-// subscribe for more videos like this :)
 export default function SignUpScreen() {
   const navigation = useNavigation();
   const [name, setName] = useState("");
@@ -14,8 +13,8 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
-    // Create user
-    if (name.length < 3 || !isValidEmail(email) || password.length < 6) {
+    // Validate the input
+    if (name.length < 2 || !isValidEmail(email) || password.length < 6) {
       alert("Invalid input");
       return;
     }
@@ -29,7 +28,7 @@ export default function SignUpScreen() {
       );
 
       // Once the user is created, update their profile with the name
-      await auth.updateProfile(userCredential.user, { displayName: name });
+      await updateProfile(userCredential.user, { displayName: name });
 
       // alert("User registered successfully!");
       // Optionally, you can redirect the user to a different page here.
@@ -101,26 +100,17 @@ export default function SignUpScreen() {
         <Text className="text-xl text-gray-700 font-bold text-center py-3">
           Or
         </Text>
-        <View className="flex-row justify-center space-x-8">
-          <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
+        {/* <View className="flex-row justify-center space-x-8">
+          <TouchableOpacity className="flex flex-1 flex-row  items-center justify-center placeholder:p-3 bg-gray-100 rounded-2xl">
+            <Text className="text-xl font-bold text-slate-800 placeholder:pr-2">
+              Sign In With Google
+            </Text>
             <Image
               source={require("../assets/icons/google.png")}
-              className="w-10 h-10"
+              className="w-8 h-8"
             />
           </TouchableOpacity>
-          <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-            <Image
-              source={require("../assets/icons/apple.png")}
-              className="w-10 h-10"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-            <Image
-              source={require("../assets/icons/facebook.png")}
-              className="w-10 h-10"
-            />
-          </TouchableOpacity>
-        </View>
+        </View> */}
         <View className="flex-row justify-center mt-5">
           <Text className="text-gray-500 font-semibold">
             Already have an account?

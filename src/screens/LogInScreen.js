@@ -1,9 +1,7 @@
 import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TestButton from "../components/TestButton";
 import { useNavigation } from "@react-navigation/native";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
 import { auth } from "../utils/FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
@@ -22,11 +20,7 @@ export default function Login() {
     try {
       // Sign in the user with email and password
       await signInWithEmailAndPassword(auth, email, password);
-
       // The user is now signed in
-      // You can redirect the user or perform any necessary actions here
-
-      // For example, you can navigate to a different screen:
       navigation.navigate("Home");
     } catch (error) {
       alert(error.message);
@@ -89,29 +83,7 @@ export default function Login() {
             </Text>
           </TouchableOpacity>
         </View>
-        <Text className="text-xl text-gray-700 font-bold text-center py-3">
-          Or
-        </Text>
-        <View className="flex-row justify-center space-x-8">
-          <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-            <Image
-              source={require("../assets/icons/google.png")}
-              className="w-10 h-10"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-            <Image
-              source={require("../assets/icons/apple.png")}
-              className="w-10 h-10"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-            <Image
-              source={require("../assets/icons/facebook.png")}
-              className="w-10 h-10"
-            />
-          </TouchableOpacity>
-        </View>
+
         <View className="flex-row justify-center mt-5">
           <Text className="text-gray-500 font-semibold">
             Don't have an account?

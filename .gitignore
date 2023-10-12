@@ -12,6 +12,9 @@ android/
 dist/
 web-build/
 
+# Builds
+*.apk
+
 # Native
 *.orig.*
 *.jks
@@ -37,3 +40,6 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# firebase
+utils/FirebaseConfig.js
