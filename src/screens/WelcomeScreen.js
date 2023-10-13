@@ -22,6 +22,8 @@ export default function WelcomeScreen() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
       "636016776817-dnlogoh0m9aesah3d5a10b9oprl012sd.apps.googleusercontent.com",
+    iosClientId:
+      "636016776817-tfb4aa52f4qcacggp3ba54a8t40dl3a3.apps.googleusercontent.com",
   });
 
   const checkIfLoggedIn = async () => {

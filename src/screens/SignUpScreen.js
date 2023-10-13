@@ -100,17 +100,6 @@ export default function SignUpScreen() {
         <Text className="text-xl text-gray-700 font-bold text-center py-3">
           Or
         </Text>
-        {/* <View className="flex-row justify-center space-x-8">
-          <TouchableOpacity className="flex flex-1 flex-row  items-center justify-center placeholder:p-3 bg-gray-100 rounded-2xl">
-            <Text className="text-xl font-bold text-slate-800 placeholder:pr-2">
-              Sign In With Google
-            </Text>
-            <Image
-              source={require("../assets/icons/google.png")}
-              className="w-8 h-8"
-            />
-          </TouchableOpacity>
-        </View> */}
         <View className="flex-row justify-center mt-5">
           <Text className="text-gray-500 font-semibold">
             Already have an account?
