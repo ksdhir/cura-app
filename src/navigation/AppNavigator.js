@@ -12,54 +12,50 @@ import useAuth from "../hooks/useAuth";
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  const { user } = useAuth();
-  // console.log("user", user);
+  return (
+    <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Home"
+        component={Home}
+      />
 
-  if (user) {
-    return (
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Home"
-          component={Home}
-        />
-      </Stack.Navigator>
-    );
-  } else {
-    return (
-      <Stack.Navigator initialRouteName="Welcome">
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Welcome"
-          component={Welcome}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="SignUp"
-          component={SignUp}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TestAccelerometer"
-          component={Test}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TestGyro"
-          component={Test2}
-        />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="TestGoogleHealth"
-          component={TestGoogleHealth}
-        />
-      </Stack.Navigator>
-    );
-  }
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Welcome"
+        component={Welcome}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Login"
+        component={Login}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignUp"
+        component={SignUp}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="TestAccelerometer"
+        component={Test}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="TestGyro"
+        component={Test2}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="TestGoogleHealth"
+        component={TestGoogleHealth}
+      />
+    </Stack.Navigator>
+  );
 };
 export default AppNavigator;

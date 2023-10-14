@@ -6,6 +6,12 @@ import { auth } from "../utils/FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
+// Function to validate email using a regular expression
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
@@ -22,16 +28,11 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, email, password);
       // The user is now signed in
       navigation.navigate("Home");
+      return;
     } catch (error) {
       alert(error.message);
     }
   };
-
-  // Function to validate email using a regular expression
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
 
   return (
     <View className="flex-1 bg-teal-500 pt-4">

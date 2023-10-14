@@ -1,8 +1,9 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as Google from "expo-auth-session/providers/google";
+import { makeRedirectUri } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 
 import {
@@ -17,30 +18,41 @@ WebBrowser.maybeCompleteAuthSession();
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
+  const focus = useIsFocused();
+
   const [userInfo, setUserInfo] = React.useState();
   const [loading, setLoading] = React.useState(false);
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "636016776817-dnlogoh0m9aesah3d5a10b9oprl012sd.apps.googleusercontent.com",
-  });
+  const [request, response, promptAsync] = Google.useAuthRequest(
+    {
+      androidClientId:
+        "636016776817-dnlogoh0m9aesah3d5a10b9oprl012sd.apps.googleusercontent.com",
+      redirectUri: makeRedirectUri(),
+    },
+    { useProxy: true }
+  );
 
   const checkIfLoggedIn = async () => {
     try {
       setLoading(true);
-      const userJSON = await AsyncStorage.getItem("@user");
-      const userData = userJSON != null ? JSON.parse(userJSON) : null;
-      //if there is a user logged in, navigate to home screen
-      if (userData != null) {
+      const user = auth.currentUser;
+
+      if (user) {
         navigation.navigate("Home");
       }
 
-      // console.log("user data", userData);
-      console.log("====================================");
-      console.log("User logged in");
-      console.log("User Email", userData.email);
-      console.log("Username", userData.displayName);
+      // return;
+      // const userJSON = await AsyncStorage.getItem("@user");
+      // if (!userJSON) return;
 
-      setUserInfo(userData);
+      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
+
+      //if there is a user logged in, navigate to home screen
+
+      // if (userData != null) {
+      //   navigation.navigate("Home");
+      // }
+
+      // setUserInfo(userData);
     } catch (e) {
       alert(e.message);
     } finally {
@@ -48,33 +60,36 @@ export default function WelcomeScreen() {
     }
   };
 
-  React.useEffect(() => {
+  const handleGoogleLogin = async () => {
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential).then((result) => {
-        const user = result.user;
-        setUserInfo(user);
-        AsyncStorage.setItem("@user", JSON.stringify(user));
+
+      try {
+        const result = await signInWithCredential(auth, credential);
         navigation.navigate("Home");
-      });
+      } catch (error) {
+        alert(error.message);
+      }
+
+      //  .then((result) => {
+      //     const user = result.user;
+      //     setUserInfo(user);
+      //     AsyncStorage.setItem("@user", JSON.stringify(user));
+      //     navigation.navigate("Home");
+      //   });
     }
-  }, [response]);
+  };
 
   React.useEffect(() => {
-    checkIfLoggedIn();
+    handleGoogleLogin();
+  }, [response]);
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserInfo(user);
-        // console.log(JSON.stringify(user, null, 2));
-        AsyncStorage.setItem("user", JSON.stringify(user));
-        navigation.navigate("Home");
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+  useEffect(() => {
+    if (focus) {
+      checkIfLoggedIn();
+    }
+  }, [focus]);
 
   return (
     <SafeAreaView className="flex-1 bg-teal-500  justify-center items-center">
