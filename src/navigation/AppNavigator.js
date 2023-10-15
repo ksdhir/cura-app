@@ -9,6 +9,7 @@ import TestGoogleHealth from "../screens/TestGoogleHealth";
 import ProfileTypeSelection from "../screens/Signup/ProfileTypeSelection";
 import ElderProfileSetup from "../screens/Signup/ElderProfileSetup";
 import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
+import CaregiveProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,12 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
         name="ProfileSetupSuccess"
         component={ProfileSetupSuccess}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="CaregiveProfileSetup"
+        component={CaregiveProfileSetup}
       />
     </Stack.Navigator>
   );
