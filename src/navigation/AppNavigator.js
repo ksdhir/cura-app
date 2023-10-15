@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/HomeScreen";
 import SignUp from "../screens/SignUpScreen";
@@ -7,7 +6,8 @@ import Welcome from "../screens/WelcomeScreen";
 import Test from "../screens/TestScreen";
 import Test2 from "../screens/TestScreen2";
 import TestGoogleHealth from "../screens/TestGoogleHealth";
-import ProfileTypeSelection from "../screens/Login/ProfileTypeSelelection";
+import ProfileTypeSelection from "../screens/Signup/ProfileTypeSelection";
+import ElderProfileSetup from "../screens/Signup/ElderProfileSetup";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +54,12 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
         name="ProfileTypeSetup"
         component={ProfileTypeSelection}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ElderProfileSetup"
+        component={ElderProfileSetup}
       />
     </Stack.Navigator>
   );
