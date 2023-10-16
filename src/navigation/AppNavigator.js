@@ -1,15 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "../screens/HomeScreen";
+import HomeScreen from "../screens/Home/HomeScreen";
 import SignUp from "../screens/SignUpScreen";
 import Login from "../screens/LogInScreen";
 import Welcome from "../screens/WelcomeScreen";
-import Test from "../screens/TestScreen";
-import Test2 from "../screens/TestScreen2";
-import TestGoogleHealth from "../screens/TestGoogleHealth";
+import Test from "../screens/Home/AccelScreen";
+import Test2 from "../screens/Home/GyroScreen";
+import TestGoogleHealth from "../screens/HeartRate/GoogleHealthScreen";
 import ProfileTypeSelection from "../screens/Signup/ProfileTypeSelection";
 import ElderProfileSetup from "../screens/Signup/ElderProfileSetup";
 import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
 import CaregiveProfileSetup from "../screens/Signup/CaregiverProfileSetup";
+import TabNavigator from "./TabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,7 @@ const AppNavigator = () => {
       <Stack.Screen
         options={{ headerShown: false }}
         name="Home"
-        component={Home}
+        component={TabNavigator}
       />
       <Stack.Screen
         options={{ headerShown: false }}
@@ -35,21 +36,6 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
         name="SignUp"
         component={SignUp}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="TestAccelerometer"
-        component={Test}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="TestGyro"
-        component={Test2}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="TestGoogleHealth"
-        component={TestGoogleHealth}
       />
 
       <Stack.Screen

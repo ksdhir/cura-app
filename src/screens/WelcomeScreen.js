@@ -92,9 +92,9 @@ export default function WelcomeScreen() {
   }, [focus]);
 
   return (
-    <SafeAreaView className="flex-1 bg-teal-500  justify-center items-center">
-      <View className="flex-1 flex justify-around my-4">
-        <Text className="text-white font-bold text-4xl text-center">
+    <SafeAreaView className="flex-1 bg-teal-300  justify-center items-center">
+      <View className="flex-1 flex justify-around  my-4">
+        <Text className="text-gray-800 font-bold text-4xl text-center pt-4">
           Welcome to CURA!
         </Text>
         <View className="flex-row justify-center">
@@ -106,13 +106,13 @@ export default function WelcomeScreen() {
         <View className="space-y-4">
           <TouchableOpacity
             onPress={() => navigation.navigate("SignUp")}
-            className="py-3 bg-yellow-400 mx-4 rounded-xl"
+            className="py-3 bg-indigo-500 mx-4 rounded-xl"
           >
-            <Text className="text-xl font-bold text-center text-gray-700">
+            <Text className="text-xl font-bold text-center text-gray-200">
               Sign Up
             </Text>
           </TouchableOpacity>
-          <Text className="text-xl text-gray-700 font-bold text-center py-1">
+          <Text className="text-xl text-gray-800 font-bold text-center py-1">
             Or
           </Text>
           {/* <View className="flex-row self-center"> */}
@@ -130,26 +130,11 @@ export default function WelcomeScreen() {
           </TouchableOpacity>
           {/* </View> */}
           <View className="flex-row justify-center">
-            <Text className="text-white font-semibold">
+            <Text className="text-gray-800 font-semibold">
               Sign in with email instead?
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text className="font-semibold text-yellow-400"> Sign In</Text>
-            </TouchableOpacity>
-          </View>
-          <View className="flex-row justify-around">
-            <TouchableOpacity
-              onPress={() => navigation.navigate("TestAccelerometer")}
-            >
-              <Text className="font-semibold text-yellow-400">Accel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("TestGyro")}>
-              <Text className="font-semibold text-yellow-400">Gyro</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("TestGoogleHealth")}
-            >
-              <Text className="font-semibold text-yellow-400">HR</Text>
+              <Text className="font-semibold text-indigo-500"> Sign In</Text>
             </TouchableOpacity>
           </View>
         </View>

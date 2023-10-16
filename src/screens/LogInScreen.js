@@ -35,21 +35,20 @@ export default function Login() {
   };
 
   return (
-    <View className="flex-1 bg-teal-500 pt-4">
-      <SafeAreaView className="flex ">
+    <View className="flex-1 bg-teal-300 justify-between pt-4">
+      <SafeAreaView className="flex flex-1 ">
         <View className="flex-row justify-start">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            className="bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+            className="bg-teal-600 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
           >
-            <Text> Back </Text>
+            <Text className="text-gray-200"> Back </Text>
           </TouchableOpacity>
         </View>
-        <View className="flex-row justify-center">
-          <Image
-            source={require("../assets/images/login.png")}
-            style={{ width: 200, height: 200 }}
-          />
+        <View className="flex-row flex-1 justify-center items-center">
+          <Text className="text-4xl font-bold text-gray-800">
+            Log In Screen
+          </Text>
         </View>
       </SafeAreaView>
       <View
@@ -76,10 +75,10 @@ export default function Login() {
             <Text className="text-gray-700 mb-4">Forgot Password?</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            className="py-3 bg-yellow-400 rounded-xl"
+            className="py-3 bg-indigo-500 rounded-xl"
             onPress={handleSubmit}
           >
-            <Text className="text-xl font font-bold text-center text-gray-700">
+            <Text className="text-xl font font-bold text-center text-gray-200">
               Login
             </Text>
           </TouchableOpacity>
@@ -90,7 +89,7 @@ export default function Login() {
             Don't have an account?
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-            <Text className="font-semibold text-yellow-500"> Sign Up</Text>
+            <Text className="font-semibold text-indigo-500"> Sign Up</Text>
           </TouchableOpacity>
         </View>
       </View>

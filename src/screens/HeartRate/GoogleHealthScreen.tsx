@@ -72,6 +72,7 @@ type ValueProps = {
   label: string;
   value: string;
 };
+
 const Value = ({ label, value }: ValueProps) => (
   <View>
     <Text style={styles.label}>{label}</Text>
@@ -91,11 +92,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function TestGoogleHealth() {
+export default function GoogleHealthScreen() {
   const { steps, distance, flights } = useHealthData();
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    // <SafeAreaView style={{ flex: 1 }}>
+    //   <View>
+    //     <Value label="Steps" value={steps.toString()} />
+    //     <Value label="Flights" value={flights.toString()} />
+    //     <Value label="Distance" value={distance.toString()} />
+    //   </View>
+    // </SafeAreaView>
+    <SafeAreaView
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+    >
       <View>
         <Value label="Steps" value={steps.toString()} />
         <Value label="Flights" value={flights.toString()} />

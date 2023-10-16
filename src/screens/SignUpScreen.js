@@ -44,25 +44,24 @@ export default function SignUpScreen() {
   }
 
   return (
-    <View className="flex-1 bg-teal-500 pt-4">
-      <SafeAreaView className="flex">
+    <View className="flex-1 bg-teal-300 justify-between pt-4">
+      <SafeAreaView className="flex-1">
         <View className="flex-row justify-start">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            className="bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
+            className="bg-teal-600 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
           >
-            <Text> Back </Text>
+            <Text className="text-gray-200"> Back </Text>
           </TouchableOpacity>
         </View>
-        <View className="flex-row justify-center">
-          <Image
-            source={require("../assets/images/signup.png")}
-            style={{ width: 165, height: 110 }}
-          />
+        <View className="flex-row flex-1 justify-center items-center">
+          <Text className="text-4xl font-bold text-gray-800">
+            Sign Up Screen
+          </Text>
         </View>
       </SafeAreaView>
       <View
-        className="flex-1 bg-white px-8 pt-8"
+        className="flex bg-white p-8"
         style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
       >
         <View className="form space-y-1.5">
@@ -89,10 +88,10 @@ export default function SignUpScreen() {
             placeholder="Enter Password"
           />
           <TouchableOpacity
-            className="py-3 bg-yellow-400 rounded-xl"
+            className="py-3 bg-indigo-500 rounded-xl"
             onPress={handleSubmit}
           >
-            <Text className="text-lg font-bold text-center text-gray-700">
+            <Text className="text-lg font-bold text-center text-gray-200">
               Sign Up
             </Text>
           </TouchableOpacity>
@@ -100,23 +99,13 @@ export default function SignUpScreen() {
         <Text className="text-xl text-gray-700 font-bold text-center py-3">
           Or
         </Text>
-        {/* <View className="flex-row justify-center space-x-8">
-          <TouchableOpacity className="flex flex-1 flex-row  items-center justify-center placeholder:p-3 bg-gray-100 rounded-2xl">
-            <Text className="text-xl font-bold text-slate-800 placeholder:pr-2">
-              Sign In With Google
-            </Text>
-            <Image
-              source={require("../assets/icons/google.png")}
-              className="w-8 h-8"
-            />
-          </TouchableOpacity>
-        </View> */}
+
         <View className="flex-row justify-center mt-5">
           <Text className="text-gray-500 font-semibold">
             Already have an account?
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text className="font-semibold text-yellow-500"> Login</Text>
+            <Text className="font-semibold text-indigo-500"> Login</Text>
           </TouchableOpacity>
         </View>
       </View>

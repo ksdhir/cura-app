@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Accelerometer } from "expo-sensors";
+import { Gyroscope } from "expo-sensors";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Test() {
+export default function GyroScreen() {
+  const navigation = useNavigation();
+
   const [{ x, y, z }, setData] = useState({
     x: 0,
     y: 0,
@@ -10,11 +13,15 @@ export default function Test() {
   });
   const [subscription, setSubscription] = useState(null);
 
-  const _slow = () => Accelerometer.setUpdateInterval(1000);
-  const _fast = () => Accelerometer.setUpdateInterval(16);
+  const _slow = () => Gyroscope.setUpdateInterval(1000);
+  const _fast = () => Gyroscope.setUpdateInterval(16);
 
   const _subscribe = () => {
-    setSubscription(Accelerometer.addListener(setData));
+    setSubscription(
+      Gyroscope.addListener((gyroscopeData) => {
+        setData(gyroscopeData);
+      })
+    );
   };
 
   const _unsubscribe = () => {
@@ -29,9 +36,7 @@ export default function Test() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        Accelerometer: (in gs where 1g = 9.81 m/s^2)
-      </Text>
+      <Text style={styles.text}>Gyroscope:</Text>
       <Text style={styles.text}>x: {x}</Text>
       <Text style={styles.text}>y: {y}</Text>
       <Text style={styles.text}>z: {z}</Text>
@@ -52,6 +57,16 @@ export default function Test() {
           <Text>Fast</Text>
         </TouchableOpacity>
       </View>
+      <View className="flex-col justify-center items-center w-full p-8 space-y-3">
+        <TouchableOpacity
+          className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
+          onPress={() => navigation.navigate("HomeScreen")}
+        >
+          <Text className=" text-slate-800 text-base font-bold">
+            Go Back To Home
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -60,7 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   text: {
     textAlign: "center",
