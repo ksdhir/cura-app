@@ -9,8 +9,10 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BLOOD_TYPES, SEX_LIST } from "../../api/constants";
+import { useNavigation } from "@react-navigation/native";
 
 const ElderProfileSetup = () => {
+  const navigation = useNavigation();
   const [sex, setSex] = useState();
   const [bloodType, setBloodType] = useState();
 
@@ -19,7 +21,7 @@ const ElderProfileSetup = () => {
       <View className="flex flex-column flex-1">
         {/* START */}
         <View className="flex justify-start py-4">
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text className="font-bold"> {"< Back"} </Text>
           </TouchableOpacity>
         </View>
