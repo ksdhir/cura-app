@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+# firebase services file
+google-services.json
+
 #builds
 ios/
 android/
