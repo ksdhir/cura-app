@@ -107,7 +107,7 @@ export default function WelcomeScreen() {
         </View>
         <View className="space-y-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate("ProfileTypeSetup")}
             className="py-3 bg-indigo-500 mx-4 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-200">

@@ -4,17 +4,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../utils/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { updateProfile } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
     // Validate the input
-    if (name.length < 2 || !isValidEmail(email) || password.length < 6) {
+    if (!isValidEmail(email) || password.length < 6) {
       alert("Invalid input");
       return;
     }
@@ -27,11 +26,19 @@ export default function SignUpScreen() {
         password
       );
 
-      // Once the user is created, update their profile with the name
-      await updateProfile(userCredential.user, { displayName: name });
-
-      // alert("User registered successfully!");
       // Optionally, you can redirect the user to a different page here.
+      const profileType = await AsyncStorage.getItem("signUpProfileType");
+
+      switch (profileType) {
+        case "Elder":
+          navigation.navigate("ElderProfileSetup");
+          break;
+        case "Caregiver":
+          navigation.navigate("CaregiverProfileSetup");
+          break;
+        default:
+          navigation.navigate("ProfileTypeSetup");
+      }
     } catch (error) {
       alert(error.message);
     }
@@ -65,13 +72,6 @@ export default function SignUpScreen() {
         style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
       >
         <View className="form space-y-1.5">
-          <Text className="text-gray-700 ml-4">Full Name</Text>
-          <TextInput
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-            value={name}
-            onChangeText={(value) => setName(value)}
-            placeholder="Enter Name"
-          />
           <Text className="text-gray-700 ml-4">Email Address</Text>
           <TextInput
             className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"

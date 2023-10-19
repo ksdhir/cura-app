@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
-import React from "react";
+import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../utils/FirebaseConfig";
@@ -33,6 +33,18 @@ export default function Login() {
       alert(error.message);
     }
   };
+
+  const checkIfLoggedIn = async () => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("Home");
+      }
+    });
+  };
+
+  useEffect(() => {
+    checkIfLoggedIn();
+  }, []);
 
   return (
     <View className="flex-1 bg-teal-300 justify-between pt-4">
@@ -88,7 +100,9 @@ export default function Login() {
           <Text className="text-gray-500 font-semibold">
             Don't have an account?
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileTypeSetup")}
+          >
             <Text className="font-semibold text-indigo-500"> Sign Up</Text>
           </TouchableOpacity>
         </View>

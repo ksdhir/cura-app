@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/Home/HomeScreen";
 import SignUp from "../screens/SignUpScreen";
 import Login from "../screens/LogInScreen";
 import Welcome from "../screens/WelcomeScreen";
@@ -7,8 +6,8 @@ import TestGoogleHealth from "../screens/HeartRate/GoogleHealthScreen";
 import ProfileTypeSelection from "../screens/Signup/ProfileTypeSelection";
 import ElderProfileSetup from "../screens/Signup/ElderProfileSetup";
 import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
-import CaregiveProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 import TabNavigator from "./TabNavigator";
+import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,8 +55,8 @@ const AppNavigator = () => {
 
       <Stack.Screen
         options={{ headerShown: false }}
-        name="CaregiveProfileSetup"
-        component={CaregiveProfileSetup}
+        name="CaregiverProfileSetup"
+        component={CaregiverProfileSetup}
       />
     </Stack.Navigator>
   );
