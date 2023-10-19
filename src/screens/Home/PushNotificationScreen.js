@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import * as Constants from 'expo-constants';
+// services function
+import { saveNotificationToken } from "../../services/caregiver";
 
 
 // set push notification handler
@@ -75,11 +77,14 @@ export default function PushNotificationScreen() {
   console.clear();
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => {
-      console.log(token.data)
-      return setExpoPushToken(token);
+      setExpoPushToken(token)
+      //console.log(user.email)
+      return token;
+    }).then(token => {
+      saveNotificationToken(token.data);
     });
 
-    
+
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       setNotification(notification);
