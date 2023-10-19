@@ -75,9 +75,9 @@ export default function PushNotificationScreen() {
   console.clear();
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => {
+      console.log(token.data)
       return setExpoPushToken(token);
     });
-
 
     
 
