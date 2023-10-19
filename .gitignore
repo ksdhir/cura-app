@@ -4,7 +4,7 @@
 node_modules/
 
 # firebase services file
-google-services.json
+# google-services.json
 
 #builds
 ios/
