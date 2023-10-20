@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { auth } from "../utils/FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { elderSignUp } from "../services/elder";
+import { caregiverSignup } from "../services/caregiver";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -26,16 +28,22 @@ export default function SignUpScreen() {
         password
       );
 
+      const userToken = await userCredential.user.getIdToken();
+
       // Optionally, you can redirect the user to a different page here.
       const profileType = await AsyncStorage.getItem("signUpProfileType");
 
       switch (profileType) {
         case "Elder":
+          await elderSignUp({ email }, userToken);
           navigation.navigate("ElderProfileSetup");
           break;
+
         case "Caregiver":
+          caregiverSignup({ email }, userToken);
           navigation.navigate("CaregiverProfileSetup");
           break;
+
         default:
           navigation.navigate("ProfileTypeSetup");
       }

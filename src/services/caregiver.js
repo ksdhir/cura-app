@@ -1,6 +1,6 @@
 import { auth } from "../utils/FirebaseConfig";
 
-export const caregiverSignup = async (body, options) => {
+export const caregiverSignup = async (body, token) => {
   try {
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/caregiver/profile`,
@@ -8,9 +8,9 @@ export const caregiverSignup = async (body, options) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body,
-        ...options,
+        body: JSON.stringify(body),
       }
     );
     const data = await response.json();

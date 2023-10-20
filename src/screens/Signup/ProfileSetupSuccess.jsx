@@ -1,8 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, View, Text } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ProfileSetupSuccess = () => {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView className="flex h-full space-y-4 px-4 py-4">
       <View className="flex flex-column flex-1">
@@ -24,10 +27,11 @@ const ProfileSetupSuccess = () => {
           </Text>
         </View>
 
-        <TouchableOpacity className="bg-[#D9D9D9] px-4 py-2 rounded-md w-full">
-          <Text className="text-[17px] text-center font-bold">
-            Go to Dashboard
-          </Text>
+        <TouchableOpacity
+          className="bg-[#D9D9D9] px-4 py-2 rounded-md w-full"
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text className="text-[17px] text-center font-bold">Go to Home</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
