@@ -25,7 +25,8 @@
       "permissions": [
         "android.permission.health.READ_STEPS",
         "android.permission.health.READ_FLOORS_CLIMBED",
-        "android.permission.health.READ_DISTANCE"
+        "android.permission.health.READ_DISTANCE",
+        "android.permission.health.READ_HEART_RATE"
       ],
       "googleServicesFile": "./google-services.json"
     },
@@ -41,9 +42,7 @@
         {
           "icon": "./src/assets/images/notifications_cura_elder.png",
           "color": "#6fd1d8",
-          "sounds": [
-            "./cura_loud.wav"
-          ]
+          "sounds": ["./cura_loud.wav"]
         }
       ],
       [
