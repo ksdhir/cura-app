@@ -20,21 +20,28 @@ const useHealthData = () => {
 
   useEffect(() => {
     const init = async () => {
+      console.log("init");
+
       // initialize the client
       const isInitialized = await initialize();
       if (!isInitialized) {
         console.log("Failed to initialize Health Connect");
         return;
       }
-
+      console.log("before permmissions");
+      try {
+        const grantedPermissions = await requestPermission([
+          { accessType: "read", recordType: "Steps" },
+          { accessType: "read", recordType: "Distance" },
+          { accessType: "read", recordType: "FloorsClimbed" },
+        ]);
+        console.log("permissionns granted");
+        setAndroidPermissions(grantedPermissions);
+      } catch (error) {
+        console.log(error);
+        console.log("in the error");
+      }
       // request permissions
-      const grantedPermissions = await requestPermission([
-        { accessType: "read", recordType: "Steps" },
-        { accessType: "read", recordType: "Distance" },
-        { accessType: "read", recordType: "FloorsClimbed" },
-      ]);
-
-      setAndroidPermissions(grantedPermissions);
     };
 
     init();
@@ -107,9 +114,9 @@ export default function GoogleHealthScreen() {
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
       <View>
-        <Value label="Steps" value={steps.toString()} />
-        <Value label="Flights" value={flights.toString()} />
-        <Value label="Distance" value={distance.toString()} />
+        <Value label="Steps" value={JSON.stringify(steps)} />
+        <Value label="Flights" value={JSON.stringify(flights)} />
+        <Value label="Distance" value={JSON.stringify(distance)} />
       </View>
     </SafeAreaView>
   );
