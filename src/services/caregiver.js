@@ -27,15 +27,12 @@ export const saveNotificationToken = async (expoToken) => {
 
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/store-push-notification-token?email=${email}&token=${expoToken}`;
 
-    const response = await fetch(
-      url,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const data = await response.json();
     return data;
@@ -43,6 +40,4 @@ export const saveNotificationToken = async (expoToken) => {
     console.log(error);
     throw new Error(error.message);
   }
-
-  // const url = "localhost:6000/api/caregiver/store-push-notification-token?email=test@cura.com&token=ExponentPushToken[W2dgyVF5GvNIGuKap10_Ew]"
 };
