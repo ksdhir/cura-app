@@ -121,12 +121,13 @@ export default function PushNotificationScreen() {
         </Text>
       </View>
 
-      <Button
+      {/* Self Notification Scheduler */}
+      {/* <Button
         title="Press to schedule a notification"
         onPress={async () => {
           await schedulePushNotification();
         }}
-      />
+      /> */}
 
       <View className="mt-2">
         <Button
