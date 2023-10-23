@@ -13,6 +13,7 @@ const useHealthData = () => {
   const [steps, setSteps] = useState(0);
   const [flights, setFlights] = useState(0);
   const [distance, setDistance] = useState(0);
+  const [heartRate, setHeartRate] = useState(0);
 
   const [androidPermissions, setAndroidPermissions] = useState<Permission[]>(
     []
@@ -20,21 +21,29 @@ const useHealthData = () => {
 
   useEffect(() => {
     const init = async () => {
+      console.log("init");
+
       // initialize the client
       const isInitialized = await initialize();
       if (!isInitialized) {
         console.log("Failed to initialize Health Connect");
         return;
       }
-
+      console.log("before permmissions");
+      try {
+        const grantedPermissions = await requestPermission([
+          { accessType: "read", recordType: "Steps" },
+          { accessType: "read", recordType: "Distance" },
+          { accessType: "read", recordType: "FloorsClimbed" },
+          { accessType: "read", recordType: "HeartRate" },
+        ]);
+        console.log("permissionns granted");
+        setAndroidPermissions(grantedPermissions);
+      } catch (error) {
+        console.log(error);
+        console.log("in the error");
+      }
       // request permissions
-      const grantedPermissions = await requestPermission([
-        { accessType: "read", recordType: "Steps" },
-        { accessType: "read", recordType: "Distance" },
-        { accessType: "read", recordType: "FloorsClimbed" },
-      ]);
-
-      setAndroidPermissions(grantedPermissions);
     };
 
     init();
@@ -60,12 +69,19 @@ const useHealthData = () => {
       const steps = await readRecords("Steps", { timeRangeFilter });
       const totalSteps = steps.reduce((sum, cur) => sum + cur.count, 0);
       setSteps(totalSteps);
+
+      // Heart Rate
+      const heartRate = await readRecords("HeartRate", { timeRangeFilter });
+      const latestHeartRate = heartRate[heartRate.length - 1].samples[0];
+      console.log(latestHeartRate.beatsPerMinute);
+      // const totalHeartRate = heartRate.reduce((sum, cur) => sum + cur.sample, 0);
+      setHeartRate(latestHeartRate.beatsPerMinute);
     };
 
     getHealthData();
   }, [androidPermissions]);
 
-  return { steps, flights, distance };
+  return { steps, flights, distance, heartRate };
 };
 
 type ValueProps = {
@@ -93,23 +109,17 @@ const styles = StyleSheet.create({
 });
 
 export default function GoogleHealthScreen() {
-  const { steps, distance, flights } = useHealthData();
+  const { steps, distance, flights, heartRate } = useHealthData();
 
   return (
-    // <SafeAreaView style={{ flex: 1 }}>
-    //   <View>
-    //     <Value label="Steps" value={steps.toString()} />
-    //     <Value label="Flights" value={flights.toString()} />
-    //     <Value label="Distance" value={distance.toString()} />
-    //   </View>
-    // </SafeAreaView>
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
     >
       <View>
-        <Value label="Steps" value={steps.toString()} />
-        <Value label="Flights" value={flights.toString()} />
-        <Value label="Distance" value={distance.toString()} />
+        <Value label="Steps" value={JSON.stringify(steps)} />
+        <Value label="Flights" value={JSON.stringify(flights)} />
+        <Value label="Distance" value={JSON.stringify(distance)} />
+        <Value label="Heart Rate" value={heartRate.toString()} />
       </View>
     </SafeAreaView>
   );

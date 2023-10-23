@@ -46,6 +46,14 @@ export default function HomeScreen() {
           <Text className=" text-slate-800 text-base font-bold">Gyro</Text>
         </TouchableOpacity>
 
+        {/* btn to take to the out Push Notification Screen */}
+        <TouchableOpacity
+          className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
+          onPress={() => navigation.navigate("PushNotificationScreen")}
+        >
+          <Text className=" text-slate-800 text-base font-bold">Push Notification</Text>
+        </TouchableOpacity>
+
         <Text className="pt-4 text-center text-slate-800 text-base font-bold">
           Below is an example of how to navigate to a screen in a different
           stack

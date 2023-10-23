@@ -21,12 +21,14 @@
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.curapp.cura",
+      "package": "com.curaapp.cura",
       "permissions": [
         "android.permission.health.READ_STEPS",
         "android.permission.health.READ_FLOORS_CLIMBED",
-        "android.permission.health.READ_DISTANCE"
-      ]
+        "android.permission.health.READ_DISTANCE",
+        "android.permission.health.READ_HEART_RATE"
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
@@ -35,6 +37,14 @@
       "./androidManifestPlugin.js",
       "react-native-health",
       "react-native-health-connect",
+      [
+        "expo-notifications",
+        {
+          "icon": "./src/assets/images/notifications_cura_elder.png",
+          "color": "#6fd1d8",
+          "sounds": ["./cura_loud.wav"]
+        }
+      ],
       [
         "expo-build-properties",
         {

@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUp from "../screens/SignUpScreen";
 import Login from "../screens/LogInScreen";
 import Welcome from "../screens/WelcomeScreen";
+import TestGoogleHealth from "../screens/HeartRate/GoogleHealthScreen";
 import ProfileTypeSelection from "../screens/Signup/ProfileTypeSelection";
 import ElderProfileSetup from "../screens/Signup/ElderProfileSetup";
 import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
