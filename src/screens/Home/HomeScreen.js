@@ -20,14 +20,24 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView className="flex first-letter:flex-1 justify-center items-center space-y-4">
-      <Text className="text-4xl"> Hi {user.displayName ?? user.email} </Text>
-      <Text className="text-2xl mb-4"> Welcome to CURA!</Text>
-      <View className="flex-col justify-center items-center w-full p-8 space-y-3">
+      <Text className="text-4xl">
+        Hi{" "}
+        {user.displayName
+          ? user.displayName.length > 10
+            ? user.displayName.substring(0, 10) + "..."
+            : user.displayName
+          : user.email.length > 10
+          ? user.email.substring(0, 10) + "..."
+          : user.email}
+      </Text>
+
+      <Text className="text-2xl"> Welcome to CURA!</Text>
+      <View className="flex-col justify-center items-center w-full pb-8 px-8 space-y-3">
         <TouchableOpacity
-          className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
+          className="w-full h-[48px] bg-primary p-2 rounded-lg flex justify-center items-center "
           onPress={() => navigation.navigate("AccelScreen")}
         >
-          <Text className=" text-slate-800 text-base font-bold">Accel</Text>
+          <Text className=" text-curawhite text-base font-medium">Accel</Text>
         </TouchableOpacity>
         <TouchableOpacity
           className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
