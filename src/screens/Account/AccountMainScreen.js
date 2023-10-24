@@ -8,21 +8,13 @@ export default function AccountMainScreen() {
   const navigation = useNavigation();
 
   return (
-    <View className="flex-1 items-center justify-center bg-neutral-100 ">
+    <View className="flex-1 items-center justify-center bg-curawhite ">
       <StatusBar style="auto" />
       <View className="w-full flex-1 justify-center px-8">
         <Text className="text-2xl text-neutral-800 font-bold">
           Account Main Screen
         </Text>
       </View>
-      <SquircleView
-        className=" h-[75vh] w-full px-8 flex items-center justify-center rounded-tl-[120px] space-y-8"
-        squircleParams={{
-          cornerSmoothing: 1,
-          topLeftCornerRadius: 120,
-          fillColor: "#bae6fd",
-        }}
-      ></SquircleView>
     </View>
   );
 }

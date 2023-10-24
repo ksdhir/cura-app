@@ -1,5 +1,7 @@
 import { createTheme } from "@rneui/themed";
+import { Dimensions } from "react-native";
 
+const { width } = Dimensions.get("window");
 const curaTheme = createTheme({
   lightColors: {
     primary: "#09C1CB",
@@ -35,20 +37,23 @@ const curaTheme = createTheme({
     Button: {
       containerStyle: {
         height: 48,
+        width: "100%",
         borderRadius: 12,
-        marginVertical: 4,
+        marginVertical: 8,
       },
       buttonStyle: {
         height: 48,
+        borderRadius: 12,
       },
       titleStyle: {
         color: "#F8FFFE",
       },
     },
+
     Input: {
       containerStyle: {
         height: 45,
-        marginVertical: 4,
+        marginVertical: 8,
       },
       labelStyle: {
         color: "#263130",
