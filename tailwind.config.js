@@ -7,7 +7,32 @@ module.exports = {
     "./src/components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#09C1CB",
+        primaryDark: "#007F86",
+        secondary: "#F6A8C0",
+        secondaryDark: "#F66490",
+        error: "#EE754E",
+        errorDark: "#EF5B3B",
+        success: "#34CD8D",
+        successDark: "#22AD73",
+        curawhite: "#F8FFFE",
+        curaGray: "#849A99",
+        curaBlack: "#263130",
+      },
+      fontSize: {
+        sm: "14px",
+        base: "16px",
+        lg: "18px",
+        xl: "22px",
+        "2xl": "24px",
+        "3xl": "26px",
+        "4xl": "28px",
+        "5xl": "32px",
+        "6xl": "60px",
+      },
+    },
   },
   plugins: [],
 };
