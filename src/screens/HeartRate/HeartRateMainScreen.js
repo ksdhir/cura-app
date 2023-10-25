@@ -1,119 +1,102 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { SquircleView } from "react-native-figma-squircle";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../utils/FirebaseConfig";
 import { formatDateTime } from "../../helpers";
+import { getElderProfile, getElderHeartRateDetail } from "../../services/elder";
+import { SafeAreaView } from "react-native-safe-area-context";
+import curaTheme from "../../theme/theme";
+
+//TODO:
+//1. create NEW api getElderEmail from caregiver profile by pass in user.email
+//2. getElderProfile from elder profile by pass in elderEmail
+//3. A way to check if the latest BPM is normal or not
+// compare with their threshold
 
 export default function HeartRateMainScreen() {
   const navigation = useNavigation();
   const [detail, setDetail] = useState({});
+  const [heartRateDetail, setHeartRateDetail] = useState({});
+  const [bpm, setBpm] = useState(null); // Initialize bpm with null
 
-  // console.log("@@", auth.currentUser);
-
+  const user = auth.currentUser;
+  // console.log("For fetching actual user :" + user.email);
   const staticEmail = "trinapreet@gmail.com";
-
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  // const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
-    const sampleFetch = async () => {
-      // console.log("fetching");
-
-      //1.fetch the response from the api
-      const response = await fetch(
-        `${apiUrl}/elder/profile?email=trinapreet@gmail.com`
-      );
-
-      const data = await response.json();
+    console.log("before getElderProfile");
+    console.log("testsalkdjflsfds");
+    getElderProfile(staticEmail).then((data) => {
       setDetail(data);
-      // console.log(detail.profile.name);
-      console.log("fetching");
-    };
+      console.log(data);
+    });
 
-    sampleFetch();
+    getElderHeartRateDetail(staticEmail).then((data) => {
+      setHeartRateDetail(data);
+      // console.log(data);
+      if (
+        data &&
+        data["heartRateRecords"] &&
+        data["heartRateRecords"].length > 0
+      ) {
+        setBpm(data["heartRateRecords"][0]["beatsPerMinute"]);
+      }
+    });
   }, []);
 
-  const bpm = 80;
-
-  const formattedDateTime = formatDateTime(
-    detail.profile?.heartRateThreshold.lastUpdated
-  );
-
   return (
-    <View className="flex-1 items-center justify-center white ">
+    <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
-      <View className="w-full flex-1 justify-center px-8">
-        <Text className="text-xl text-neutral-800 font-normal">
-          HeartRate Home
+      <View className="w-full justify-center mt-3">
+        <Text className=" text-xl text-curaBlack font-bold">
+          {detail.profile?.preferredName}
         </Text>
-        <Text className="text-2xl text-neutral-800 font-bold">
-          Hello {detail.profile?.name}
+        <Text className=" text-base text-curaBlack font-medium">
+          {detail.profile?.age} years old
         </Text>
       </View>
-      <SquircleView
-        className=" h-[75vh] w-full px-8 flex items-center justify-center rounded-tl-[120px] space-y-8"
-        squircleParams={{
-          cornerSmoothing: 1,
-          topLeftCornerRadius: 120,
-          fillColor: "#d9f99d",
-        }}
-      >
-        <View className="flex flex-col items-center justify-center space-y-4">
-          <Text className="text-4xl text-neutral-800 font-bold">
-            HeartRate {bpm} bpm
+      <View className="w-full flex-1 justify-center items-center ">
+        <Text className="text-xl text-curaBlack font-bold">
+          Image placeholder
+        </Text>
+      </View>
+      <View className="h-[382px] mb-8 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-center rounded-xl">
+        <View className="flex flex-row w-full justify-between space-x-4 p-4">
+          <Text className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium">
+            Normal
           </Text>
-          <Text className="text-lg text-neutral-800 font-normal">
-            Latest Update: {formattedDateTime}
+          <Text
+            className="text-primary text-base font-bold  active:text-primaryDark"
+            onPress={() =>
+              navigation.navigate("HeartRateHistoryScreen", {
+                bpm,
+                staticEmail,
+              })
+            }
+          >
+            HeartRate History
           </Text>
         </View>
-
-        <View className="flex w-full flex-col items-center justify-center space-y-4 border border-lime-900 rounded-lg p-4 ">
-          <Text className="text-2xl text-neutral-800 font-bold">
-            Critical Heart Rate
-          </Text>
-          <Text className="text-lg text-neutral-800 font-normal">
-            Min HeartRate: {detail.profile?.heartRateThreshold.minimum} bpm
-          </Text>
-          <Text className="text-lg text-neutral-800 font-normal">
-            Max HeartRate: {detail.profile?.heartRateThreshold.maximum} bpm
-          </Text>
-          <TouchableOpacity
-            className="w-full bg-lime-400 p-4 rounded-lg flex justify-center items-center "
-            onPress={() => navigation.navigate("HeartRateHistory")}
-          >
-            <Text className=" text-slate-800 text-base font-bold">
-              Adjust Threshold
+        <View className="flex flex-col flex-1 items-center justify-center mb-16">
+          {bpm !== null ? ( // Check if bpm is not null
+            <View className="flex flex-row items-baseline ">
+              <Text className="text-black text-secondaryDark font-black ">
+                {bpm}
+              </Text>
+              <Text className="text-4xl text-curaBlack font-bold">BPM</Text>
+            </View>
+          ) : (
+            <Text className="text-base text-curaBlack/80 font-bold">
+              Loading...
             </Text>
-          </TouchableOpacity>
+          )}
+          <Text className="text-base  text-curaBlack/80 font-bold -mt-4">
+            10 MIN AGO
+          </Text>
         </View>
-
-        <View className="flex items-center justify-center flex-row space-x-4 ">
-          <TouchableOpacity
-            className=" bg-lime-400 p-4 rounded-lg flex justify-center items-center "
-            onPress={() => navigation.navigate("GoogleHealthScreen")}
-          >
-            <Text className=" text-slate-800 text-base font-bold">
-              Google Health
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            className=" bg-lime-400 p-4 rounded-lg flex justify-center items-center "
-            onPress={() => navigation.navigate("HeartRateHistory")}
-          >
-            <Text className=" text-slate-800 text-base font-bold">
-              HeartRate History
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </SquircleView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }

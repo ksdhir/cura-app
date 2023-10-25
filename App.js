@@ -9,7 +9,11 @@ export default function App() {
   return (
     <ThemeProvider theme={curaTheme}>
       <NavigationContainer>
-        <AppNavigator />
+        <AppNavigator
+          style={{
+            fontFamily: "Satoshi",
+          }}
+        />
         <StatusBar style="auto" />
       </NavigationContainer>
     </ThemeProvider>

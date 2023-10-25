@@ -8,21 +8,14 @@ export default function MovementMainScreen() {
   const navigation = useNavigation();
 
   return (
-    <View className="flex-1 items-center justify-center bg-neutral-100 ">
+    <View className="flex-1 items-center justify-center bg-curaWhite ">
       <StatusBar style="auto" />
       <View className="w-full flex-1 justify-center px-8">
         <Text className="text-2xl text-neutral-800 font-bold">
           Movement Main Screen
         </Text>
       </View>
-      <SquircleView
-        className=" h-[75vh] w-full p-8 flex items-center justify-center rounded-tl-[120px] space-y-8"
-        squircleParams={{
-          cornerSmoothing: 1,
-          topLeftCornerRadius: 120,
-          fillColor: "#ddd6fe",
-        }}
-      >
+      <View className=" h-[75vh] w-full p-8 flex items-center justify-center rounded-tl-[120px] space-y-8">
         <Text
           className="text-2xl text-neutral-800 font-bold"
           onPress={() => {
@@ -31,7 +24,7 @@ export default function MovementMainScreen() {
         >
           Go To Movement History Screen
         </Text>
-      </SquircleView>
+      </View>
     </View>
   );
 }

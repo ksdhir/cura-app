@@ -12,7 +12,7 @@ const curaTheme = createTheme({
     errorDark: "#EF5B3B",
     success: "#34CD8D",
     successDark: "#22AD73",
-    curawhite: "#F8FFFE",
+    curaWhite: "#F8FFFE",
     curaGray: "#849A99",
     curaBlack: "#263130",
   },

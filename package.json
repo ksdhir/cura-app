@@ -36,6 +36,7 @@
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.72.5",
+    "react-native-asset": "^2.1.1",
     "react-native-figma-squircle": "^0.3.4",
     "react-native-health": "^1.18.0",
     "react-native-health-connect": "^1.2.1",

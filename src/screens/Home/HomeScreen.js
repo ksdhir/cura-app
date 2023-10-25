@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TestPrimaryBtn, TestSecondaryBtn } from "../../components";
 import { auth } from "../../utils/FirebaseConfig";
 import { Button } from "@rneui/themed";
 import curaTheme from "../../theme/theme";
@@ -75,7 +74,9 @@ export default function HomeScreen() {
         <Button
           title="Sign Out"
           buttonStyle={{ backgroundColor: curaTheme.lightColors.primaryDark }}
-          onPress={() => navigation.navigate("AccountStack")}
+          //logout button
+
+          onPress={handleSignout}
         />
       </ScrollView>
     </SafeAreaView>
