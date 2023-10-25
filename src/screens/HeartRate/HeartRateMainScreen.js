@@ -3,8 +3,13 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../utils/FirebaseConfig";
-import { formatDateTime } from "../../helpers";
-import { getElderProfile, getElderHeartRateDetail } from "../../services/elder";
+import { formatDateTime, timeDifference } from "../../helpers";
+import {
+  getElderEmailFromCaregiverEmail,
+  getElderProfile,
+  getElderHeartRateDetail,
+  getElderHeartRateThreshold,
+} from "../../services/elder";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
 
@@ -14,47 +19,67 @@ import curaTheme from "../../theme/theme";
 //3. A way to check if the latest BPM is normal or not
 // compare with their threshold
 
+//TODO:Fetching
+//1. getElderEmail from caregiver profile by pass in user.email
+//2. getElderProfile [name, age] from elder profile by pass in elderEmail
+//3. getElderHeartRateDetail [latest BPM and time] from elder profile by pass in elderEmail
+//4. getElderHeartRateThreshold [min and max BPM] from elder profile by pass in elderEmail
+
 export default function HeartRateMainScreen() {
   const navigation = useNavigation();
-  const [detail, setDetail] = useState({});
+  const [elderEmail, setElderEmail] = useState("");
+  const [elderProfile, setElderProfile] = useState({});
   const [heartRateDetail, setHeartRateDetail] = useState({});
-  const [bpm, setBpm] = useState(null); // Initialize bpm with null
+  const [heartRateThreshold, setHeartRateThreshold] = useState({});
 
-  const user = auth.currentUser;
-  // console.log("For fetching actual user :" + user.email);
-  const staticEmail = "trinapreet@gmail.com";
-  // const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  const caregiverEmail = auth.currentUser.email;
 
   useEffect(() => {
-    console.log("before getElderProfile");
-    console.log("testsalkdjflsfds");
-    getElderProfile(staticEmail).then((data) => {
-      setDetail(data);
-      console.log(data);
+    // const elderEmail = getElderEmailFromCaregiverEmail(caregiverEmail).then(
+    //   (data) => {
+    //     setElderEmail(data);
+    //     return data.caregiver.elderEmails[0];
+    //   }
+    // );'
+
+    const elderEmail = "trinapreet@gmail.com";
+
+    getElderProfile(elderEmail).then((data) => {
+      setElderProfile(data);
+      // console.log("====Elder Profile====");
+      // console.log(data);
     });
 
-    getElderHeartRateDetail(staticEmail).then((data) => {
+    getElderHeartRateDetail(elderEmail).then((data) => {
       setHeartRateDetail(data);
+      // console.log("====Heartrate Detail====");
       // console.log(data);
-      if (
-        data &&
-        data["heartRateRecords"] &&
-        data["heartRateRecords"].length > 0
-      ) {
-        setBpm(data["heartRateRecords"][0]["beatsPerMinute"]);
-      }
+    });
+
+    getElderHeartRateThreshold(elderEmail).then((data) => {
+      setHeartRateThreshold(data);
+      // console.log("====Heartrate Threshold====");
+      // console.log(data);
     });
   }, []);
+
+  const elderName = elderProfile?.profile?.preferredName;
+  const elderAge = elderProfile?.profile?.age;
+  const bpm = heartRateDetail?.heartRateRecords?.[0]?.beatsPerMinute;
+  const time = heartRateDetail?.heartRateRecords?.[0]?.timestamp;
+  const timeAgo = timeDifference(time);
+  const minThreshold = heartRateThreshold?.detail?.minimum;
+  const maxThreshold = heartRateThreshold?.detail?.maximum;
+  const bpmStatus =
+    bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
       <View className="w-full justify-center mt-3">
-        <Text className=" text-xl text-curaBlack font-bold">
-          {detail.profile?.preferredName}
-        </Text>
+        <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
         <Text className=" text-base text-curaBlack font-medium">
-          {detail.profile?.age} years old
+          {elderAge} years old
         </Text>
       </View>
       <View className="w-full flex-1 justify-center items-center ">
@@ -64,15 +89,23 @@ export default function HeartRateMainScreen() {
       </View>
       <View className="h-[382px] mb-8 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-center rounded-xl">
         <View className="flex flex-row w-full justify-between space-x-4 p-4">
-          <Text className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium">
-            Normal
+          <Text
+            className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium"
+            style={{
+              backgroundColor:
+                bpm >= minThreshold && bpm <= maxThreshold
+                  ? curaTheme.lightColors.successDark
+                  : curaTheme.lightColors.errorDark,
+            }}
+          >
+            {bpmStatus}
           </Text>
           <Text
             className="text-primary text-base font-bold  active:text-primaryDark"
             onPress={() =>
               navigation.navigate("HeartRateHistoryScreen", {
                 bpm,
-                staticEmail,
+                elderEmail,
               })
             }
           >
@@ -93,7 +126,7 @@ export default function HeartRateMainScreen() {
             </Text>
           )}
           <Text className="text-base  text-curaBlack/80 font-bold -mt-4">
-            10 MIN AGO
+            {timeAgo} MIN AGO
           </Text>
         </View>
       </View>

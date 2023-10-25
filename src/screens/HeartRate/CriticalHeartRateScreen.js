@@ -15,15 +15,15 @@ export default function CriticalHeartRateScreen() {
 
   const route = useRoute();
 
-  const { bpm, staticEmail } = route.params;
+  const { bpm, elderEmail } = route.params;
 
   useEffect(() => {
-    getAllNotificationLog(staticEmail).then((data) => {
+    getAllNotificationLog(elderEmail).then((data) => {
       setLog(data);
       console.log(data);
     });
 
-    getElderHeartRateThreshold(staticEmail).then((data) => {
+    getElderHeartRateThreshold(elderEmail).then((data) => {
       setThreshold(data);
       console.log(data);
     });

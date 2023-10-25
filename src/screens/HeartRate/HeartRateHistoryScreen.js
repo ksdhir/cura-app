@@ -22,17 +22,17 @@ export default function HeartRateHistoryScreen() {
 
   const route = useRoute();
 
-  const { bpm, staticEmail } = route.params;
+  const { bpm, elderEmail } = route.params;
 
   // console.log("For fetching actual user :" + user.email);
   const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
   useEffect(() => {
-    getElderProfile(staticEmail).then((data) => {
+    getElderProfile(elderEmail).then((data) => {
       setDetail(data);
     });
 
-    getElderHeartRateDetail(staticEmail).then((data) => {
+    getElderHeartRateDetail(elderEmail).then((data) => {
       setHeartRateDetail(data);
       console.log(data);
     });
@@ -140,7 +140,7 @@ export default function HeartRateHistoryScreen() {
               fontWeight: "medium",
             }}
             onPress={() =>
-              navigation.navigate("CriticalHeartRateScreen", { staticEmail })
+              navigation.navigate("CriticalHeartRateScreen", { elderEmail })
             }
           />
         </View>
