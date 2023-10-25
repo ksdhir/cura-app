@@ -5,48 +5,28 @@ import HomeStack from "../screens/Home/HomeStack";
 import HeartRateStack from "../screens/HeartRate/HeartRateStack";
 import AccountStack from "../screens/Account/AccountStack";
 import MovementStack from "../screens/Movement/MovementStack";
+import curaTheme from "../theme/theme";
 
 export default function TabNavigator() {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
+      initialRouteName="HeartRateStack"
       screenOptions={{
-        tabBarActiveTintColor: "#27272a",
-        tabBarInactiveTintColor: "#94a3b8",
+        tabBarActiveTintColor: curaTheme.lightColors.curaWhite,
+        tabBarInactiveTintColor: curaTheme.lightColors.primaryDark,
         tabBarLabelStyle: {
           fontSize: 12,
         },
         tabBarStyle: {
-          height: 65,
+          height: 80,
           paddingTop: 10,
-          paddingBottom: 10,
-          backgroundColor: "white",
+          paddingBottom: 15,
+          backgroundColor: curaTheme.lightColors.primary,
           borderTopWidth: 0,
-          elevation: 25,
-          shadowOpacity: 6,
-          shadowOffset: {
-            height: 8,
-          },
-          shadowRadius: 8,
-          position: "absolute" /*This is for android*/,
-          borderRadius: 25,
-          marginBottom: 20,
-          marginLeft: 20,
-          marginRight: 20,
         },
       }}
     >
-      <Tab.Screen
-        name="HomeStack"
-        component={HomeStack}
-        options={{
-          headerShown: false,
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
       <Tab.Screen
         name="MovementStack"
         component={MovementStack}
@@ -63,21 +43,32 @@ export default function TabNavigator() {
         component={HeartRateStack}
         options={{
           headerShown: false,
-          tabBarLabel: "Heart Rate",
+          tabBarLabel: "Monitor",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="heart" color={color} size={size} />
           ),
         }}
       />
-
       <Tab.Screen
         name="AccountStack"
         component={AccountStack}
         options={{
           headerShown: false,
-          tabBarLabel: "Account",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="HomeStack"
+        component={HomeStack}
+        options={{
+          headerShown: false,
+          tabBarLabel: "Misc",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="menu" color={color} size={size} />
           ),
         }}
       />

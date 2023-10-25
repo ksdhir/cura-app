@@ -41,3 +41,55 @@ export const saveNotificationToken = async (expoToken) => {
     throw new Error(error.message);
   }
 };
+
+// /api/caregiver/all-notification-log
+
+// http://192.168.56.1:3003/api/caregiver/all-notification-log?elderEmail=trinapreet@gmail.com&type=CRITICAL_HEART_RATE
+
+//pass in elderEmail
+export const getAllNotificationLog = async (elderEmail) => {
+  console.log("fetching all notification log");
+
+  try {
+    return {
+      notificationLog: [
+        {
+          id: "65371ac2a8de82acefb6073c",
+          timestamp: "2023-10-24T01:15:46.570Z",
+          type: "CRITICAL_HEART_RATE",
+          location: ["48.2253215", "-123.0911397"],
+          elderProfileId: "652b1db7987df94e5d394d2b",
+        },
+        {
+          id: "65371abfa8de82acefb6073b",
+          timestamp: "2023-10-24T01:15:43.087Z",
+          type: "CRITICAL_HEART_RATE",
+          location: ["48.2253215", "-123.0911397"],
+          elderProfileId: "652b1db7987df94e5d394d2b",
+        },
+        {
+          id: "65371a2ea8de82acefb6073a",
+          timestamp: "2023-10-24T01:13:18.400Z",
+          type: "CRITICAL_HEART_RATE",
+          location: ["48.2253215", "-123.0911397"],
+          elderProfileId: "652b1db7987df94e5d394d2b",
+        },
+      ],
+    };
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=CRITICAL_HEART_RATE`;
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};

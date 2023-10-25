@@ -3,6 +3,7 @@ import React from "react";
 import HeartRateMainScreen from "./HeartRateMainScreen";
 import HeartRateHistoryScreen from "./HeartRateHistoryScreen";
 import GoogleHealthScreen from "./GoogleHealthScreen";
+import CriticalHeartRateScreen from "./CriticalHeartRateScreen";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -22,8 +23,13 @@ export default function HeartRateStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="HeartRateHistory"
+        name="HeartRateHistoryScreen"
         component={HeartRateHistoryScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CriticalHeartRateScreen"
+        component={CriticalHeartRateScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

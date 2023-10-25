@@ -4,12 +4,9 @@ import HomeScreen from "./HomeScreen";
 import AccelScreen from "./AccelScreen";
 import GyroScreen from "./GyroScreen";
 import PushNotificationScreen from "./PushNotificationScreen";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function HomeStack() {
   const Stack = createNativeStackNavigator();
-
-  const Tab = createBottomTabNavigator();
 
   return (
     <Stack.Navigator>
