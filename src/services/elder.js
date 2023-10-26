@@ -52,22 +52,7 @@ export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
   console.log("fetching elderEmail");
 
   try {
-    //return from postman
-    return {
-      caregiver: {
-        name: null,
-        preferredName: "Karannnnn",
-        email: "test@cura.com",
-        phoneNumber: "1234567890",
-        elderIds: ["652b1db7987df94e5d394d2b"],
-
-        //This didnt implement yet
-        elderEmails: ["trinapreet@gmail.com"],
-      },
-    };
-
     const url = `${apiUrl}/caregiver/profile?email=${caregiverEmail}`;
-    console.log(url);
 
     const response = await fetch(url, {
       method: "GET",
@@ -77,7 +62,7 @@ export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
 
     return data;
   } catch (error) {

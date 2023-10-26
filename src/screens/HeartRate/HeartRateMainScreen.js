@@ -13,21 +13,20 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
 
-//TODO:
-//1. create NEW api getElderEmail from caregiver profile by pass in user.email
-//2. getElderProfile from elder profile by pass in elderEmail
-//3. A way to check if the latest BPM is normal or not
-// compare with their threshold
-
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
 //2. getElderProfile [name, age] from elder profile by pass in elderEmail
 //3. getElderHeartRateDetail [latest BPM and time] from elder profile by pass in elderEmail
 //4. getElderHeartRateThreshold [min and max BPM] from elder profile by pass in elderEmail
 
+//NOTE:
+//1. BPM is the latest BPM pass it to the HeartRateHistoryScreen
+//2. ElderEmail is the elderEmail pass it to the HeartRateHistoryScreen
+//3. Pass minThreshold and maxThreshold to the CriticalHeartRateScreen
+
 export default function HeartRateMainScreen() {
   const navigation = useNavigation();
-  const [elderEmail, setElderEmail] = useState("");
+  const [elderEmailData, setElderEmailData] = useState("");
   const [elderProfile, setElderProfile] = useState({});
   const [heartRateDetail, setHeartRateDetail] = useState({});
   const [heartRateThreshold, setHeartRateThreshold] = useState({});
@@ -35,34 +34,35 @@ export default function HeartRateMainScreen() {
   const caregiverEmail = auth.currentUser.email;
 
   useEffect(() => {
-    // const elderEmail = getElderEmailFromCaregiverEmail(caregiverEmail).then(
-    //   (data) => {
-    //     setElderEmail(data);
-    //     return data.caregiver.elderEmails[0];
-    //   }
-    // );'
+    (async () => {
+      try {
+        // Use await to get the elderEmail from the Promise
+        const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
+        const elderEmail = data.caregiver?.elderEmails[0];
 
-    const elderEmail = "trinapreet@gmail.com";
+        setElderEmailData(elderEmail);
+        console.log("====Elder Email====");
+        console.log(elderEmail);
 
-    getElderProfile(elderEmail).then((data) => {
-      setElderProfile(data);
-      // console.log("====Elder Profile====");
-      // console.log(data);
-    });
+        // Now that you have elderEmail, you can make other async calls
+        const profileData = await getElderProfile(elderEmail);
+        setElderProfile(profileData);
 
-    getElderHeartRateDetail(elderEmail).then((data) => {
-      setHeartRateDetail(data);
-      // console.log("====Heartrate Detail====");
-      // console.log(data);
-    });
+        const heartRateDetailData = await getElderHeartRateDetail(elderEmail);
+        setHeartRateDetail(heartRateDetailData);
 
-    getElderHeartRateThreshold(elderEmail).then((data) => {
-      setHeartRateThreshold(data);
-      // console.log("====Heartrate Threshold====");
-      // console.log(data);
-    });
+        const heartRateThresholdData = await getElderHeartRateThreshold(
+          elderEmail
+        );
+        setHeartRateThreshold(heartRateThresholdData);
+      } catch (error) {
+        console.log("error", error.message);
+        throw Error("Could not get elder profile");
+      }
+    })();
   }, []);
 
+  const elderEmail = elderEmailData;
   const elderName = elderProfile?.profile?.preferredName;
   const elderAge = elderProfile?.profile?.age;
   const bpm = heartRateDetail?.heartRateRecords?.[0]?.beatsPerMinute;
@@ -106,6 +106,8 @@ export default function HeartRateMainScreen() {
               navigation.navigate("HeartRateHistoryScreen", {
                 bpm,
                 elderEmail,
+                minThreshold,
+                maxThreshold,
               })
             }
           >
