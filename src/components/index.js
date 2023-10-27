@@ -26,4 +26,14 @@ const TestSecondaryBtn = ({ onPress, title }) => {
   );
 };
 
-export { TestPrimaryBtn, TestSecondaryBtn };
+const CriticalLog = ({ logId, logTime, logType }) => {
+  return (
+    <View className="flex flex-col space-y-4 p-4">
+      <Text>{logId}</Text>
+      <Text>{logTime}</Text>
+      <Text>{logType}</Text>
+    </View>
+  );
+};
+
+export { TestPrimaryBtn, TestSecondaryBtn, CriticalLog };

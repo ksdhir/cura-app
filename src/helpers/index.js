@@ -13,8 +13,13 @@ function formatDateTime(dateTimeString) {
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
-const dateTimeString = "2023-10-14T23:01:11.410Z";
-const formattedDateTime = formatDateTime(dateTimeString);
-// console.log(formattedDateTime);
+function timeDifference(dateTimeString) {
+  const presentTime = new Date();
+  const timeDifference = Math.floor(
+    (presentTime.getTime() - new Date(dateTimeString).getTime()) / 60000
+  );
 
-export { formatDateTime };
+  return timeDifference;
+}
+
+export { formatDateTime, timeDifference };

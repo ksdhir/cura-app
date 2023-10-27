@@ -7,10 +7,11 @@ import { Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
 
-//TODO:
-//1. An API that return an average BPM for each hour of today since 12am until now
-//2. From that API, we can get the average BPM of today
-//3. And from that we also get the min and max BPM of today
+//TODO:Fetching
+//1. getElderProfile [dailyAverage, dailyMin, dailyMax] from elder profile by pass in elderEmail
+//2. Also get the average bpm per hour of today since 12am (Max data is 24)
+//3. getElderHeartRateDetail [weekAverage, weekMin, weekMax] from elder profile by pass in elderEmail
+//4. Also get the average bpm per day of this week (Max data is 7)
 
 export default function HeartRateHistoryScreen() {
   const { width, height } = useWindowDimensions();
@@ -22,19 +23,16 @@ export default function HeartRateHistoryScreen() {
 
   const route = useRoute();
 
-  const { bpm, staticEmail } = route.params;
-
-  // console.log("For fetching actual user :" + user.email);
-  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  const { bpm, elderEmail, minThreshold, maxThreshold } = route.params;
 
   useEffect(() => {
-    getElderProfile(staticEmail).then((data) => {
+    getElderProfile(elderEmail).then((data) => {
       setDetail(data);
     });
 
-    getElderHeartRateDetail(staticEmail).then((data) => {
+    getElderHeartRateDetail(elderEmail).then((data) => {
       setHeartRateDetail(data);
-      console.log(data);
+      // console.log(data);
     });
   }, []);
 
@@ -140,7 +138,12 @@ export default function HeartRateHistoryScreen() {
               fontWeight: "medium",
             }}
             onPress={() =>
-              navigation.navigate("CriticalHeartRateScreen", { staticEmail })
+              navigation.navigate("CriticalHeartRateScreen", {
+                elderEmail,
+                bpm,
+                minThreshold,
+                maxThreshold,
+              })
             }
           />
         </View>
