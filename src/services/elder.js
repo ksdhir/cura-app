@@ -30,7 +30,7 @@ export const testPushNotification = async () => {
 export const elderSignUp = async (body, token) => {
   try {
     const response = await fetch(
-      `${process.env.EXPO_PUBLIC_API_URL}/caregiver/profile`,
+      `${process.env.EXPO_PUBLIC_API_URL}/elder/profile`,
       {
         method: "POST",
         headers: {
