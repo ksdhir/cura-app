@@ -65,8 +65,8 @@ export default function HeartRateMainScreen() {
   const elderEmail = elderEmailData;
   const elderName = elderProfile?.profile?.preferredName;
   const elderAge = elderProfile?.profile?.age;
-  const bpm = heartRateDetail?.heartRateRecords?.[0]?.beatsPerMinute;
-  const time = heartRateDetail?.heartRateRecords?.[0]?.timestamp;
+  const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
+  const time = heartRateDetail?.latestHeartRateRecord?.[0]?.timestamp;
   const timeAgo = timeDifference(time);
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
