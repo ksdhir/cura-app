@@ -36,9 +36,9 @@ export default function HeartRateHistoryScreen() {
     });
   }, []);
 
-  const weekMin = heartRateDetail?.heartRateRecords?.[0]?.weekMin;
-  const weekMax = heartRateDetail?.heartRateRecords?.[0]?.weekMax;
-  const weekAverage = heartRateDetail?.heartRateRecords?.[0]?.weekAverage;
+  const weekMin = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMin;
+  const weekMax = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMax;
+  const weekAverage = heartRateDetail?.latestHeartRateRecord?.[0]?.weekAverage;
 
   const dailyMin = detail.profile?.heartRateThreshold.minimum;
   const dailyMax = detail.profile?.heartRateThreshold.maximum;

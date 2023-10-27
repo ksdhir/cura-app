@@ -98,7 +98,8 @@ export const getElderHeartRateDetail = async (email) => {
     );
 
     const data = await response.json();
-    // console.log(data);
+    console.log("Get latest BPM and time");
+    console.log(data);
 
     return data;
   } catch (error) {
