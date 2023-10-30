@@ -14,6 +14,7 @@ const useHealthData = () => {
   const [flights, setFlights] = useState(0);
   const [distance, setDistance] = useState(0);
   const [heartRate, setHeartRate] = useState(0);
+  const [heartRateDate, setHeartRateDate] = useState<Date | null>(null);
 
   const [androidPermissions, setAndroidPermissions] = useState<Permission[]>(
     []
@@ -65,6 +66,8 @@ const useHealthData = () => {
         endTime: today.toISOString(),
       };
 
+      console.log(JSON.stringify(timeRangeFilter));
+
       // Steps
       const steps = await readRecords("Steps", { timeRangeFilter });
       const totalSteps = steps.reduce((sum, cur) => sum + cur.count, 0);
@@ -73,15 +76,14 @@ const useHealthData = () => {
       // Heart Rate
       const heartRate = await readRecords("HeartRate", { timeRangeFilter });
       const latestHeartRate = heartRate[heartRate.length - 1].samples[0];
-      console.log(latestHeartRate.beatsPerMinute);
-      // const totalHeartRate = heartRate.reduce((sum, cur) => sum + cur.sample, 0);
       setHeartRate(latestHeartRate.beatsPerMinute);
+      setHeartRateDate(new Date(latestHeartRate.time));
     };
 
     getHealthData();
   }, [androidPermissions]);
 
-  return { steps, flights, distance, heartRate };
+  return { steps, flights, distance, heartRate, heartRateDate };
 };
 
 type ValueProps = {
@@ -109,7 +111,8 @@ const styles = StyleSheet.create({
 });
 
 export default function GoogleHealthScreen() {
-  const { steps, distance, flights, heartRate } = useHealthData();
+  const { steps, distance, flights, heartRate, heartRateDate } =
+    useHealthData();
 
   return (
     <SafeAreaView
@@ -120,6 +123,7 @@ export default function GoogleHealthScreen() {
         <Value label="Flights" value={JSON.stringify(flights)} />
         <Value label="Distance" value={JSON.stringify(distance)} />
         <Value label="Heart Rate" value={heartRate.toString()} />
+        <Text>{heartRateDate?.toLocaleString()}</Text>
       </View>
     </SafeAreaView>
   );

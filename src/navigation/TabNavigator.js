@@ -61,7 +61,7 @@ export default function TabNavigator() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="HomeStack"
         component={HomeStack}
         options={{
@@ -71,7 +71,7 @@ export default function TabNavigator() {
             <MaterialCommunityIcons name="menu" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
