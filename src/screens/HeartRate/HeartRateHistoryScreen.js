@@ -188,6 +188,7 @@ export default function HeartRateHistoryScreen() {
               xAxisThickness={0}
               dashGap={0}
               initialSpacing={16}
+              scrollToEnd={true}
               isAnimated={true}
             />
           </View>
