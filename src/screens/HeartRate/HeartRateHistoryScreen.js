@@ -6,6 +6,8 @@ import { getElderProfile, getElderHeartRateDetail } from "../../services/elder";
 import { Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
+import { BarChart } from "react-native-gifted-charts";
+import { useFonts } from "expo-font";
 
 //TODO:Fetching
 //1. getElderProfile [dailyAverage, dailyMin, dailyMax] from elder profile by pass in elderEmail
@@ -44,8 +46,44 @@ export default function HeartRateHistoryScreen() {
   const dailyMax = detail.profile?.heartRateThreshold.maximum;
   const dailyAverage = 95;
 
+  //creat data array with 12 value range from 90 to 160
+
+  const data = Array.from(
+    { length: 12 },
+    () => Math.floor(Math.random() * 70) + 90
+  );
+
+  //create week array with 7 value range rom 90 to 160
+
+  const week = Array.from(
+    { length: 7 },
+    () => Math.floor(Math.random() * 70) + 90
+  );
+
+  const dailyData = data.map((value, index) => {
+    return {
+      value,
+      label: `${index}hr`,
+      frontColor:
+        index === data.length - 1
+          ? curaTheme.lightColors.secondaryDark
+          : undefined,
+    };
+  });
+
+  const weeklyData = week.map((value, index) => {
+    return {
+      value,
+      label: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index],
+      frontColor:
+        index === week.length - 1
+          ? curaTheme.lightColors.secondaryDark
+          : undefined,
+    };
+  });
+
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4  ">
+    <SafeAreaView className="flex-1 w-full items-center justify-center bg-curaWhite px-4  ">
       <StatusBar style="auto" />
       <View
         className="flex w-full justify-between rounded-t-xl pt-4 pb-8  mt-8 absolute -z-10 items-center bg-primary/20"
@@ -107,16 +145,51 @@ export default function HeartRateHistoryScreen() {
         {/* =======START GRAPH======= */}
 
         {daily === true ? (
-          <View className="flex flex-1 p-4 items-center w-full bg-curaGray/20">
-            <Text className="text-2xl text-curaBlack  font-bold">
-              GRAPH Daily
-            </Text>
+          <View
+            className="flex flex-1 items-center"
+            style={{
+              width: width - 64,
+            }}
+          >
+            <BarChart
+              width={width * 0.7}
+              maxValue={200}
+              barWidth={width / 20}
+              noOfSections={4}
+              barBorderTopLeftRadius={50}
+              barBorderTopRightRadius={50}
+              frontColor="#FCD3DF"
+              data={dailyData}
+              yAxisThickness={0}
+              xAxisThickness={0}
+              dashGap={0}
+              initialSpacing={width / 32}
+              scrollToEnd={true}
+              isAnimated={true}
+            />
           </View>
         ) : (
-          <View className="flex flex-1 p-4 items-center w-full bg-curaGray/20">
-            <Text className="text-2xl text-curaBlack  font-bold">
-              GRAPH Weekly
-            </Text>
+          <View
+            className="flex flex-1 items-center"
+            style={{
+              width: width - 64,
+            }}
+          >
+            <BarChart
+              width={width * 0.7}
+              maxValue={200}
+              barWidth={width / 20}
+              noOfSections={4}
+              barBorderTopLeftRadius={50}
+              barBorderTopRightRadius={50}
+              frontColor="#FCD3DF"
+              data={weeklyData}
+              yAxisThickness={0}
+              xAxisThickness={0}
+              dashGap={0}
+              initialSpacing={16}
+              isAnimated={true}
+            />
           </View>
         )}
 
