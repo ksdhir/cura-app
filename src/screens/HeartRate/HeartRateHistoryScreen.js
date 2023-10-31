@@ -1,4 +1,4 @@
-import { View, Text, useWindowDimensions } from "react-native";
+import { View, Text, useWindowDimensions, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -6,6 +6,8 @@ import { getElderProfile, getElderHeartRateDetail } from "../../services/elder";
 import { Button } from "@rneui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
+import { BarChart } from "react-native-gifted-charts";
+import { useFonts } from "expo-font";
 
 //TODO:Fetching
 //1. getElderProfile [dailyAverage, dailyMin, dailyMax] from elder profile by pass in elderEmail
@@ -14,7 +16,7 @@ import curaTheme from "../../theme/theme";
 //4. Also get the average bpm per day of this week (Max data is 7)
 
 export default function HeartRateHistoryScreen() {
-  const { width, height } = useWindowDimensions();
+  const { width, height } = Dimensions.get("window");
 
   const navigation = useNavigation();
   const [detail, setDetail] = useState({});
@@ -43,6 +45,49 @@ export default function HeartRateHistoryScreen() {
   const dailyMin = detail.profile?.heartRateThreshold.minimum;
   const dailyMax = detail.profile?.heartRateThreshold.maximum;
   const dailyAverage = 95;
+
+  //creat data array with 12 value range from 90 to 160
+
+  const data = Array.from(
+    { length: 12 },
+    () => Math.floor(Math.random() * 70) + 90
+  );
+
+  //create week array with 7 value range rom 90 to 160
+
+  const week = Array.from(
+    { length: 7 },
+    () => Math.floor(Math.random() * 70) + 90
+  );
+
+  const dailyData = data.map((value, index) => {
+    return {
+      value,
+      label: `${index}hr`,
+      frontColor:
+        index === data.length - 1
+          ? curaTheme.lightColors.secondaryDark
+          : undefined,
+    };
+  });
+
+  const weeklyData = week.map((value, index) => {
+    return {
+      value,
+      label: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index],
+      frontColor:
+        index === week.length - 1
+          ? curaTheme.lightColors.secondaryDark
+          : undefined,
+    };
+  });
+
+  let screenHeight;
+  if (height < 800) {
+    screenHeight = "md";
+  } else if (height < 1000) {
+    screenHeight = "lg";
+  }
 
   return (
     <SafeAreaView className="flex flex-1 w-full bg-curaWhite px-4  ">

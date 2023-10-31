@@ -9,6 +9,9 @@ import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
 import TabNavigator from "./TabNavigator";
 import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
+// Animated Tab Bar
+import TabAnimated from "./TabAnimated";
+
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -17,7 +20,7 @@ const AppNavigator = () => {
       <Stack.Screen
         options={{ headerShown: false }}
         name="Home"
-        component={TabNavigator}
+        component={TabAnimated}
       />
       <Stack.Screen
         options={{ headerShown: false }}
