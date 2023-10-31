@@ -1,9 +1,18 @@
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
+import Lottie from "lottie-react-native";
+
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../utils/FirebaseConfig";
-import { formatDateTime, timeDifference } from "../../helpers";
+import { timeDifference } from "../../helpers";
 import {
   getElderEmailFromCaregiverEmail,
   getElderProfile,
@@ -12,6 +21,10 @@ import {
 } from "../../services/elder";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
+import HeartHigh from "../../assets/icons/heart/heart-high1x.svg";
+import HeartNormal from "../../assets/icons/heart/heart-normal1x.svg";
+import HeartLow from "../../assets/icons/heart/heart-low1x.svg";
+import Graph from "../../assets/icons/svg/graph.svg";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -23,6 +36,8 @@ import curaTheme from "../../theme/theme";
 //1. BPM is the latest BPM pass it to the HeartRateHistoryScreen
 //2. ElderEmail is the elderEmail pass it to the HeartRateHistoryScreen
 //3. Pass minThreshold and maxThreshold to the CriticalHeartRateScreen
+
+const { width, height } = Dimensions.get("window");
 
 export default function HeartRateMainScreen() {
   const navigation = useNavigation();
@@ -73,22 +88,39 @@ export default function HeartRateMainScreen() {
   const bpmStatus =
     bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
 
+  const heartwidth = 150;
+  const heartheight = 180;
+
+  let speed;
+  bpm >= minThreshold && bpm <= maxThreshold
+    ? (speed = 1)
+    : bpm < minThreshold
+    ? (speed = 0.5)
+    : (speed = 2);
+
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
       <View className="w-full justify-center mt-3">
         <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
-        <Text className=" text-base text-curaBlack font-medium">
+        <Text className=" text-base text-curaBlack font-medium ">
           {elderAge} years old
         </Text>
       </View>
-      <View className="w-full flex-1 justify-center items-center ">
-        <Text className="text-xl text-curaBlack font-bold">
-          Image placeholder
-        </Text>
-      </View>
-      <View className="h-[382px] mb-8 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-center rounded-xl">
-        <View className="flex flex-row w-full justify-between space-x-4 p-4">
+      <Image
+        className=" flex-1 justify-start w-full relative -z-10 top-4"
+        source={require("../../assets/images/character/maleCharacter2.png")}
+        style={{
+          resizeMode: "contain",
+        }}
+      />
+      <View
+        className="mb-8 p-4 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
+        style={{
+          height: height * 0.5,
+        }}
+      >
+        <View className="flex flex-row w-full justify-between  items-start">
           <Text
             className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium"
             style={{
@@ -100,8 +132,8 @@ export default function HeartRateMainScreen() {
           >
             {bpmStatus}
           </Text>
-          <Text
-            className="text-primary text-base font-bold  active:text-primaryDark"
+          <TouchableOpacity
+            className="bg-primary p-[6px] rounded-md"
             onPress={() =>
               navigation.navigate("HeartRateHistoryScreen", {
                 bpm,
@@ -111,26 +143,52 @@ export default function HeartRateMainScreen() {
               })
             }
           >
-            HeartRate History
-          </Text>
+            <Graph
+              width={28}
+              height={28}
+              style={{
+                color: "#fff",
+              }}
+            />
+          </TouchableOpacity>
         </View>
-        <View className="flex flex-col flex-1 items-center justify-center mb-16">
-          {bpm !== null ? ( // Check if bpm is not null
-            <View className="flex flex-row items-baseline ">
-              <Text className="text-black text-secondaryDark font-black ">
-                {bpm}
-              </Text>
-              <Text className="text-4xl text-curaBlack font-bold">BPM</Text>
-            </View>
-          ) : (
-            <Text className="text-base text-curaBlack/80 font-bold">
-              Loading...
+        {/* Heart Icon */}
+        <View className="flex flex-1 w-full items-center ">
+          <Lottie
+            source={require("../../assets/lottie/heartbeat.json")}
+            autoPlay
+            speed={speed}
+            style={{
+              width: heartwidth,
+              height: heartheight,
+            }}
+          />
+        </View>
+        {/* BPM */}
+        <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
+          <View className="flex flex-row items-baseline ">
+            <Text className=" text-7xl text-secondaryDark font-black ">
+              {bpm}
             </Text>
-          )}
-          <Text className="text-base  text-curaBlack/80 font-bold -mt-4">
+            <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+          </View>
+          <Text className="text-base  text-curaBlack/60 font-bold -mt-3">
             {timeAgo} MIN AGO
           </Text>
         </View>
+        {/* Heart Wave */}
+        {/* <View className="flex w-full items-center ">
+          <Lottie
+            source={require("../../assets/lottie/Animation.json")}
+            autoPlay
+            //slow down the animation
+            speed={0.7}
+            style={{
+              width: 150,
+              height: 100,
+            }}
+          />
+        </View> */}
       </View>
     </SafeAreaView>
   );
