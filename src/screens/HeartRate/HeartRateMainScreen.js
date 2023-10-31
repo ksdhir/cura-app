@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
+import { View, Text, Image, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../utils/FirebaseConfig";
-import { formatDateTime, timeDifference } from "../../helpers";
+import { timeDifference } from "../../helpers";
 import {
   getElderEmailFromCaregiverEmail,
   getElderProfile,
@@ -12,6 +12,9 @@ import {
 } from "../../services/elder";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
+import HeartHigh from "../../assets/icons/heart/heart-high1x.svg";
+import HeartNormal from "../../assets/icons/heart/heart-normal1x.svg";
+import HeartLow from "../../assets/icons/heart/heart-low1x.svg";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -23,6 +26,8 @@ import curaTheme from "../../theme/theme";
 //1. BPM is the latest BPM pass it to the HeartRateHistoryScreen
 //2. ElderEmail is the elderEmail pass it to the HeartRateHistoryScreen
 //3. Pass minThreshold and maxThreshold to the CriticalHeartRateScreen
+
+const { width, height } = Dimensions.get("window");
 
 export default function HeartRateMainScreen() {
   const navigation = useNavigation();
@@ -73,21 +78,37 @@ export default function HeartRateMainScreen() {
   const bpmStatus =
     bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
 
+  let imageSource;
+  if (bpm < minThreshold) {
+    imageSource = { HeartLow };
+  } else if (bpm > maxThreshold) {
+    imageSource = require("../../assets/icons/heart/heart-high2x.png");
+  } else {
+    imageSource = require("../../assets/icons/heart/heart-normal2x.png");
+  }
+
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
       <View className="w-full justify-center mt-3">
         <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
-        <Text className=" text-base text-curaBlack font-medium">
+        <Text className=" text-base text-curaBlack font-medium ">
           {elderAge} years old
         </Text>
       </View>
-      <View className="w-full flex-1 justify-center items-center ">
-        <Text className="text-xl text-curaBlack font-bold">
-          Image placeholder
-        </Text>
-      </View>
-      <View className="h-[382px] mb-8 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-center rounded-xl">
+      <Image
+        className=" flex-1 justify-start w-full relative -z-10 top-4"
+        source={require("../../assets/images/character/maleCharacter2.png")}
+        style={{
+          resizeMode: "contain",
+        }}
+      />
+      <View
+        className="mb-8 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-center rounded-xl"
+        style={{
+          height: height * 0.5,
+        }}
+      >
         <View className="flex flex-row w-full justify-between space-x-4 p-4">
           <Text
             className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium"
@@ -114,7 +135,8 @@ export default function HeartRateMainScreen() {
             HeartRate History
           </Text>
         </View>
-        <View className="flex flex-col flex-1 items-center justify-center mb-16">
+        <HeartHigh width={48} height={48} />
+        <View className="flex flex-col flex-1 items-center justify-center mb-16 relative">
           {bpm !== null ? ( // Check if bpm is not null
             <View className="flex flex-row items-baseline ">
               <Text className="text-black text-secondaryDark font-black ">
