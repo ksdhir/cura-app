@@ -1,4 +1,4 @@
-import { View, Text, useWindowDimensions } from "react-native";
+import { View, Text, useWindowDimensions, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -16,7 +16,7 @@ import { useFonts } from "expo-font";
 //4. Also get the average bpm per day of this week (Max data is 7)
 
 export default function HeartRateHistoryScreen() {
-  const { width, height } = useWindowDimensions();
+  const { width, height } = Dimensions.get("window");
 
   const navigation = useNavigation();
   const [detail, setDetail] = useState({});
@@ -82,22 +82,29 @@ export default function HeartRateHistoryScreen() {
     };
   });
 
+  let screenHeight;
+  if (height < 800) {
+    screenHeight = "md";
+  } else if (height < 1000) {
+    screenHeight = "lg";
+  }
+
   return (
     <SafeAreaView className="flex-1 w-full items-center justify-center bg-curaWhite px-4  ">
       <StatusBar style="auto" />
       <View
-        className="flex w-full justify-between rounded-t-xl pt-4 pb-8  mt-8 absolute -z-10 items-center bg-primary/20"
+        className="flex w-full justify-between rounded-t-xl pt-4 pb-8 mt-8 absolute -z-10 items-center bg-primary/20"
         style={{ top: height - height }}
       >
         <Text className=" text-base text-primaryDark font-bold">
-          Current Heart Rate
+          Current Heart Rate / {screenHeight}
         </Text>
         <Text className="text-base text-primaryDark font-bold">{bpm} BPM</Text>
       </View>
 
       {/*  CARD  */}
-      <View className="flex-1 mb-8 mt-20 pb-2 pt-8 px-4 w-full flex space-y-4 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-center rounded-xl">
-        <View className="flex flex-row w-full justify-around  px-14 ">
+      <View className="flex-1 mb-8 mt-20 pb-2 pt-4 px-4 w-full flex bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  justify-between rounded-xl">
+        <View className="flex flex-row w-full justify-around px-14  ">
           <Text
             className="text-base flex-1 text-center py-2 bg-primary font-medium rounded-l-full"
             style={{
@@ -132,13 +139,19 @@ export default function HeartRateHistoryScreen() {
           </Text>
         </View>
 
-        <View className="w-full px-8 flex items-center justify-center">
+        <View
+          className="w-full px-8 flex h-fit items-center justify-center "
+          contentContainerStyle={{
+            borderRadius: 50,
+          }}
+        >
           <Text className="text-3xl text-curaBlack font-bold">AVERAGE</Text>
-          <View className="flex flex-row items-baseline -mt-6 ">
-            <Text className="text-black text-secondaryDark font-black ">
-              {daily === true ? dailyAverage : weekAverage}
+          <View className="flex flex-row items-baseline -mt-1 ">
+            <Text className="text-7xl text-secondaryDark font-black ">
+              95
+              {/* {daily === true ? dailyAverage : weekAverage} */}
             </Text>
-            <Text className="text-4xl text-curaBlack font-bold">BPM</Text>
+            <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
           </View>
         </View>
 
@@ -146,13 +159,13 @@ export default function HeartRateHistoryScreen() {
 
         {daily === true ? (
           <View
-            className="flex flex-1 items-center"
+            className="flex h-fit justify-end pb-4 "
             style={{
               width: width - 64,
             }}
           >
             <BarChart
-              width={width * 0.7}
+              width={width * 0.65}
               maxValue={200}
               barWidth={width / 20}
               noOfSections={4}
@@ -164,21 +177,21 @@ export default function HeartRateHistoryScreen() {
               xAxisThickness={0}
               dashGap={0}
               initialSpacing={width / 32}
-              scrollToEnd={true}
+              scrollToEnd={false}
               isAnimated={true}
             />
           </View>
         ) : (
           <View
-            className="flex flex-1 items-center"
+            className="flex  h-fit justify-end pb-4 "
             style={{
               width: width - 64,
             }}
           >
             <BarChart
-              width={width * 0.7}
+              width={width * 0.65}
               maxValue={200}
-              barWidth={width / 20}
+              barWidth={width / 24}
               noOfSections={4}
               barBorderTopLeftRadius={50}
               barBorderTopRightRadius={50}
@@ -187,8 +200,8 @@ export default function HeartRateHistoryScreen() {
               yAxisThickness={0}
               xAxisThickness={0}
               dashGap={0}
-              initialSpacing={16}
-              scrollToEnd={true}
+              initialSpacing={width / 40}
+              disableScroll={true}
               isAnimated={true}
             />
           </View>
@@ -196,7 +209,7 @@ export default function HeartRateHistoryScreen() {
 
         {/* =======END GRAPH======= */}
 
-        <View className="flex w-full flex-row justify-around">
+        <View className="flex w-full flex-row justify-around ">
           <Text className="text-lg text-neutral-800 font-normal">
             Min {daily === true ? dailyMin : weekMin} bpm
           </Text>
@@ -204,7 +217,12 @@ export default function HeartRateHistoryScreen() {
             Max {daily === true ? dailyMax : weekMax}bpm
           </Text>
         </View>
-        <View className="flex w-full">
+        <View
+          className="flex w-full "
+          contentContainerStyle={{
+            marginVertical: 0,
+          }}
+        >
           <Button
             title="Critical Heart Rate"
             titleStyle={{
