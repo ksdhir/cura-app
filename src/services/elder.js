@@ -127,3 +127,24 @@ export const getElderHeartRateThreshold = async (email) => {
     throw Error("Could not get elder heartrate threshold");
   }
 };
+
+export const setElderHeartRateDetail = async (body) => {
+  try {
+    if (body.email == null || body.email == undefined) {
+      throw Error("Email is null");
+    }
+
+    const response = await fetch(`${apiUrl}/elder/heart-rate-details`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    console.log(response.json());
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not set elder heartrate detail");
+  }
+};
