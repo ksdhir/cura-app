@@ -12,6 +12,8 @@ import curaTheme from "../theme/theme";
 
 const Tab = createBottomTabNavigator();
 
+const careGiver = true;
+
 export default function TabAnimated() {
   return (
     <>
@@ -19,23 +21,27 @@ export default function TabAnimated() {
         initialRouteName="HeartRateStack"
         tabBar={(props) => <AnimatedTabBar {...props} />}
       >
-        <Tab.Screen
-          name="MovementStack"
-          component={MovementStack}
-          options={{
-            headerShown: false,
-            tabBarLabel: "Movement",
+        {/* if caregive is false hide this tab */}
 
-            // MaterialCommunityIcons
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name={"walk"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
-              />
-            ),
-          }}
-        />
+        {careGiver ? (
+          <Tab.Screen
+            name="MovementStack"
+            component={MovementStack}
+            options={{
+              headerShown: false,
+              tabBarLabel: "Movement",
+
+              // MaterialCommunityIcons
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name={"walk"}
+                  size={40}
+                  color={curaTheme.lightColors.curaWhite}
+                />
+              ),
+            }}
+          />
+        ) : null}
 
         <Tab.Screen
           name="HeartRateStack"
