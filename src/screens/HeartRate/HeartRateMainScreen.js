@@ -56,8 +56,8 @@ export default function HeartRateMainScreen() {
         const elderEmail = data.caregiver?.elderEmails[0];
 
         setElderEmailData(elderEmail);
-        console.log("====Elder Email====");
-        console.log(elderEmail);
+        // console.log("====Elder Email====");
+        // console.log(elderEmail);
 
         // Now that you have elderEmail, you can make other async calls
         const profileData = await getElderProfile(elderEmail);

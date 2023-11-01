@@ -1,12 +1,18 @@
-import { View, Text, useWindowDimensions, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { getElderProfile, getElderHeartRateDetail } from "../../services/elder";
+import {
+  getElderProfile,
+  getElderHeartRateDetail,
+  getElderWeeklyHeartRateDataVisualisation,
+} from "../../services/elder";
 import { Button } from "@rneui/themed";
-import { SafeAreaView } from "react-native-safe-area-context";
-import curaTheme from "../../theme/theme";
 import { BarChart } from "react-native-gifted-charts";
+import getDayName from "../../helpers/getDayName";
+import curaTheme from "../../theme/theme";
+
 import { useFonts } from "expo-font";
 
 //TODO:Fetching
@@ -22,6 +28,8 @@ export default function HeartRateHistoryScreen() {
   const [detail, setDetail] = useState({});
   const [heartRateDetail, setHeartRateDetail] = useState({});
   const [daily, setDaily] = useState(true);
+  const [dailyRawData, setDailyRawData] = useState([]);
+  const [weeklyRawData, setWeeklyRawData] = useState([]);
 
   const route = useRoute();
 
@@ -36,6 +44,11 @@ export default function HeartRateHistoryScreen() {
       setHeartRateDetail(data);
       // console.log(data);
     });
+
+    getElderWeeklyHeartRateDataVisualisation(elderEmail).then((data) => {
+      setWeeklyRawData(data?.consolidatedData);
+      // console.log(weeklyRawData);
+    });
   }, []);
 
   const weekMin = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMin;
@@ -48,15 +61,17 @@ export default function HeartRateHistoryScreen() {
 
   //creat data array with 12 value range from 90 to 160
 
+  const weeklyData = Object.entries(weeklyRawData)
+    .slice(-7)
+    .map(([dateString, value], index, arr) => ({
+      value: value,
+      label: getDayName(dateString),
+    }));
+
+  console.log(weeklyData);
+
   const data = Array.from(
     { length: 12 },
-    () => Math.floor(Math.random() * 70) + 90
-  );
-
-  //create week array with 7 value range rom 90 to 160
-
-  const week = Array.from(
-    { length: 7 },
     () => Math.floor(Math.random() * 70) + 90
   );
 
@@ -71,29 +86,18 @@ export default function HeartRateHistoryScreen() {
     };
   });
 
-  const weeklyData = week.map((value, index) => {
-    return {
-      value,
-      label: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index],
-      frontColor:
-        index === week.length - 1
-          ? curaTheme.lightColors.secondaryDark
-          : undefined,
-    };
-  });
-
-  let screenHeight;
-  if (height < 800) {
-    screenHeight = "md";
-  } else if (height < 1000) {
-    screenHeight = "lg";
-  }
+  // let screenHeight;
+  // if (height < 800) {
+  //   screenHeight = "md";
+  // } else if (height < 1000) {
+  //   screenHeight = "lg";
+  // }
 
   return (
-    <SafeAreaView className="flex flex-1 w-full bg-curaWhite px-4  ">
+    <SafeAreaView className="flex flex-1 w-full items-center justify-center bg-curaWhite px-4">
       <StatusBar style="auto" />
-      <View className="flex flex-1">
-        <View className="flex w-full justify-between rounded-t-xl pt-4 pb-8 relative -z-10 items-center bg-primary/20 border border-primary">
+      <View className="flex flex-1 w-full">
+        <View className="flex w-full justify-between rounded-t-xl pt-4 pb-8 relative -z-10 items-center bg-primary/20">
           <Text className=" text-base text-primaryDark font-bold">
             Current Heart Rate
           </Text>
@@ -103,8 +107,8 @@ export default function HeartRateHistoryScreen() {
         </View>
 
         {/*  CARD  */}
-        <View className=" flex flex-1 mb-8 -mt-4 px-4 w-full bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-between rounded-xl">
-          <View className="flex flex-row w-full justify-around px-14 pt-3 ">
+        <View className="flex flex-1 mb-8 -mt-4 px-4 py-3 w-full bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-between rounded-xl">
+          <View className="flex flex-row w-full justify-around px-14 ">
             <Text
               className="text-base flex-1 text-center py-2 bg-primary font-medium rounded-l-full"
               style={{
@@ -122,7 +126,7 @@ export default function HeartRateHistoryScreen() {
               Daily
             </Text>
             <Text
-              className="text-base flex-1 text-center py-2  font-medium rounded-r-full"
+              className="text-base flex-1 text-center py-2 font-medium rounded-r-full"
               style={{
                 color:
                   daily === false
@@ -148,8 +152,7 @@ export default function HeartRateHistoryScreen() {
             <Text className="text-3xl text-curaBlack font-bold">AVERAGE</Text>
             <View className="flex flex-row items-baseline -mt-1 ">
               <Text className="text-7xl text-secondaryDark font-black ">
-                95
-                {/* {daily === true ? dailyAverage : weekAverage} */}
+                {daily === true ? dailyAverage : weekAverage}
               </Text>
               <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
             </View>
