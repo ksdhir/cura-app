@@ -2,8 +2,7 @@ import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../utils/FirebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { elderSignUp } from "../services/elder";
 import { caregiverSignup } from "../services/caregiver";
@@ -22,8 +21,7 @@ export default function SignUpScreen() {
 
     try {
       // Create the user with email and password
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
+      const userCredential = await auth().createUserWithEmailAndPassword(
         email,
         password
       );
