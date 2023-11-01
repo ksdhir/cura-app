@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth from "@react-native-firebase/auth";
-import useAuth from "../hooks/useAuth";
 
 export default function WelcomeScreen() {
   GoogleSignin.configure({
@@ -13,12 +12,6 @@ export default function WelcomeScreen() {
   });
 
   const navigation = useNavigation();
-
-  const { user } = useAuth();
-
-  if (user) {
-    navigation.navigate("Home");
-  }
 
   const onGoogleButtonPress = async () => {
     console.log("GOOGLE BUTTON PRESSED");
@@ -34,8 +27,6 @@ export default function WelcomeScreen() {
     } catch (error) {
       console.log("ERROR", error);
     }
-
-    console.log("ENK USER", user);
   };
 
   return (
@@ -52,7 +43,7 @@ export default function WelcomeScreen() {
         </View>
         <View className="space-y-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate("ProfileTypeSetup")}
+            onPress={() => navigation.navigate("SignUp")}
             className="py-3 bg-indigo-500 mx-4 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-200">

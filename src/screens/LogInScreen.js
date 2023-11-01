@@ -3,7 +3,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
 import { useState } from "react";
-import useAuth from "../hooks/useAuth";
 
 // Function to validate email using a regular expression
 function isValidEmail(email) {
@@ -15,7 +14,6 @@ export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, profileType } = useAuth();
 
   const handleSubmit = async () => {
     if (!isValidEmail(email) || password.length < 6) {
@@ -33,11 +31,6 @@ export default function Login() {
       alert(error.message);
     }
   };
-
-  if (user) {
-    console.log(profileType)
-    navigation.navigate("Home");
-  }
 
   return (
     <View className="flex-1 bg-teal-300 justify-between pt-4">
@@ -93,9 +86,7 @@ export default function Login() {
           <Text className="text-gray-500 font-semibold">
             Don't have an account?
           </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ProfileTypeSetup")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
             <Text className="font-semibold text-indigo-500"> Sign Up</Text>
           </TouchableOpacity>
         </View>
