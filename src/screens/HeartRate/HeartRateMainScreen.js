@@ -25,6 +25,7 @@ import HeartHigh from "../../assets/icons/heart/heart-high1x.svg";
 import HeartNormal from "../../assets/icons/heart/heart-normal1x.svg";
 import HeartLow from "../../assets/icons/heart/heart-low1x.svg";
 import Graph from "../../assets/icons/svg/graph.svg";
+import useAuth from "../../hooks/useAuth";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -46,9 +47,15 @@ export default function HeartRateMainScreen() {
   const [heartRateDetail, setHeartRateDetail] = useState({});
   const [heartRateThreshold, setHeartRateThreshold] = useState({});
 
-  const caregiverEmail = auth.currentUser.email;
+  const { user, token } = useAuth();
 
   useEffect(() => {
+    return;
+    if (!user) return;
+    const caregiverEmail = user.email;
+
+    console.log("CAREGIVER EMAIL!", caregiverEmail);
+
     (async () => {
       try {
         // Use await to get the elderEmail from the Promise
@@ -75,7 +82,7 @@ export default function HeartRateMainScreen() {
         throw Error("Could not get elder profile");
       }
     })();
-  }, []);
+  }, [user]);
 
   const elderEmail = elderEmailData;
   const elderName = elderProfile?.profile?.preferredName;

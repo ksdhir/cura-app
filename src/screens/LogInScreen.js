@@ -1,10 +1,9 @@
 import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
-import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../utils/FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 // Function to validate email using a regular expression
 function isValidEmail(email) {
@@ -16,6 +15,7 @@ export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useAuth();
 
   const handleSubmit = async () => {
     if (!isValidEmail(email) || password.length < 6) {
@@ -25,7 +25,7 @@ export default function Login() {
 
     try {
       // Sign in the user with email and password
-      await signInWithEmailAndPassword(auth, email, password);
+      await auth().signInWithEmailAndPassword(email, password);
       // The user is now signed in
       navigation.navigate("Home");
       return;
@@ -34,24 +34,16 @@ export default function Login() {
     }
   };
 
-  const checkIfLoggedIn = async () => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.navigate("Home");
-      }
-    });
-  };
-
-  useEffect(() => {
-    checkIfLoggedIn();
-  }, []);
+  if (user) {
+    navigation.navigate("Home");
+  }
 
   return (
     <View className="flex-1 bg-teal-300 justify-between pt-4">
       <SafeAreaView className="flex flex-1 ">
         <View className="flex-row justify-start">
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("Welcome")}
             className="bg-teal-600 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
           >
             <Text className="text-gray-200"> Back </Text>
