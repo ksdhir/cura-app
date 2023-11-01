@@ -4,9 +4,20 @@ import { useEffect, useState } from "react";
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [profileType, setProfileType] = useState(null);
 
   const onAuthStateChanged = (user) => {
-    setUser(user);
+
+    if (user) {
+      auth()
+        .currentUser.getIdTokenResult()
+        .then((result) => {
+          const claims = result.claims;
+          const profileType = claims.profileType;
+          setProfileType(profileType);
+          setUser(user);
+        });
+    }
 
     if (user) {
       user.getIdToken().then((token) => {
@@ -23,6 +34,7 @@ const useAuth = () => {
   return {
     user,
     token,
+    profileType
   };
 };
 

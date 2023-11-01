@@ -15,7 +15,7 @@ export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user } = useAuth();
+  const { user, profileType } = useAuth();
 
   const handleSubmit = async () => {
     if (!isValidEmail(email) || password.length < 6) {
@@ -35,6 +35,7 @@ export default function Login() {
   };
 
   if (user) {
+    console.log(profileType)
     navigation.navigate("Home");
   }
 
