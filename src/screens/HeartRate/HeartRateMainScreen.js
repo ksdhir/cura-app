@@ -50,7 +50,6 @@ export default function HeartRateMainScreen() {
   const { user, token } = useAuth();
 
   useEffect(() => {
-    return;
     if (!user) return;
     const caregiverEmail = user.email;
 
@@ -58,8 +57,10 @@ export default function HeartRateMainScreen() {
 
     (async () => {
       try {
+        console.log("CAREGIVER EMAIL --- 2", caregiverEmail);
         // Use await to get the elderEmail from the Promise
         const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
+        console.log("CAREGIVER EMAIL --- 3", caregiverEmail);
         const elderEmail = data.caregiver?.elderEmails[0];
 
         setElderEmailData(elderEmail);
