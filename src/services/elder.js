@@ -154,3 +154,27 @@ export const getElderWeeklyHeartRateDataVisualisation = async (email) => {
     throw Error("Could not get elder weekly heart rate data visualisation");
   }
 };
+
+//daily-heart-rate-data-visualisation
+//http://10.0.0.113:3003/api/elder/daily-heart-rate-data-visualisation?email=trinapreet@gmail.com
+
+export const getElderDailyHeartRateDataVisualisation = async (email) => {
+  // console.log("fetching elder daily heart rate data visualisation");
+
+  try {
+    const response = await fetch(
+      `${apiUrl}/elder/daily-heart-rate-data-visualisation?email=${email}`
+    );
+
+    const data = await response.json();
+    // console.log(data);
+    console.log(
+      "Successfully fetching elder daily heart rate data visualisation"
+    );
+
+    return data;
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not get elder daily heart rate data visualisation");
+  }
+};

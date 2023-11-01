@@ -6,11 +6,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   getElderProfile,
   getElderHeartRateDetail,
+  getElderDailyHeartRateDataVisualisation,
   getElderWeeklyHeartRateDataVisualisation,
 } from "../../services/elder";
 import { Button } from "@rneui/themed";
 import { BarChart } from "react-native-gifted-charts";
 import getDayName from "../../helpers/getDayName";
+import convertUTCtoVancouverTime from "../../helpers/convertUTCtoVancouverTime";
 import curaTheme from "../../theme/theme";
 
 import { useFonts } from "expo-font";
@@ -45,9 +47,12 @@ export default function HeartRateHistoryScreen() {
       // console.log(data);
     });
 
+    getElderDailyHeartRateDataVisualisation(elderEmail).then((data) => {
+      setDailyRawData(data?.consolidatedData);
+    });
+
     getElderWeeklyHeartRateDataVisualisation(elderEmail).then((data) => {
       setWeeklyRawData(data?.consolidatedData);
-      // console.log(weeklyRawData);
     });
   }, []);
 
@@ -68,30 +73,16 @@ export default function HeartRateHistoryScreen() {
       label: getDayName(dateString),
     }));
 
-  console.log(weeklyData);
+  // const timeWithoutSpace = formattedTime.replace(/\s/g, "");
 
-  const data = Array.from(
-    { length: 12 },
-    () => Math.floor(Math.random() * 70) + 90
+  const dailyData = Object.entries(dailyRawData).map(
+    ([dateString, value], index, arr) => ({
+      value: value,
+      label: convertUTCtoVancouverTime(dateString)
+        .toLowerCase()
+        ?.replace(/\s/g, ""),
+    })
   );
-
-  const dailyData = data.map((value, index) => {
-    return {
-      value,
-      label: `${index}hr`,
-      frontColor:
-        index === data.length - 1
-          ? curaTheme.lightColors.secondaryDark
-          : undefined,
-    };
-  });
-
-  // let screenHeight;
-  // if (height < 800) {
-  //   screenHeight = "md";
-  // } else if (height < 1000) {
-  //   screenHeight = "lg";
-  // }
 
   return (
     <SafeAreaView className="flex flex-1 w-full items-center justify-center bg-curaWhite px-4">
