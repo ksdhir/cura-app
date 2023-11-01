@@ -1,12 +1,18 @@
-import { View, Text, useWindowDimensions, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { getElderProfile, getElderHeartRateDetail } from "../../services/elder";
+import {
+  getElderProfile,
+  getElderHeartRateDetail,
+  getElderWeeklyHeartRateDataVisualisation,
+} from "../../services/elder";
 import { Button } from "@rneui/themed";
-import { SafeAreaView } from "react-native-safe-area-context";
-import curaTheme from "../../theme/theme";
 import { BarChart } from "react-native-gifted-charts";
+import getDayName from "../../helpers/getDayName";
+import curaTheme from "../../theme/theme";
+
 import { useFonts } from "expo-font";
 
 //TODO:Fetching
@@ -22,6 +28,8 @@ export default function HeartRateHistoryScreen() {
   const [detail, setDetail] = useState({});
   const [heartRateDetail, setHeartRateDetail] = useState({});
   const [daily, setDaily] = useState(true);
+  const [dailyRawData, setDailyRawData] = useState([]);
+  const [weeklyRawData, setWeeklyRawData] = useState([]);
 
   const route = useRoute();
 
@@ -36,6 +44,11 @@ export default function HeartRateHistoryScreen() {
       setHeartRateDetail(data);
       // console.log(data);
     });
+
+    getElderWeeklyHeartRateDataVisualisation(elderEmail).then((data) => {
+      setWeeklyRawData(data?.consolidatedData);
+      // console.log(weeklyRawData);
+    });
   }, []);
 
   const weekMin = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMin;
@@ -48,15 +61,17 @@ export default function HeartRateHistoryScreen() {
 
   //creat data array with 12 value range from 90 to 160
 
+  const weeklyData = Object.entries(weeklyRawData)
+    .slice(-7)
+    .map(([dateString, value], index, arr) => ({
+      value: value,
+      label: getDayName(dateString),
+    }));
+
+  console.log(weeklyData);
+
   const data = Array.from(
     { length: 12 },
-    () => Math.floor(Math.random() * 70) + 90
-  );
-
-  //create week array with 7 value range rom 90 to 160
-
-  const week = Array.from(
-    { length: 7 },
     () => Math.floor(Math.random() * 70) + 90
   );
 
@@ -71,176 +86,165 @@ export default function HeartRateHistoryScreen() {
     };
   });
 
-  const weeklyData = week.map((value, index) => {
-    return {
-      value,
-      label: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index],
-      frontColor:
-        index === week.length - 1
-          ? curaTheme.lightColors.secondaryDark
-          : undefined,
-    };
-  });
-
-  let screenHeight;
-  if (height < 800) {
-    screenHeight = "md";
-  } else if (height < 1000) {
-    screenHeight = "lg";
-  }
+  // let screenHeight;
+  // if (height < 800) {
+  //   screenHeight = "md";
+  // } else if (height < 1000) {
+  //   screenHeight = "lg";
+  // }
 
   return (
-    <SafeAreaView className="flex-1 w-full items-center justify-center bg-curaWhite px-4  ">
+    <SafeAreaView className="flex flex-1 w-full items-center justify-center bg-curaWhite px-4">
       <StatusBar style="auto" />
-      <View
-        className="flex w-full justify-between rounded-t-xl pt-4 pb-8 mt-8 absolute -z-10 items-center bg-primary/20"
-        style={{ top: height - height }}
-      >
-        <Text className=" text-base text-primaryDark font-bold">
-          Current Heart Rate / {screenHeight}
-        </Text>
-        <Text className="text-base text-primaryDark font-bold">{bpm} BPM</Text>
-      </View>
-
-      {/*  CARD  */}
-      <View className="flex-1 mb-8 mt-20 pb-2 pt-4 px-4 w-full flex bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  justify-between rounded-xl">
-        <View className="flex flex-row w-full justify-around px-14  ">
-          <Text
-            className="text-base flex-1 text-center py-2 bg-primary font-medium rounded-l-full"
-            style={{
-              color:
-                daily === true
-                  ? curaTheme.lightColors.white
-                  : curaTheme.lightColors.curaDark,
-              backgroundColor:
-                daily === true
-                  ? curaTheme.lightColors.primary
-                  : curaTheme.lightColors.curaGray,
-            }}
-            onPress={() => setDaily(true)}
-          >
-            Daily
+      <View className="flex flex-1 w-full">
+        <View className="flex w-full justify-between rounded-t-xl pt-4 pb-8 relative -z-10 items-center bg-primary/20">
+          <Text className=" text-base text-primaryDark font-bold">
+            Current Heart Rate
           </Text>
-          <Text
-            className="text-base flex-1 text-center py-2  font-medium rounded-r-full"
-            style={{
-              color:
-                daily === false
-                  ? curaTheme.lightColors.white
-                  : curaTheme.lightColors.curaDark,
-              backgroundColor:
-                daily === false
-                  ? curaTheme.lightColors.primary
-                  : curaTheme.lightColors.curaGray,
-            }}
-            onPress={() => setDaily(false)}
-          >
-            Weekly
+          <Text className="text-base text-primaryDark font-bold">
+            {bpm} BPM
           </Text>
         </View>
 
-        <View
-          className="w-full px-8 flex h-fit items-center justify-center "
-          contentContainerStyle={{
-            borderRadius: 50,
-          }}
-        >
-          <Text className="text-3xl text-curaBlack font-bold">AVERAGE</Text>
-          <View className="flex flex-row items-baseline -mt-1 ">
-            <Text className="text-7xl text-secondaryDark font-black ">
-              95
-              {/* {daily === true ? dailyAverage : weekAverage} */}
+        {/*  CARD  */}
+        <View className="flex flex-1 mb-8 -mt-4 px-4 py-3 w-full bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-between rounded-xl">
+          <View className="flex flex-row w-full justify-around px-14 ">
+            <Text
+              className="text-base flex-1 text-center py-2 bg-primary font-medium rounded-l-full"
+              style={{
+                color:
+                  daily === true
+                    ? curaTheme.lightColors.white
+                    : curaTheme.lightColors.curaDark,
+                backgroundColor:
+                  daily === true
+                    ? curaTheme.lightColors.primary
+                    : curaTheme.lightColors.curaGray,
+              }}
+              onPress={() => setDaily(true)}
+            >
+              Daily
             </Text>
-            <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+            <Text
+              className="text-base flex-1 text-center py-2 font-medium rounded-r-full"
+              style={{
+                color:
+                  daily === false
+                    ? curaTheme.lightColors.white
+                    : curaTheme.lightColors.curaDark,
+                backgroundColor:
+                  daily === false
+                    ? curaTheme.lightColors.primary
+                    : curaTheme.lightColors.curaGray,
+              }}
+              onPress={() => setDaily(false)}
+            >
+              Weekly
+            </Text>
           </View>
-        </View>
 
-        {/* =======START GRAPH======= */}
-
-        {daily === true ? (
           <View
-            className="flex h-fit justify-end pb-4 "
-            style={{
-              width: width - 64,
+            className="w-full px-8 flex h-fit items-center justify-center "
+            contentContainerStyle={{
+              borderRadius: 50,
             }}
           >
-            <BarChart
-              width={width * 0.65}
-              maxValue={200}
-              barWidth={width / 20}
-              noOfSections={4}
-              barBorderTopLeftRadius={50}
-              barBorderTopRightRadius={50}
-              frontColor="#FCD3DF"
-              data={dailyData}
-              yAxisThickness={0}
-              xAxisThickness={0}
-              dashGap={0}
-              initialSpacing={width / 32}
-              scrollToEnd={false}
-              isAnimated={true}
-            />
+            <Text className="text-3xl text-curaBlack font-bold">AVERAGE</Text>
+            <View className="flex flex-row items-baseline -mt-1 ">
+              <Text className="text-7xl text-secondaryDark font-black ">
+                {daily === true ? dailyAverage : weekAverage}
+              </Text>
+              <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+            </View>
           </View>
-        ) : (
+
+          {/* =======START GRAPH======= */}
+
+          {daily === true ? (
+            <View
+              className="flex h-fit justify-end pb-4 "
+              style={{
+                width: width - 64,
+              }}
+            >
+              <BarChart
+                width={width * 0.65}
+                maxValue={200}
+                barWidth={width / 20}
+                noOfSections={4}
+                barBorderTopLeftRadius={50}
+                barBorderTopRightRadius={50}
+                frontColor="#FCD3DF"
+                data={dailyData}
+                yAxisThickness={0}
+                xAxisThickness={0}
+                dashGap={0}
+                initialSpacing={width / 32}
+                scrollToEnd={false}
+                isAnimated={true}
+              />
+            </View>
+          ) : (
+            <View
+              className="flex  h-fit justify-end pb-4 "
+              style={{
+                width: width - 64,
+              }}
+            >
+              <BarChart
+                width={width * 0.65}
+                maxValue={200}
+                barWidth={width / 24}
+                noOfSections={4}
+                barBorderTopLeftRadius={50}
+                barBorderTopRightRadius={50}
+                frontColor="#FCD3DF"
+                data={weeklyData}
+                yAxisThickness={0}
+                xAxisThickness={0}
+                dashGap={0}
+                initialSpacing={width / 40}
+                disableScroll={true}
+                isAnimated={true}
+              />
+            </View>
+          )}
+
+          {/* =======END GRAPH======= */}
+
+          <View className="flex w-full flex-row justify-around ">
+            <Text className="text-lg text-neutral-800 font-normal">
+              Min {daily === true ? dailyMin : weekMin} bpm
+            </Text>
+            <Text className="text-lg text-neutral-800 font-normal">
+              Max {daily === true ? dailyMax : weekMax}bpm
+            </Text>
+          </View>
           <View
-            className="flex  h-fit justify-end pb-4 "
-            style={{
-              width: width - 64,
+            className="flex w-full "
+            contentContainerStyle={{
+              marginVertical: 0,
             }}
           >
-            <BarChart
-              width={width * 0.65}
-              maxValue={200}
-              barWidth={width / 24}
-              noOfSections={4}
-              barBorderTopLeftRadius={50}
-              barBorderTopRightRadius={50}
-              frontColor="#FCD3DF"
-              data={weeklyData}
-              yAxisThickness={0}
-              xAxisThickness={0}
-              dashGap={0}
-              initialSpacing={width / 40}
-              disableScroll={true}
-              isAnimated={true}
+            <Button
+              title="Critical Heart Rate"
+              titleStyle={{
+                fontSize: 22,
+                fontWeight: "medium",
+              }}
+              onPress={() =>
+                navigation.navigate("CriticalHeartRateScreen", {
+                  elderEmail,
+                  bpm,
+                  minThreshold,
+                  maxThreshold,
+                })
+              }
             />
           </View>
-        )}
-
-        {/* =======END GRAPH======= */}
-
-        <View className="flex w-full flex-row justify-around ">
-          <Text className="text-lg text-neutral-800 font-normal">
-            Min {daily === true ? dailyMin : weekMin} bpm
-          </Text>
-          <Text className="text-lg text-neutral-800 font-normal">
-            Max {daily === true ? dailyMax : weekMax}bpm
-          </Text>
         </View>
-        <View
-          className="flex w-full "
-          contentContainerStyle={{
-            marginVertical: 0,
-          }}
-        >
-          <Button
-            title="Critical Heart Rate"
-            titleStyle={{
-              fontSize: 22,
-              fontWeight: "medium",
-            }}
-            onPress={() =>
-              navigation.navigate("CriticalHeartRateScreen", {
-                elderEmail,
-                bpm,
-                minThreshold,
-                maxThreshold,
-              })
-            }
-          />
-        </View>
+        {/*  CARD  */}
       </View>
-      {/*  CARD  */}
     </SafeAreaView>
   );
 }
