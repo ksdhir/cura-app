@@ -8,7 +8,6 @@ import {
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { auth } from "../../utils/FirebaseConfig";
 import useAuth from "../../hooks/useAuth";
 import { caregiverSignup } from "../../services/caregiver";
 
@@ -29,12 +28,6 @@ const CaregiveProfileSetup = () => {
         token
       );
 
-      console.log({
-        preferredName: name,
-        phoneNumber,
-        email: user.email,
-      });
-
       navigation.navigate("ProfileSetupSuccess");
     } catch (error) {
       alert(error.message);
@@ -46,12 +39,12 @@ const CaregiveProfileSetup = () => {
       <View className="flex flex-column flex-1">
         <View className="flex justify-start py-4">
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text className="font-bold"> {"< Back@"} </Text>
+            <Text className="font-bold"> {"< Back"} </Text>
           </TouchableOpacity>
         </View>
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-bold text-2xl"> Caregiver Profile@@ </Text>
+          <Text className="font-bold text-2xl"> Caregiver Profile </Text>
         </View>
 
         <ScrollView className="flex">
