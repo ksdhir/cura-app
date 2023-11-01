@@ -26,6 +26,7 @@ import HeartNormal from "../../assets/icons/heart/heart-normal1x.svg";
 import HeartLow from "../../assets/icons/heart/heart-low1x.svg";
 import Graph from "../../assets/icons/svg/graph.svg";
 import useAuth from "../../hooks/useAuth";
+import Header from "../../components/layouts/Header";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -109,6 +110,7 @@ export default function HeartRateMainScreen() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
+      <Header />
       <View className="w-full justify-center mt-3">
         <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
         <Text className=" text-base text-curaBlack font-medium ">

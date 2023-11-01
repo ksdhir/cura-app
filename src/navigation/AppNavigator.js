@@ -13,6 +13,7 @@ import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 import TabAnimated from "./TabAnimated";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
+import HistoryNotification from "../screens/Notifcation/HistoryNotification";
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +74,12 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
         name="CaregiverProfileSetup"
         component={CaregiverProfileSetup}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="NotificationHistory"
+        component={HistoryNotification}
       />
     </Stack.Navigator>
   );
