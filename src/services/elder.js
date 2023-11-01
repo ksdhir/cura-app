@@ -49,7 +49,7 @@ export const elderSignUp = async (body, token) => {
 };
 
 export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
-  console.log("fetching elderEmail");
+  // console.log("fetching elderEmail");
 
   try {
     const url = `${apiUrl}/caregiver/profile?email=${caregiverEmail}`;
@@ -63,6 +63,7 @@ export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
 
     const data = await response.json();
     // console.log(data);
+    console.log("Successfully fetching elderEmail");
 
     return data;
   } catch (error) {
@@ -72,12 +73,13 @@ export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
 };
 
 export const getElderProfile = async (email) => {
-  console.log("fetching elder profile");
+  // console.log("fetching elder profile");
 
   try {
     const response = await fetch(`${apiUrl}/elder/profile?email=${email}`);
 
     const data = await response.json();
+    console.log("Successfully fetching elder profile");
 
     return data;
   } catch (error) {
@@ -90,7 +92,7 @@ export const getElderProfile = async (email) => {
 //http://192.168.56.1:3003/api/elder/heart-rate-details?email=trinapreet@gmail.com
 
 export const getElderHeartRateDetail = async (email) => {
-  console.log("fetching elder heartrate detail");
+  // console.log("fetching elder heartrate detail");
 
   try {
     const response = await fetch(
@@ -98,8 +100,8 @@ export const getElderHeartRateDetail = async (email) => {
     );
 
     const data = await response.json();
-    console.log("Get latest BPM and time");
-    console.log(data);
+    // console.log(data);
+    console.log("Successfully fetching elder heartrate detail");
 
     return data;
   } catch (error) {
@@ -111,7 +113,7 @@ export const getElderHeartRateDetail = async (email) => {
 //http://192.168.56.1:3003/api/elder/heart-threshold?email=trinapreet@gmail.com
 
 export const getElderHeartRateThreshold = async (email) => {
-  console.log("fetching elder heartrate threshold");
+  // console.log("fetching elder heartrate threshold");
 
   try {
     const response = await fetch(
@@ -120,10 +122,35 @@ export const getElderHeartRateThreshold = async (email) => {
 
     const data = await response.json();
     // console.log(data);
+    console.log("Successfully fetching elder heartrate threshold");
 
     return data;
   } catch (error) {
     console.log("error", error.message);
     throw Error("Could not get elder heartrate threshold");
+  }
+};
+
+//weekly-heart-rate-data-visualisation
+//http://10.0.0.113:3003/api/elder/weekly-heart-rate-data-visualisation?email=trinapreet@gmail.com
+
+export const getElderWeeklyHeartRateDataVisualisation = async (email) => {
+  // console.log("fetching elder weekly heart rate data visualisation");
+
+  try {
+    const response = await fetch(
+      `${apiUrl}/elder/weekly-heart-rate-data-visualisation?email=${email}`
+    );
+
+    const data = await response.json();
+    // console.log(data);
+    console.log(
+      "Successfully fetching elder weekly heart rate data visualisation"
+    );
+
+    return data;
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not get elder weekly heart rate data visualisation");
   }
 };
