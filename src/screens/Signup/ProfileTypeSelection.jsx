@@ -1,17 +1,28 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { elderSignUp } from "../../services/elder";
+import { caregiverSignup } from "../../services/caregiver";
+import useAuth from "../../hooks/useAuth";
 
 const ProfileTypeSelection = () => {
   const navigation = useNavigation();
+  const { user, token } = useAuth();
 
   const handleRedirection = async (type) => {
-    try {
-      await AsyncStorage.setItem("signUpProfileType", type);
-      navigation.navigate("SignUp");
-    } catch (error) {
-      alert(error.message);
+    switch (type) {
+      case "Elder":
+        await elderSignUp({ email: user.email }, token);
+        navigation.navigate("ElderProfileSetup");
+        break;
+
+      case "Caregiver":
+        await caregiverSignup({ email: user.email }, token);
+        navigation.navigate("CaregiverProfileSetup");
+        break;
+
+      default:
+        navigation.navigate("ProfileTypeSetup");
     }
   };
 
@@ -19,11 +30,7 @@ const ProfileTypeSelection = () => {
     <>
       <SafeAreaView className="flex h-full space-y-4 px-4 py-16">
         <View className=" flex-1 flex">
-          <View className="flex justify-start py-4 mb-8">
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text className="font-bold"> {"< Back"} </Text>
-            </TouchableOpacity>
-          </View>
+          <View className="flex justify-start py-4 mb-8"></View>
 
           <View className=" flex flex-row justify-center items-center mb-4">
             <View className="flex-0 w-[100px] h-[100px] bg-[#D9D9D9] rounded-full" />

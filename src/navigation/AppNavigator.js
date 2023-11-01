@@ -11,10 +11,24 @@ import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 // Animated Tab Bar
 import TabAnimated from "./TabAnimated";
+import { useNavigation } from "@react-navigation/native";
+import useAuth from "../hooks/useAuth";
+import HistoryNotification from "../screens/Notifcation/HistoryNotification";
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
+  const navigation = useNavigation();
+  const { user, profileType } = useAuth();
+
+  if (user) {
+    if (!profileType) {
+      navigation.navigate("ProfileTypeSetup");
+    } else {
+      navigation.navigate("Home");
+    }
+  }
+
   return (
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
@@ -60,6 +74,12 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
         name="CaregiverProfileSetup"
         component={CaregiverProfileSetup}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="NotificationHistory"
+        component={HistoryNotification}
       />
     </Stack.Navigator>
   );
