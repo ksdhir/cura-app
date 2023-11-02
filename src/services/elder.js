@@ -72,19 +72,21 @@ export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
   }
 };
 
-export const getElderProfile = async (email) => {
-  // console.log("fetching elder profile");
-
+export const getElderProfile = async (email, token) => {
   try {
-    const response = await fetch(`${apiUrl}/elder/profile?email=${email}`);
+    const response = await fetch(`${apiUrl}/elder/profile?email=${email}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
+      },
+    });
 
-    const data = await response.json();
-    console.log("Successfully fetching elder profile");
-
-    return data;
+    return response.json();
   } catch (error) {
     console.log("error", error.message);
-    throw Error("Could not get elder profile");
+
+    return null;
   }
 };
 
