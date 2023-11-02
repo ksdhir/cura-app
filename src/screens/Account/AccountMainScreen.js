@@ -135,11 +135,6 @@ export default function AccountMainScreen() {
           >
             <Text>Push Notification Screen</Text>
           </TouchableOpacity>
-          <Button
-            title="Sign Out"
-            buttonStyle={{ backgroundColor: curaTheme.lightColors.primaryDark }}
-            onPress={handleSignout}
-          />
         </ScrollView>
       </View>
     </SafeAreaView>
