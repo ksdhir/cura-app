@@ -1,9 +1,9 @@
-import { StyleSheet, View } from 'react-native';
-import curaTheme from '../theme/theme';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useReducer } from 'react';
-import TabBarComponent from '../helpers/TabBarComponent';
-import Svg, { Path } from 'react-native-svg';
+import { StyleSheet, View } from "react-native";
+import curaTheme from "../theme/theme";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useReducer } from "react";
+import TabBarComponent from "../helpers/TabBarComponent";
+import Svg, { Path } from "react-native-svg";
 // reanimated
 import Animated, {
   useAnimatedStyle,
@@ -14,7 +14,7 @@ import Animated, {
   withSequence,
   withDelay,
   useSharedValue,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
@@ -50,12 +50,13 @@ const AnimatedTabBar = ({
     <View style={[styles.tabBar, { paddingBottom: bottom }]}>
       <AnimatedSvg
         width={140}
-        height={90}
-        viewBox='8 -5 110 70'
-        style={[styles.activeBackground, animatedStyles]}>
+        height={145}
+        viewBox="-7 -5 109.5 47"
+        style={[styles.activeBackground, animatedStyles]}
+      >
         <Path
           fill={curaTheme.lightColors.curaWhite}
-          d='M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z'
+          d="M 2 17 c 2 0 3 6 3 9 c 0 17 13 36 35 36 s 35 -19 35 -36 c 0 -3 1 -9 3 -9 z"
         />
       </AnimatedSvg>
 
@@ -88,12 +89,12 @@ const styles = StyleSheet.create({
     height: 80,
   },
   activeBackground: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 15,
   },
   tabBarContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   component: {
     height: 70,
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
     bottom: 7,
   },
   iconContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   icon: {
     height: 45,
