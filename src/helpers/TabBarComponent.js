@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     width: 45,
   },
   labelText: {
-    marginBottom: -16,
+    marginBottom: -20,
   },
 });
 

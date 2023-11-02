@@ -29,10 +29,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons
-                name={"heart"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Monitoring
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}
@@ -46,10 +48,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons
-                name={"account"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Profile
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}
