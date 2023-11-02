@@ -2,11 +2,13 @@ import React from "react";
 import { TouchableOpacity, Image } from "react-native";
 import BellIcon from "../assets/icons/svg/notification.svg";
 import BackIcon from "../assets/icons/svg/back.svg";
+import EditIcon from "../assets/icons/svg/edit.svg";
 
 // Define your icon mapping
 const iconMapping = {
   back: BackIcon,
   bell: BellIcon,
+  edit: EditIcon,
 };
 
 const IconWithTouchableOpacity = ({

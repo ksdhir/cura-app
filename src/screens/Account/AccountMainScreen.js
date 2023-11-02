@@ -31,13 +31,13 @@ export default function AccountMainScreen() {
   const navigateToProfile = () => {
     switch (profileType) {
       case "Elder":
-        navigation.navigate("ElderProfileSetup");
+        navigation.navigate("ElderProfile");
         break;
       case "Caregiver":
-        navigation.navigate("CaregiverProfileSetup");
+        navigation.navigate("CaregiverProfile");
         break;
       default:
-        navigation.navigate("CaregiverProfileSetup");
+        navigation.navigate("CaregiverProfile");
         break;
     }
   };

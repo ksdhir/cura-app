@@ -6,6 +6,7 @@ import GoogleHealthScreen from "../HeartRate/GoogleHealthScreen";
 import HeartRateThresholdScreen from "./HeartRateThresholdScreen";
 import FallDetectionScreen from "./FallDetectionScreen";
 import PushNotificationScreen from "./PushNotificationScreen";
+import CaregiverProfile from "../Profile/CaregiverProfile";
 
 export default function AccountStack() {
   const Stack = createNativeStackNavigator();
@@ -36,6 +37,12 @@ export default function AccountStack() {
         name="PushNotificationScreen"
         component={PushNotificationScreen}
         options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="CaregiverProfile"
+        component={CaregiverProfile}
       />
     </Stack.Navigator>
   );
