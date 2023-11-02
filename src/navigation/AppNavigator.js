@@ -15,6 +15,7 @@ import TabCaregiver from "./TabCaregiver";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import HistoryNotification from "../screens/Notifcation/HistoryNotification";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,16 +23,18 @@ const AppNavigator = () => {
   const navigation = useNavigation();
   const { user, profileType } = useAuth();
 
-  if (user) {
-    navigation.navigate("ProfileTypeSetup");
-    if (!profileType) {
+  useEffect(() => {
+    if (user) {
       navigation.navigate("ProfileTypeSetup");
-    } else {
-      // console.log("profileType:" + profileType);
+      if (!profileType) {
+        navigation.navigate("ProfileTypeSetup");
+      } else {
+        // console.log("profileType:" + profileType);
 
-      navigation.navigate("Home");
+        navigation.navigate("Home");
+      }
     }
-  }
+  }, [user, profileType]);
 
   return (
     <Stack.Navigator initialRouteName="Login">
