@@ -6,11 +6,12 @@ import TestGoogleHealth from "../screens/HeartRate/GoogleHealthScreen";
 import ProfileTypeSelection from "../screens/Signup/ProfileTypeSelection";
 import ElderProfileSetup from "../screens/Signup/ElderProfileSetup";
 import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
-import TabNavigator from "./TabNavigator";
 import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 // Animated Tab Bar
 import TabAnimated from "./TabAnimated";
+import TabElder from "./TabElder";
+import TabCaregiver from "./TabCaregiver";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
 import HistoryNotification from "../screens/Notifcation/HistoryNotification";
@@ -22,9 +23,12 @@ const AppNavigator = () => {
   const { user, profileType } = useAuth();
 
   if (user) {
+    navigation.navigate("ProfileTypeSetup");
     if (!profileType) {
       navigation.navigate("ProfileTypeSetup");
     } else {
+      // console.log("profileType:" + profileType);
+
       navigation.navigate("Home");
     }
   }
@@ -34,7 +38,8 @@ const AppNavigator = () => {
       <Stack.Screen
         options={{ headerShown: false }}
         name="Home"
-        component={TabAnimated}
+        //if profileType === Elder, component = TabElder, if profile = Caregiver, component = TabCaregiver
+        component={profileType === "Elder" ? TabElder : TabCaregiver}
       />
       <Stack.Screen
         options={{ headerShown: false }}

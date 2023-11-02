@@ -14,48 +14,30 @@ import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
-const careGiver = true;
-
 export default function TabAnimated() {
-  const { user, profileType } = useAuth();
-
-  console.log("profileType:" + profileType);
-
-  const profile = profileType;
-
-  console.log(profile);
-
   return (
     <>
       <Tab.Navigator
-        //if profileType === Elder, intialRouteName = MovementStack, if profile = Caregiver, initialRouteName = HeartRateStack
-
-        initialRouteName={
-          profile === "Caregiver" ? "HeartRateStack" : "MovementStack"
-        }
+        initialRouteName={"HeartRateStack"}
         tabBar={(props) => <AnimatedTabBar {...props} />}
       >
-        {/* if profileType === Elder, hide movement stack, if profile = Caregiver, show movement stack*/}
+        <Tab.Screen
+          name="MovementStack"
+          component={MovementStack}
+          options={{
+            headerShown: false,
+            tabBarLabel: "Movement",
 
-        {profile === "Caregiver" ? (
-          <Tab.Screen
-            name="MovementStack"
-            component={MovementStack}
-            options={{
-              headerShown: false,
-              tabBarLabel: "Movement",
-
-              // MaterialCommunityIcons
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name={"walk"}
-                  size={40}
-                  color={curaTheme.lightColors.curaWhite}
-                />
-              ),
-            }}
-          />
-        ) : null}
+            // MaterialCommunityIcons
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name={"walk"}
+                size={40}
+                color={curaTheme.lightColors.curaWhite}
+              />
+            ),
+          }}
+        />
 
         <Tab.Screen
           name="HeartRateStack"
