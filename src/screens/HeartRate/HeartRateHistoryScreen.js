@@ -12,6 +12,7 @@ import { Button } from "@rneui/themed";
 import { BarChart } from "react-native-gifted-charts";
 import getDayName from "../../helpers/getDayName";
 import curaTheme from "../../theme/theme";
+import IconBtn from "../../components/IconBtn";
 
 import { useFonts } from "expo-font";
 

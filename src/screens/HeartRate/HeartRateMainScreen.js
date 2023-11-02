@@ -25,6 +25,8 @@ import HeartHigh from "../../assets/icons/heart/heart-high1x.svg";
 import HeartNormal from "../../assets/icons/heart/heart-normal1x.svg";
 import HeartLow from "../../assets/icons/heart/heart-low1x.svg";
 import Graph from "../../assets/icons/svg/graph.svg";
+import useAuth from "../../hooks/useAuth";
+import IconBtn from "../../components/IconBtn";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -101,12 +103,31 @@ export default function HeartRateMainScreen() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
-      <View className="w-full justify-center mt-3">
-        <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
-        <Text className=" text-base text-curaBlack font-medium ">
-          {elderAge} years old
-        </Text>
+      {/* <Header /> */}
+      <View className="w-full flex-row justify-between py-4">
+        <View>
+          {userLoggedIn === "Caregiver" ? (
+            <Text className=" text-xl text-curaBlack font-bold">
+              {elderName}
+            </Text>
+          ) : (
+            <Text className=" text-xl text-curaBlack font-bold">
+              Hello {elderName}
+            </Text>
+          )}
+          <Text className=" text-base text-curaBlack font-medium ">
+            {elderAge} years old
+          </Text>
+        </View>
+        <IconBtn
+          name="bell"
+          onPress={() => navigation.navigate("NotificationHistory")}
+          iconStyle={{
+            color: curaTheme.lightColors.primary,
+          }}
+        />
       </View>
+
       <Image
         className=" flex-1 justify-start w-full relative -z-10 top-4"
         source={require("../../assets/images/character/maleCharacter2.png")}
