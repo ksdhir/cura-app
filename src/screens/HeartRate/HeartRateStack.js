@@ -13,7 +13,7 @@ export default function HeartRateStack() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="HeartRateMainScreen">
       <Stack.Screen
         name="HeartRateMainScreen"
         component={HeartRateMainScreen}
