@@ -10,6 +10,9 @@ import Lottie from "lottie-react-native";
 import curaTheme from "../theme/theme";
 import useAuth from "../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
+import Profile from "../assets/icons/svg/avatar.svg";
+import Movement from "../assets/icons/svg/monitoring.svg";
+import Monitoring from "../assets/icons/svg/heartrate.svg";
 
 const Tab = createBottomTabNavigator();
 
