@@ -13,7 +13,7 @@ import SettingIcon from "../../assets/icons/svg/setting.svg";
 
 export default function AccountMainScreen() {
   const navigation = useNavigation();
-  const { user, token } = useAuth();
+  const { user, profileType } = useAuth();
 
   const handleSignout = async () => {
     console.log("GOOGLE AUTH SIGN OUT");
@@ -28,12 +28,22 @@ export default function AccountMainScreen() {
     }
   };
 
+  const navigateToProfile = () => {
+    switch (profileType) {
+      case "Elder":
+        navigation.navigate("ElderProfileSetup");
+        break;
+      case "Caregiver":
+        navigation.navigate("CaregiverProfileSetup");
+        break;
+      default:
+        navigation.navigate("CaregiverProfileSetup");
+        break;
+    }
+  };
+
   if (!user) {
-    return (
-      <View>
-        <Text> Loading ... </Text>
-      </View>
-    );
+    return null;
   }
 
   return (
@@ -51,13 +61,15 @@ export default function AccountMainScreen() {
           <Text className="text-lg text-neutral-800 font-bold">Account</Text>
         </View>
 
-        <View className="w-full flex flex-row  items-center justify-between gap-2 px-4">
-          <Text className="text-lg text-neutral-800 font-bold">
-            Personal Profile
-          </Text>
+        <TouchableOpacity onPress={navigateToProfile} className="w-full p-4">
+          <View className="flex flex-row  items-center justify-between gap-2">
+            <Text className="text-lg text-neutral-800 font-bold">
+              Personal Profile
+            </Text>
 
-          <MaterialCommunityIcons name={"chevron-right"} size={24} />
-        </View>
+            <MaterialCommunityIcons name={"chevron-right"} size={24} />
+          </View>
+        </TouchableOpacity>
 
         <View className="w-full flex flex-row  items-center justify-between gap-2 px-4 mb-4">
           <Text className="text-lg text-neutral-800 font-bold">
