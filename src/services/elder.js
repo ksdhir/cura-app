@@ -155,6 +155,27 @@ export const getElderWeeklyHeartRateDataVisualisation = async (email) => {
   }
 };
 
+export const setElderHeartRateDetail = async (body) => {
+  try {
+    if (body.email == null || body.email == undefined) {
+      throw Error("Email is null");
+    }
+
+    const response = await fetch(`${apiUrl}/elder/heart-rate-details`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    console.log(response.json());
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not set elder heartrate detail");
+  }
+};
+
 //daily-heart-rate-data-visualisation
 //http://10.0.0.113:3003/api/elder/daily-heart-rate-data-visualisation?email=trinapreet@gmail.com
 

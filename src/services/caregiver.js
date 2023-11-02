@@ -1,5 +1,24 @@
 import { auth } from "../utils/FirebaseConfig";
 
+export const getCaregiverProfile = async (email, token) => {
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}/caregiver/profile?email=${email}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.json();
+  } catch (error) {
+    console.log("error", error.message);
+    return null;
+  }
+};
 export const caregiverSignup = async (body, token) => {
   try {
     const response = await fetch(
