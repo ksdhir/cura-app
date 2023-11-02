@@ -114,7 +114,33 @@ export default function AccountMainScreen() {
             alignItems: "center",
             justifyContent: "center",
           }}
-        ></ScrollView>
+        >
+          <TouchableOpacity
+            onPress={() => navigation.navigate("GoogleHealthScreen")}
+          >
+            <Text>Google Health</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("HeartRateThresholdScreen")}
+          >
+            <Text>Adjust Heartrate Threshold</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("FallDetectionScreen")}
+          >
+            <Text>Fall Detection Screen</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PushNotificationScreen")}
+          >
+            <Text>Push Notification Screen</Text>
+          </TouchableOpacity>
+          <Button
+            title="Sign Out"
+            buttonStyle={{ backgroundColor: curaTheme.lightColors.primaryDark }}
+            onPress={handleSignout}
+          />
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
