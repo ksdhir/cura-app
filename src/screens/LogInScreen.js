@@ -1,9 +1,7 @@
 import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
-import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../utils/FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { useState } from "react";
 
 // Function to validate email using a regular expression
@@ -25,7 +23,7 @@ export default function Login() {
 
     try {
       // Sign in the user with email and password
-      await signInWithEmailAndPassword(auth, email, password);
+      await auth().signInWithEmailAndPassword(email, password);
       // The user is now signed in
       navigation.navigate("Home");
       return;
@@ -34,24 +32,12 @@ export default function Login() {
     }
   };
 
-  const checkIfLoggedIn = async () => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.navigate("Home");
-      }
-    });
-  };
-
-  useEffect(() => {
-    checkIfLoggedIn();
-  }, []);
-
   return (
     <View className="flex-1 bg-teal-300 justify-between pt-4">
       <SafeAreaView className="flex flex-1 ">
         <View className="flex-row justify-start">
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("Welcome")}
             className="bg-teal-600 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
           >
             <Text className="text-gray-200"> Back </Text>
@@ -100,9 +86,7 @@ export default function Login() {
           <Text className="text-gray-500 font-semibold">
             Don't have an account?
           </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("ProfileTypeSetup")}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
             <Text className="font-semibold text-indigo-500"> Sign Up</Text>
           </TouchableOpacity>
         </View>

@@ -7,16 +7,20 @@ import CriticalHeartRateScreen from "./CriticalHeartRateScreen";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { getHealthData } from "../../services/googlehealth";
+
 export default function HeartRateStack() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="HeartRateMainScreen">
       <Stack.Screen
         name="HeartRateMainScreen"
         component={HeartRateMainScreen}
         options={{ headerShown: false }}
-      />
+      >
+        {getHealthData()}
+      </Stack.Screen>
       <Stack.Screen
         name="GoogleHealthScreen"
         component={GoogleHealthScreen}

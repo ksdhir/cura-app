@@ -1,97 +1,33 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
-import * as Google from "expo-auth-session/providers/google";
-import { makeRedirectUri } from "expo-auth-session";
-import * as WebBrowser from "expo-web-browser";
-
-import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithCredential,
-} from "firebase/auth";
-import { auth } from "../utils/FirebaseConfig";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-WebBrowser.maybeCompleteAuthSession();
+import { useNavigation } from "@react-navigation/native";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import auth from "@react-native-firebase/auth";
 
 export default function WelcomeScreen() {
+  GoogleSignin.configure({
+    webClientId:
+      "547674373172-ljlld4shohia9uo53nekvad6lnn8nmt3.apps.googleusercontent.com",
+  });
+
   const navigation = useNavigation();
-  const focus = useIsFocused();
 
-  const [userInfo, setUserInfo] = React.useState();
-  const [loading, setLoading] = React.useState(false);
-  const [request, response, promptAsync] = Google.useAuthRequest(
-    {
-      androidClientId:
-        "636016776817-dnlogoh0m9aesah3d5a10b9oprl012sd.apps.googleusercontent.com",
-      iosClientId:
-        "636016776817-tfb4aa52f4qcacggp3ba54a8t40dl3a3.apps.googleusercontent.com",
-      redirectUri: makeRedirectUri(),
-    },
-    { useProxy: true }
-  );
+  const onGoogleButtonPress = async () => {
+    console.log("GOOGLE BUTTON PRESSED");
 
-  const checkIfLoggedIn = async () => {
+    const { idToken } = await GoogleSignin.signIn();
+
+    console.log("ID TOKEN", idToken);
+
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
     try {
-      setLoading(true);
-      const user = auth.currentUser;
-
-      if (user) {
-        navigation.navigate("Home");
-      }
-
-      // return;
-      // const userJSON = await AsyncStorage.getItem("@user");
-      // if (!userJSON) return;
-
-      // const userData = userJSON != null ? JSON.parse(userJSON) : null;
-
-      //if there is a user logged in, navigate to home screen
-
-      // if (userData != null) {
-      //   navigation.navigate("Home");
-      // }
-
-      // setUserInfo(userData);
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      setLoading(false);
+      const user = await auth().signInWithCredential(googleCredential);
+    } catch (error) {
+      console.log("ERROR", error);
     }
   };
-
-  const handleGoogleLogin = async () => {
-    if (response?.type === "success") {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-
-      try {
-        const result = await signInWithCredential(auth, credential);
-        navigation.navigate("Home");
-      } catch (error) {
-        alert(error.message);
-      }
-
-      //  .then((result) => {
-      //     const user = result.user;
-      //     setUserInfo(user);
-      //     AsyncStorage.setItem("@user", JSON.stringify(user));
-      //     navigation.navigate("Home");
-      //   });
-    }
-  };
-
-  React.useEffect(() => {
-    handleGoogleLogin();
-  }, [response]);
-
-  useEffect(() => {
-    if (focus) {
-      checkIfLoggedIn();
-    }
-  }, [focus]);
 
   return (
     <SafeAreaView className="flex-1 bg-teal-300  justify-center items-center">
@@ -107,7 +43,7 @@ export default function WelcomeScreen() {
         </View>
         <View className="space-y-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate("ProfileTypeSetup")}
+            onPress={() => navigation.navigate("SignUp")}
             className="py-3 bg-indigo-500 mx-4 rounded-xl"
           >
             <Text className="text-xl font-bold text-center text-gray-200">
@@ -120,7 +56,7 @@ export default function WelcomeScreen() {
           {/* <View className="flex-row self-center"> */}
           <TouchableOpacity
             className=" mx-4 flex-row items-center justify-center placeholder:p-3 bg-gray-100 rounded-xl"
-            onPress={() => promptAsync()}
+            onPress={onGoogleButtonPress}
           >
             <Text className="text-xl font-bold text-slate-800 placeholder:pr-2">
               Sign In With Google

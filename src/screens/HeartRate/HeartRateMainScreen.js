@@ -1,17 +1,9 @@
-import {
-  View,
-  Text,
-  Image,
-  Dimensions,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
 import Lottie from "lottie-react-native";
 
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../utils/FirebaseConfig";
 import { timeDifference } from "../../helpers";
 import {
   getElderEmailFromCaregiverEmail,
@@ -21,9 +13,6 @@ import {
 } from "../../services/elder";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
-import HeartHigh from "../../assets/icons/heart/heart-high1x.svg";
-import HeartNormal from "../../assets/icons/heart/heart-normal1x.svg";
-import HeartLow from "../../assets/icons/heart/heart-low1x.svg";
 import Graph from "../../assets/icons/svg/graph.svg";
 import useAuth from "../../hooks/useAuth";
 import IconBtn from "../../components/IconBtn";
@@ -43,23 +32,38 @@ const { width, height } = Dimensions.get("window");
 
 export default function HeartRateMainScreen() {
   const navigation = useNavigation();
+  const { profileType } = useAuth();
+
   const [elderEmailData, setElderEmailData] = useState("");
   const [elderProfile, setElderProfile] = useState({});
   const [heartRateDetail, setHeartRateDetail] = useState({});
   const [heartRateThreshold, setHeartRateThreshold] = useState({});
 
-  const caregiverEmail = auth.currentUser.email;
+  const { user, token } = useAuth();
+  const userLoggedIn = profileType;
 
   useEffect(() => {
+    if (!user) return;
+    const caregiverEmail = user.email;
+    let elderEmail;
+    let caregiverName;
+
     (async () => {
       try {
-        // Use await to get the elderEmail from the Promise
-        const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
-        const elderEmail = data.caregiver?.elderEmails[0];
+        if (userLoggedIn === "Caregiver") {
+          //get caregiverName
+
+          const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
+          console.log("CAREGIVER EMAIL --- 3", caregiverEmail);
+
+          elderEmail = data.caregiver?.elderEmails[0];
+          console.log("ELDER EMAIL --- 4", elderEmail);
+        } else {
+          elderEmail = user.email;
+        }
 
         setElderEmailData(elderEmail);
-        // console.log("====Elder Email====");
-        // console.log(elderEmail);
+        // console.log("Elder Email====", elderEmail);
 
         // Now that you have elderEmail, you can make other async calls
         const profileData = await getElderProfile(elderEmail);
@@ -77,8 +81,9 @@ export default function HeartRateMainScreen() {
         throw Error("Could not get elder profile");
       }
     })();
-  }, []);
+  }, [user]);
 
+  // const caregiverName = user.preferredName;
   const elderEmail = elderEmailData;
   const elderName = elderProfile?.profile?.preferredName;
   const elderAge = elderProfile?.profile?.age;

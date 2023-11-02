@@ -60,16 +60,12 @@ export default function HeartRateHistoryScreen() {
   const dailyMax = detail.profile?.heartRateThreshold.maximum;
   const dailyAverage = 95;
 
-  //creat data array with 12 value range from 90 to 160
-
   const weeklyData = Object.entries(weeklyRawData)
     .slice(-7)
     .map(([dateString, value], index, arr) => ({
       value: value,
       label: getDayName(dateString),
     }));
-
-  console.log(weeklyData);
 
   const data = Array.from(
     { length: 12 },

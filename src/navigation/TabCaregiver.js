@@ -11,51 +11,38 @@ import Lottie from "lottie-react-native";
 import curaTheme from "../theme/theme";
 import useAuth from "../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
+import Profile from "../assets/icons/svg/avatar.svg";
+import Movement from "../assets/icons/svg/monitoring.svg";
+import Monitoring from "../assets/icons/svg/heartrate.svg";
 
 const Tab = createBottomTabNavigator();
 
-const careGiver = true;
-
 export default function TabAnimated() {
-  const { user, profileType } = useAuth();
-
-  console.log("profileType:" + profileType);
-
-  const profile = profileType;
-
-  console.log(profile);
-
   return (
     <>
       <Tab.Navigator
-        //if profileType === Elder, intialRouteName = MovementStack, if profile = Caregiver, initialRouteName = HeartRateStack
-
-        initialRouteName={
-          profile === "Caregiver" ? "HeartRateStack" : "MovementStack"
-        }
+        initialRouteName={"HeartRateStack"}
         tabBar={(props) => <AnimatedTabBar {...props} />}
       >
-        {/* if profileType === Elder, hide movement stack, if profile = Caregiver, show movement stack*/}
+        <Tab.Screen
+          name="MovementStack"
+          component={MovementStack}
+          options={{
+            headerShown: false,
+            tabBarLabel: "Movement",
 
-        {profile === "Caregiver" ? (
-          <Tab.Screen
-            name="MovementStack"
-            component={MovementStack}
-            options={{
-              headerShown: false,
-              tabBarLabel: "Movement",
-
-              // MaterialCommunityIcons
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name={"walk"}
-                  size={40}
-                  color={curaTheme.lightColors.curaWhite}
-                />
-              ),
-            }}
-          />
-        ) : null}
+            // MaterialCommunityIcons
+            tabBarIcon: ({ color, size }) => (
+              <Movement
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
+              />
+            ),
+          }}
+        />
 
         <Tab.Screen
           name="HeartRateStack"
@@ -66,10 +53,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons
-                name={"heart"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Monitoring
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}
@@ -83,10 +72,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons
-                name={"account"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Profile
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}

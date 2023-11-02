@@ -34,6 +34,7 @@
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
+      "@react-native-google-signin/google-signin",
       "./androidManifestPlugin.js",
       "react-native-health",
       "react-native-health-connect",
