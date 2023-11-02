@@ -11,6 +11,9 @@ import Lottie from "lottie-react-native";
 import curaTheme from "../theme/theme";
 import useAuth from "../hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
+import Profile from "../assets/icons/svg/avatar.svg";
+import Movement from "../assets/icons/svg/monitoring.svg";
+import Monitoring from "../assets/icons/svg/heartrate.svg";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,10 +33,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name={"walk"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Movement
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}
@@ -48,10 +53,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons
-                name={"heart"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Monitoring
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}
@@ -65,10 +72,12 @@ export default function TabAnimated() {
 
             // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons
-                name={"account"}
-                size={40}
-                color={curaTheme.lightColors.curaWhite}
+              <Profile
+                width={34}
+                height={34}
+                style={{
+                  color: "#fff",
+                }}
               />
             ),
           }}
