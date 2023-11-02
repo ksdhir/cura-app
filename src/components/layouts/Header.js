@@ -9,7 +9,7 @@ const Header = ({ children }) => {
   return (
     <View className="py-4 w-full flex justify-between flex-row">
       {children ? (
-        <View />
+        <View>{children}</View>
       ) : (
         <IconBtn
           name="back"
