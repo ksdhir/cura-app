@@ -93,7 +93,11 @@ export default function HeartRateMainScreen() {
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
   const bpmStatus =
-    bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
+    bpm >= minThreshold && bpm <= maxThreshold
+      ? "Normal"
+      : bpm < minThreshold
+      ? "Low"
+      : "High";
 
   const heartwidth = 150;
   const heartheight = 180;
@@ -108,7 +112,7 @@ export default function HeartRateMainScreen() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
-      <Header />
+      {/* <Header /> */}
       <View className="w-full justify-center mt-3">
         {userLoggedIn === "Caregiver" ? (
           <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>

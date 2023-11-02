@@ -60,9 +60,10 @@ export default function HeartRateHistoryScreen() {
   const weekMax = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMax;
   const weekAverage = heartRateDetail?.latestHeartRateRecord?.[0]?.weekAverage;
 
-  const dailyMin = detail.profile?.heartRateThreshold.minimum;
-  const dailyMax = detail.profile?.heartRateThreshold.maximum;
-  const dailyAverage = 95;
+  const dailyMin = heartRateDetail?.latestHeartRateRecord?.[0]?.todayMin;
+  const dailyMax = heartRateDetail?.latestHeartRateRecord?.[0]?.todayMax;
+  const dailyAverage =
+    heartRateDetail?.latestHeartRateRecord?.[0]?.todayAverage;
 
   const weeklyData = Object.entries(weeklyRawData)
     .slice(-7)
@@ -70,8 +71,6 @@ export default function HeartRateHistoryScreen() {
       value: value,
       label: getDayName(dateString),
     }));
-
-  // const timeWithoutSpace = formattedTime.replace(/\s/g, "");
 
   const dailyData = Object.entries(dailyRawData).map(
     ([dateString, value], index, arr) => ({
