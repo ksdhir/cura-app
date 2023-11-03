@@ -16,6 +16,7 @@ import curaTheme from "../../theme/theme";
 import Graph from "../../assets/icons/svg/graph.svg";
 import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
+import IconBtn from "../../components/IconBtn";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -93,7 +94,11 @@ export default function HeartRateMainScreen() {
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
   const bpmStatus =
-    bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
+    bpm >= minThreshold && bpm <= maxThreshold
+      ? "Normal"
+      : bpm < minThreshold
+      ? "Low"
+      : "High";
 
   const heartwidth = 150;
   const heartheight = 180;
@@ -108,18 +113,29 @@ export default function HeartRateMainScreen() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
-      <Header />
-      <View className="w-full justify-center mt-3">
-        {userLoggedIn === "Caregiver" ? (
-          <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
-        ) : (
-          <Text className=" text-xl text-curaBlack font-bold">
-            Hello {elderName}
+      {/* <Header /> */}
+      <View className="w-full flex-row justify-between py-4">
+        <View>
+          {userLoggedIn === "Caregiver" ? (
+            <Text className=" text-xl text-curaBlack font-bold">
+              {elderName}
+            </Text>
+          ) : (
+            <Text className=" text-xl text-curaBlack font-bold">
+              Hello {elderName}
+            </Text>
+          )}
+          <Text className=" text-base text-curaBlack font-medium ">
+            {elderAge} years old
           </Text>
-        )}
-        <Text className=" text-base text-curaBlack font-medium ">
-          {elderAge} years old
-        </Text>
+        </View>
+        <IconBtn
+          name="bell"
+          onPress={() => navigation.navigate("NotificationHistory")}
+          iconStyle={{
+            color: curaTheme.lightColors.primary,
+          }}
+        />
       </View>
       <Image
         className=" flex-1 justify-start w-full relative -z-10 top-4"
