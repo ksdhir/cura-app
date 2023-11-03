@@ -1,8 +1,6 @@
-import { auth } from "../utils/FirebaseConfig";
-
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-export const testPushNotification = async () => {
+export const testPushNotification = async (email, token) => {
   try {
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
@@ -10,9 +8,10 @@ export const testPushNotification = async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          email: auth.currentUser.email,
+          email,
           type: "TEST_NOTIFICATION",
           location: ["48.2253215", "-123.0911397"],
         }),
