@@ -137,11 +137,23 @@ export default function HeartRateMainScreen() {
           }}
         />
       </View>
-      <Image
+      {/* <Image
         className=" flex-1 justify-start w-full relative -z-10 top-4"
         source={require("../../assets/images/character/maleCharacter2.png")}
         style={{
           resizeMode: "contain",
+        }}
+      /> */}
+      <Lottie
+        source={require("../../assets/lottie/Avatar_mov1_FIN.json")}
+        autoPlay
+        speed={1}
+        style={{
+          width: 200,
+          height: 200,
+          position: "relative",
+          borderWidth: 1,
+          borderColor: "red",
         }}
       />
       <View

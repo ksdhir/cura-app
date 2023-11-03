@@ -23,7 +23,7 @@ export default function MovementMainScreen() {
   // TODO: Integrate tomtom to display string of the location based on the coordinates
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhit">
+    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite">
       <StatusBar style="auto" />
       {/* Header of the Page */}
       <View className="w-full h-[10vh] justify-center px-8">
