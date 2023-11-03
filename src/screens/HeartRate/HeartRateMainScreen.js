@@ -116,13 +116,14 @@ export default function HeartRateMainScreen() {
       {/* <Header /> */}
       <View className="w-full flex-row justify-between py-4">
         <View>
+          {/* <Text className=" text-sm font-medium text-curaGray">Elder</Text> */}
           {userLoggedIn === "Caregiver" ? (
             <Text className=" text-xl text-curaBlack font-bold">
               {elderName}
             </Text>
           ) : (
             <Text className=" text-xl text-curaBlack font-bold">
-              Hello {elderName}
+              {elderName}
             </Text>
           )}
           <Text className=" text-base text-curaBlack font-medium ">
@@ -145,15 +146,14 @@ export default function HeartRateMainScreen() {
         }}
       /> */}
       <Lottie
-        source={require("../../assets/lottie/Avatar_mov1_FIN.json")}
+        source={require("../../assets/lottie/male/Avatar_mov1_FIN.json")}
         autoPlay
         speed={1}
         style={{
           width: 200,
-          height: 200,
-          position: "relative",
-          borderWidth: 1,
-          borderColor: "red",
+          height: 160,
+          // borderWidth: 1,
+          // borderColor: "red",
         }}
       />
       <View
