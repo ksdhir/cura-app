@@ -1,6 +1,4 @@
 import * as Location from "expo-location";
-// import background process
-import locationNotificationHandler from "../backgroundProcesses/locationNotification";
 
 // import auth for user email
 import auth from "@react-native-firebase/auth";
@@ -43,16 +41,31 @@ async function getLocationCoords() {
 function runLocationProcess() {
 
   let coords = null;
-    
+  let email = null;
+  let profileType = null;
+  
+  // a callback hell
   getLocationCoords().then(coordsObj => {
     coords = coordsObj
     return coordsObj
   }).then(coordsObj => {
-    return auth().currentUser?.email
+    if (email) {
+      return email
+    } else {
+      return auth().currentUser?.email
+    }    
   }).then(email => {
     if (email && coords) {
       console.log(email, coords)
+      const customClaims = auth().currentUser?.customClaims;
+      console.log(customClaims)
+      profileType = customClaims?.profileType;
+      return profileType
+    } else {
+      console.log("no email no coords")
     }
+  }).then(profileType => {
+    console.log(profileType)
   })
 }
 
