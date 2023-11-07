@@ -68,7 +68,7 @@ export default function SignUpScreen() {
           </TouchableOpacity>
         </View>
         <View className="flex-row flex-1 justify-center items-center">
-          <Text className="text-4xl font-bold text-gray-800">
+          <Text className="text-4xl font-SatoshiBold text-gray-800">
             Sign Up Screen
           </Text>
         </View>
@@ -97,12 +97,12 @@ export default function SignUpScreen() {
             className="py-3 bg-indigo-500 rounded-xl"
             onPress={handleSubmit}
           >
-            <Text className="text-lg font-bold text-center text-gray-200">
+            <Text className="text-lg font-SatoshiBold text-center text-gray-200">
               Sign Up
             </Text>
           </TouchableOpacity>
         </View>
-        <Text className="text-xl text-gray-700 font-bold text-center py-3">
+        <Text className="text-xl text-gray-700 font-SatoshiBold text-center py-3">
           Or
         </Text>
 

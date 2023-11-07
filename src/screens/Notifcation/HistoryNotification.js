@@ -12,10 +12,10 @@ export default function HistoryNotification() {
       <StatusBar style="auto" />
       {/* <Header /> */}
       <View className="w-full">
-        <Text className="text-5xl font-bold">Notifications</Text>
+        <Text className="text-5xl font-SatoshiBold">Notifications</Text>
       </View>
       <View className="w-full flex-row justify-between py-4">
-        <Text className="text-2xl text-curaBlack font-bold mt-4">
+        <Text className="text-2xl text-curaBlack font-SatoshiBold mt-4">
           Notifications
         </Text>
       </View>

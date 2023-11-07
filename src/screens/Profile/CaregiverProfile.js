@@ -72,13 +72,16 @@ const CaregiverProfile = () => {
         <Header />
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-bold text-2xl"> Care Person Profile </Text>
+          <Text className="font-SatoshiBold text-2xl">
+            {" "}
+            Care Person Profile{" "}
+          </Text>
         </View>
 
         <ScrollView className="flex">
           <View className="flex justify-start py-4 gap-2">
             <View className="flex flex-row justify-between items-end">
-              <Text className="font-bold"> Preferred Name/s: </Text>
+              <Text className="font-SatoshiBold"> Preferred Name/s: </Text>
 
               {!isEdit && (
                 <IconBtn
@@ -95,7 +98,7 @@ const CaregiverProfile = () => {
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={name}
                 onChangeText={(v) => setName(v)}
               />
@@ -105,17 +108,17 @@ const CaregiverProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Email: </Text>
+            <Text className="font-SatoshiBold"> Email: </Text>
 
             <Text> {user.email} </Text>
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Contact Number: </Text>
+            <Text className="font-SatoshiBold"> Contact Number: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={phoneNumber}
                 onChangeText={(v) => setPhoneNumber(v)}
               />
@@ -130,7 +133,7 @@ const CaregiverProfile = () => {
             className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
             onPress={handleConfirm}
           >
-            <Text className="text-[17px] text-center font-bold text-white">
+            <Text className="text-[17px] text-center font-SatoshiBold text-white">
               Done
             </Text>
           </TouchableOpacity>

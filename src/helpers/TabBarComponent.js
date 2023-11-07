@@ -52,7 +52,7 @@ const TabBarComponent = ({ active, options, onLayout, onPress }) => {
         {options.tabBarIcon ? options.tabBarIcon({ ref }) : <Text>?</Text>}
         {!active && options.tabBarLabel && (
           <Text
-            className="font-bold text-xs text-curaWhite"
+            className="font-SatoshiBold text-xs text-curaWhite"
             style={styles.labelText}
           >
             {options.tabBarLabel}

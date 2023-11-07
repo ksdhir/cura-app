@@ -27,7 +27,9 @@ export default function MovementMainScreen() {
       <StatusBar style="auto" />
       {/* Header of the Page */}
       <View className="w-full h-[10vh] justify-center px-8">
-        <Text className="text-2xl text-neutral-800 font-bold">Movement</Text>
+        <Text className="text-2xl text-neutral-800 font-SatoshiBold">
+          Movement
+        </Text>
       </View>
       {/* Main Content of the page */}
       <View className="h-[75vh] w-full p-8 flex space-y-8">
@@ -48,7 +50,7 @@ export default function MovementMainScreen() {
             <MovementStatus isActive={isElderVisible} />
           </View>
         </View>
-        <Text className="text-xl text-curaGray font-bold">History</Text>
+        <Text className="text-xl text-curaGray font-SatoshiBold">History</Text>
         <ScrollView className="">
           <MovementHistoryScreen />
         </ScrollView>

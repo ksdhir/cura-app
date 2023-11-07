@@ -139,7 +139,8 @@ export default function HeartRateMainScreen() {
   } else if (indicator === "critical") {
     avatarSource = require("../../assets/lottie/male/male_criticalbpm.json");
   } else if (indicator === "nearCritical") {
-    avatarSource = require("../../assets/lottie/male/male_nearcriticalbpm.json");
+    // use normal avatar for now since it causes confusion
+    avatarSource = require("../../assets/lottie/male/male_normalbpm.json");
   }
 
   return (
@@ -164,17 +165,16 @@ export default function HeartRateMainScreen() {
         <>
           <View className="w-full flex-row justify-between py-4">
             <View>
-              {/* <Text className=" text-sm font-medium text-curaGray">Elder</Text> */}
               {userLoggedIn === "Caregiver" ? (
-                <Text className=" text-xl text-curaBlack font-bold">
+                <Text className="text-xl text-curaBlack font-SatoshiBold">
                   {elderName}
                 </Text>
               ) : (
-                <Text className=" text-xl text-curaBlack font-bold">
+                <Text className="text-xl text-curaBlack font-SatoshiBold">
                   {elderName}
                 </Text>
               )}
-              <Text className=" text-base text-curaBlack font-medium ">
+              <Text className=" text-base text-curaBlack font-SatoshiMedium ">
                 {elderAge} years old
               </Text>
             </View>
@@ -205,8 +205,9 @@ export default function HeartRateMainScreen() {
           >
             <View className="flex flex-row w-full justify-between  items-start">
               <Text
-                className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium"
+                className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm"
                 style={{
+                  fontFamily: curaTheme.fontFamilies.SatoshiMedium,
                   backgroundColor:
                     bpm >= minThreshold && bpm <= maxThreshold
                       ? curaTheme.lightColors.successDark
@@ -251,12 +252,14 @@ export default function HeartRateMainScreen() {
             {/* BPM */}
             <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
               <View className="flex flex-row items-baseline ">
-                <Text className=" text-7xl text-secondaryDark font-black ">
+                <Text className=" text-7xl text-secondaryDark font-SatoshiBlack">
                   {bpm}
                 </Text>
-                <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+                <Text className="text-3xl text-curaBlack font-SatoshiBold">
+                  BPM
+                </Text>
               </View>
-              <Text className="text-base  text-curaBlack/60 font-bold -mt-3">
+              <Text className="text-base  text-curaBlack/60 font-SatoshiBold -mt-3">
                 {timeAgo} MIN AGO
               </Text>
             </View>

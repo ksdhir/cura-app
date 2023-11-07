@@ -12,17 +12,17 @@ const ProfileSetupSuccess = () => {
         {/* START */}
         <View className="flex justify-start py-4">
           <TouchableOpacity>
-            <Text className="font-bold"> {"< Back"} </Text>
+            <Text className="font-SatoshiBold"> {"< Back"} </Text>
           </TouchableOpacity>
         </View>
 
         <View className="flex justify-start py-4 mb-4 flex-1 gap-2 mt-8">
           <View className="h-[100px] w-[100px] rounded-full bg-[#26aba2] self-center" />
 
-          <Text className="font-bold text-2xl text-center">
+          <Text className="font-SatoshiBold text-2xl text-center">
             You are all set!
           </Text>
-          <Text className="font-bold text-lg text-center">
+          <Text className="font-SatoshiBold text-lg text-center">
             You can now view the dashboard
           </Text>
         </View>
@@ -31,7 +31,7 @@ const ProfileSetupSuccess = () => {
           className="bg-[#D9D9D9] px-4 py-2 rounded-md w-full"
           onPress={() => navigation.navigate("Home")}
         >
-          <Text className="text-[17px] text-center font-bold">Go to Home</Text>
+          <Text className="text-[17px] text-center font-SatoshiBold">Go to Home</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
