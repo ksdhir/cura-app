@@ -200,3 +200,29 @@ export const getElderDailyHeartRateDataVisualisation = async (email) => {
     throw Error("Could not get elder daily heart rate data visualisation");
   }
 };
+
+export const fallDetectedPushNotification = async (email, token) => {
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email,
+          type: "FALL_DETECTED",
+          location: ["48.2253215", "-123.0911397"],
+        }),
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not test notification");
+  }
+};
