@@ -1,4 +1,10 @@
-import { View, Text, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -16,6 +22,7 @@ import convertUTCtoVancouverTime from "../../helpers/convertUTCtoVancouverTime";
 import curaTheme from "../../theme/theme";
 
 import { useFonts } from "expo-font";
+import Header from "../../components/layouts/Header";
 
 //TODO:Fetching
 //1. getElderProfile [dailyAverage, dailyMin, dailyMax] from elder profile by pass in elderEmail
@@ -208,31 +215,40 @@ export default function HeartRateHistoryScreen() {
               Max {daily === true ? dailyMax : weekMax}bpm
             </Text>
           </View>
-          <View
-            className="flex w-full "
-            contentContainerStyle={{
-              marginVertical: 0,
-            }}
+          <TouchableOpacity
+            className="w-full h-12 bg-primary rounded-xl flex items-center justify-center"
+            onPressIn={() =>
+              navigation.navigate("CriticalHeartRateScreen", {
+                elderEmail,
+                bpm,
+                minThreshold,
+                maxThreshold,
+              })
+            }
           >
-            <Button
-              title="Critical Heart Rate"
-              titleStyle={{
-                fontSize: 22,
-                fontWeight: "medium",
-              }}
-              onPress={() =>
-                navigation.navigate("CriticalHeartRateScreen", {
-                  elderEmail,
-                  bpm,
-                  minThreshold,
-                  maxThreshold,
-                })
-              }
-            />
-          </View>
+            <Text className="font-medium text-white text-xl text">
+              Critical Heart Rate
+            </Text>
+          </TouchableOpacity>
         </View>
         {/*  CARD  */}
       </View>
     </SafeAreaView>
   );
 }
+
+// Button: {
+//   containerStyle: {
+//     height: 48,
+//     width: "100%",
+//     borderRadius: 12,
+//     marginVertical: 8,
+//   },
+//   buttonStyle: {
+//     height: 48,
+//     borderRadius: 12,
+//   },
+//   titleStyle: {
+//     color: "#F8FFFE",
+//   },
+// },
