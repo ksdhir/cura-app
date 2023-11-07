@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
 import { getAllNotificationLog } from "../../services/caregiver";
 import { formatDateTime } from "../../helpers";
+import Header from "../../components/layouts/Header";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
@@ -33,6 +34,8 @@ export default function CriticalHeartRateScreen() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
       <StatusBar style="auto" />
+      <Header />
+
       <View className="w-full">
         <Text className="text-5xl font-bold">Critical Heart Rate</Text>
       </View>
