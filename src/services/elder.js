@@ -226,3 +226,31 @@ export const fallDetectedPushNotification = async (email, token) => {
     throw Error("Could not test notification");
   }
 };
+
+export const addEmergencyContact = async (body, token) => {
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}/elder/add-emergency-contact`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        body: JSON.stringify(body),
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.status === 400) {
+      throw Error(data.detail);
+    }
+
+    return data;
+  } catch (error) {
+    throw Error(error.message);
+  }
+};
