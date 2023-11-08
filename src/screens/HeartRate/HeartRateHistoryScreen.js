@@ -3,7 +3,6 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
@@ -24,6 +23,9 @@ import curaTheme from "../../theme/theme";
 import { useFonts } from "expo-font";
 import Header from "../../components/layouts/Header";
 
+// import components
+import LoadingSpinner from "../../components/LoadingSpinner";
+
 //TODO:Fetching
 //1. getElderProfile [dailyAverage, dailyMin, dailyMax] from elder profile by pass in elderEmail
 //2. Also get the average bpm per hour of today since 12am (Max data is 24)
@@ -34,34 +36,47 @@ export default function HeartRateHistoryScreen() {
   const { width, height } = Dimensions.get("window");
 
   const navigation = useNavigation();
-  const [detail, setDetail] = useState({});
-  const [heartRateDetail, setHeartRateDetail] = useState({});
+  const [detail, setDetail] = useState(null);
+  const [heartRateDetail, setHeartRateDetail] = useState(null);
   const [daily, setDaily] = useState(true);
-  const [dailyRawData, setDailyRawData] = useState([]);
-  const [weeklyRawData, setWeeklyRawData] = useState([]);
+  const [dailyRawData, setDailyRawData] = useState(null);
+  const [weeklyRawData, setWeeklyRawData] = useState(null);
 
   const route = useRoute();
 
   const { bpm, elderEmail, minThreshold, maxThreshold } = route.params;
 
   useEffect(() => {
+    
     getElderProfile(elderEmail).then((data) => {
+      // console.log(data)
       setDetail(data);
     });
 
     getElderHeartRateDetail(elderEmail).then((data) => {
+      // console.log(data)
       setHeartRateDetail(data);
       // console.log(data);
     });
 
     getElderDailyHeartRateDataVisualisation(elderEmail).then((data) => {
+      // console.log(data)
       setDailyRawData(data?.consolidatedData);
     });
 
     getElderWeeklyHeartRateDataVisualisation(elderEmail).then((data) => {
+      // console.log(data)
       setWeeklyRawData(data?.consolidatedData);
     });
+
   }, []);
+
+
+
+  if (!detail || !heartRateDetail || !dailyRawData || !weeklyRawData) {
+    return <LoadingSpinner />;
+  }
+
 
   const weekMin = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMin;
   const weekMax = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMax;
