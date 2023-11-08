@@ -37,7 +37,7 @@ export default function CriticalHeartRateScreen() {
       <Header />
 
       <View className="w-full">
-        <Text className="text-5xl font-bold">Critical Heart Rate</Text>
+        <Text className="text-5xl font-SatoshiBold">Critical Heart Rate</Text>
       </View>
       <View className="w-full justify-center px-2 py-4 bg-primaryDark rounded-xl ">
         <Text className="text-xl text-curaWhite ">Image placeholder</Text>

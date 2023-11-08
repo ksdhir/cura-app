@@ -32,7 +32,7 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-teal-300  justify-center items-center">
       <View className="flex-1 flex justify-around  my-4">
-        <Text className="text-gray-800 font-bold text-4xl text-center pt-4">
+        <Text className="text-gray-800 font-SatoshiBold text-4xl text-center pt-4">
           Welcome to CURA!
         </Text>
         <View className="flex-row justify-center">
@@ -46,11 +46,11 @@ export default function WelcomeScreen() {
             onPress={() => navigation.navigate("SignUp")}
             className="py-3 bg-indigo-500 mx-4 rounded-xl"
           >
-            <Text className="text-xl font-bold text-center text-gray-200">
+            <Text className="text-xl font-SatoshiBold text-center text-gray-200">
               Sign Up
             </Text>
           </TouchableOpacity>
-          <Text className="text-xl text-gray-800 font-bold text-center py-1">
+          <Text className="text-xl text-gray-800 font-SatoshiBold text-center py-1">
             Or
           </Text>
           {/* <View className="flex-row self-center"> */}
@@ -58,7 +58,7 @@ export default function WelcomeScreen() {
             className=" mx-4 flex-row items-center justify-center placeholder:p-3 bg-gray-100 rounded-xl"
             onPress={onGoogleButtonPress}
           >
-            <Text className="text-xl font-bold text-slate-800 placeholder:pr-2">
+            <Text className="text-xl font-SatoshiBold text-slate-800 placeholder:pr-2">
               Sign In With Google
             </Text>
             <Image

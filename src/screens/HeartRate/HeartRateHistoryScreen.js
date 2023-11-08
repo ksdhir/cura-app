@@ -93,10 +93,10 @@ export default function HeartRateHistoryScreen() {
       <StatusBar style="auto" />
       <View className="flex flex-1 w-full">
         <View className="flex w-full justify-between rounded-t-xl pt-4 pb-8 relative -z-10 items-center bg-primary/20">
-          <Text className=" text-base text-primaryDark font-bold">
+          <Text className=" text-base text-primaryDark font-SatoshiBold">
             Current Heart Rate
           </Text>
-          <Text className="text-base text-primaryDark font-bold">
+          <Text className="text-base text-primaryDark font-SatoshiBold">
             {bpm} BPM
           </Text>
         </View>
@@ -105,7 +105,7 @@ export default function HeartRateHistoryScreen() {
         <View className="flex flex-1 mb-8 -mt-4 px-4 py-3 w-full bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-between rounded-xl">
           <View className="flex flex-row w-full justify-around px-14 ">
             <Text
-              className="text-base flex-1 text-center py-2 bg-primary font-medium rounded-l-full"
+              className="text-base flex-1 text-center py-2 bg-primary font-SatoshiMedium rounded-l-full"
               style={{
                 color:
                   daily === true
@@ -121,7 +121,7 @@ export default function HeartRateHistoryScreen() {
               Daily
             </Text>
             <Text
-              className="text-base flex-1 text-center py-2 font-medium rounded-r-full"
+              className="text-base flex-1 text-center py-2 font-SatoshiMedium rounded-r-full"
               style={{
                 color:
                   daily === false
@@ -144,12 +144,16 @@ export default function HeartRateHistoryScreen() {
               borderRadius: 50,
             }}
           >
-            <Text className="text-3xl text-curaBlack font-bold">AVERAGE</Text>
+            <Text className="text-3xl text-curaBlack font-SatoshiBold">
+              AVERAGE
+            </Text>
             <View className="flex flex-row items-baseline -mt-1 ">
-              <Text className="text-7xl text-secondaryDark font-black ">
+              <Text className="text-7xl text-secondaryDark font-SatoshiBlack ">
                 {daily === true ? dailyAverage : weekAverage}
               </Text>
-              <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+              <Text className="text-3xl text-curaBlack font-SatoshiBold">
+                BPM
+              </Text>
             </View>
           </View>
 
@@ -226,7 +230,7 @@ export default function HeartRateHistoryScreen() {
               })
             }
           >
-            <Text className="font-medium text-white text-xl text">
+            <Text className="font-SatoshiMedium text-white text-xl text">
               Critical Heart Rate
             </Text>
           </TouchableOpacity>

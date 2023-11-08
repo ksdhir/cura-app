@@ -143,7 +143,7 @@ export default function PushNotificationScreen() {
           className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
           onPress={() => navigation.navigate("HomeScreen")}
         >
-          <Text className=" text-slate-800 text-base font-bold">
+          <Text className=" text-slate-800 text-base font-SatoshiBold">
             Go Back To Home
           </Text>
         </TouchableOpacity>

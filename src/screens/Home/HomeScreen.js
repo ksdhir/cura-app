@@ -58,7 +58,7 @@ export default function HomeScreen() {
           onPress={() => navigation.navigate("PushNotificationScreen")}
         />
 
-        <Text className="pt-4 text-center text-slate-800 text-base font-bold">
+        <Text className="pt-4 text-center text-slate-800 text-base font-SatoshiBold">
           Below is an example of how to navigate to a screen in a different
           stack
         </Text>

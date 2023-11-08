@@ -36,7 +36,7 @@ const ProfileTypeSelection = () => {
             <View className="flex-0 w-[100px] h-[100px] bg-[#D9D9D9] rounded-full" />
           </View>
 
-          <Text className="text-2xl text-center mb-8 p-8 font-bold">
+          <Text className="text-2xl text-center mb-8 p-8 font-SatoshiBold">
             Choose what type of account you’ll be using
           </Text>
 
@@ -45,7 +45,7 @@ const ProfileTypeSelection = () => {
               className="bg-[#D9D9D9] px-4 py-2 rounded-md flex-1"
               onPress={() => handleRedirection("Caregiver")}
             >
-              <Text className="text-[17px] text-center font-bold">
+              <Text className="text-[17px] text-center font-SatoshiBold">
                 {" "}
                 Caregiver{" "}
               </Text>
@@ -55,7 +55,7 @@ const ProfileTypeSelection = () => {
               className="bg-[#D9D9D9] px-4 py-2 rounded-md flex-1"
               onPress={() => handleRedirection("Elder")}
             >
-              <Text className="text-[17px] text-center font-bold"> Elder </Text>
+              <Text className="text-[17px] text-center font-SatoshiBold"> Elder </Text>
             </TouchableOpacity>
           </View>
         </View>
