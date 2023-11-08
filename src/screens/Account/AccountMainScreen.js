@@ -1,19 +1,19 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import auth from "@react-native-firebase/auth";
-import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
 import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
 
-export default function AccountMainScreen() {
+export default function AccountMainScreen(props) {
+  // console.log("PROFILE TYPE FROM PROPS", props.route.params.profileType);
   const navigation = useNavigation();
-  const { user, profileType } = useAuth();
+  const profileType = props.route.params.profileType;
 
   const handleSignout = async () => {
     console.log("GOOGLE AUTH SIGN OUT");
@@ -42,10 +42,6 @@ export default function AccountMainScreen() {
     }
   };
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <SafeAreaView className="flex flex-1 bg-curaWhite">
       <StatusBar style="auto" />
@@ -73,13 +69,20 @@ export default function AccountMainScreen() {
           </View>
         </TouchableOpacity>
 
-        <View className="w-full flex flex-row  items-center justify-between gap-2 px-4 mb-4">
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
-            View QR Code
-          </Text>
+        {profileType === "Elder" ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileEmergencyContacts")}
+            className="w-full p-4 pt-0"
+          >
+            <View className="flex flex-row  items-center justify-between gap-2">
+              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+                Add Caregiver
+              </Text>
 
-          <MaterialCommunityIcons name={"chevron-right"} size={24} />
-        </View>
+              <MaterialCommunityIcons name={"chevron-right"} size={24} />
+            </View>
+          </TouchableOpacity>
+        ) : null}
 
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <SettingIcon width={20} height={20} style={{ color: "#323333" }} />
