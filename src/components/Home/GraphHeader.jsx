@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import curaTheme from "../../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 
-const GraphHeader = ({ data, threshold }) => {
+const GraphHeader = ({ data, threshold, elderEmailData }) => {
   const navigation = useNavigation();
 
   const bpm = data?.latestHeartRateRecord?.[0]?.beatsPerMinute;
@@ -34,14 +34,14 @@ const GraphHeader = ({ data, threshold }) => {
 
       <TouchableOpacity
         className="bg-primary p-[6px] rounded-md"
-        onPress={() =>
+        onPress={() => {
           navigation.navigate("HeartRateHistoryScreen", {
             bpm,
-            elderEmailData,
+            elderEmail: elderEmailData,
             minThreshold,
             maxThreshold,
-          })
-        }
+          });
+        }}
       >
         <Graph
           width={28}
