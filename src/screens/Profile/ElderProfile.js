@@ -122,13 +122,13 @@ const ElderProfile = () => {
         <Header />
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-bold text-2xl"> Elderly Profile </Text>
+          <Text className="font-SatoshiBold text-2xl"> Elderly Profile </Text>
         </View>
 
         <ScrollView className="flex">
           <View className="flex justify-start py-4 gap-2">
             <View className="flex flex-row justify-between items-end">
-              <Text className="font-bold"> Preferred Name/s: </Text>
+              <Text className="font-SatoshiBold"> Preferred Name/s: </Text>
 
               {!isEdit && (
                 <IconBtn
@@ -145,7 +145,7 @@ const ElderProfile = () => {
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={name}
                 onChangeText={(v) => setName(v)}
               />
@@ -155,17 +155,17 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Email: </Text>
+            <Text className="font-SatoshiBold"> Email: </Text>
 
             <Text> {user.email} </Text>
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Age: </Text>
+            <Text className="font-SatoshiBold"> Age: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={age}
                 onChangeText={(v) => setAge(v)}
               />
@@ -175,11 +175,11 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Contact Number: </Text>
+            <Text className="font-SatoshiBold"> Contact Number: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={phoneNumber}
                 onChangeText={(v) => setPhoneNumber(v)}
               />
@@ -189,7 +189,7 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Sex: </Text>
+            <Text className="font-SatoshiBold"> Sex: </Text>
 
             {isEdit ? (
               <View className="border-[1px] rounded-md">
@@ -217,7 +217,7 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Blood Type: </Text>
+            <Text className="font-SatoshiBold"> Blood Type: </Text>
 
             {isEdit ? (
               <View className="border-[1px] rounded-md">
@@ -247,11 +247,11 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Medical Conditions: </Text>
+            <Text className="font-SatoshiBold"> Medical Conditions: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={medicalConditions}
                 onChangeText={(v) => setMedicalConditions(v)}
               />
@@ -261,11 +261,11 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Allergies: </Text>
+            <Text className="font-SatoshiBold"> Allergies: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={allergies}
                 onChangeText={(v) => setAllergies(v)}
               />
@@ -275,11 +275,11 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Medications: </Text>
+            <Text className="font-SatoshiBold"> Medications: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={medications}
                 onChangeText={(v) => setMedications(v)}
               />
@@ -289,11 +289,11 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Notes: </Text>
+            <Text className="font-SatoshiBold"> Notes: </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-bold"
+                className="border-b-[1px] font-SatoshiBold"
                 value={notes}
                 onChangeText={(v) => setNotes(v)}
               />
@@ -308,7 +308,7 @@ const ElderProfile = () => {
             className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
             onPress={handleConfirm}
           >
-            <Text className="text-[17px] text-center font-bold text-white">
+            <Text className="text-[17px] text-center font-SatoshiBold text-white">
               Done
             </Text>
           </TouchableOpacity>

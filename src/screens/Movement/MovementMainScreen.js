@@ -23,11 +23,13 @@ export default function MovementMainScreen() {
   // TODO: Integrate tomtom to display string of the location based on the coordinates
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhit">
+    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite">
       <StatusBar style="auto" />
       {/* Header of the Page */}
       <View className="w-full h-[10vh] justify-center px-8">
-        <Text className="text-2xl text-neutral-800 font-bold">Movement</Text>
+        <Text className="text-2xl text-neutral-800 font-SatoshiBold">
+          Movement
+        </Text>
       </View>
       {/* Main Content of the page */}
       <View className="h-[75vh] w-full p-8 flex space-y-8">
@@ -48,7 +50,7 @@ export default function MovementMainScreen() {
             <MovementStatus isActive={isElderVisible} />
           </View>
         </View>
-        <Text className="text-xl text-curaGray font-bold">History</Text>
+        <Text className="text-xl text-curaGray font-SatoshiBold">History</Text>
         <ScrollView className="">
           <MovementHistoryScreen />
         </ScrollView>

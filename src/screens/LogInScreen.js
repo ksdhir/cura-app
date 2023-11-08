@@ -44,7 +44,7 @@ export default function Login() {
           </TouchableOpacity>
         </View>
         <View className="flex-row flex-1 justify-center items-center">
-          <Text className="text-4xl font-bold text-gray-800">
+          <Text className="text-4xl font-SatoshiBold text-gray-800">
             Log In Screen
           </Text>
         </View>
@@ -76,7 +76,7 @@ export default function Login() {
             className="py-3 bg-indigo-500 rounded-xl"
             onPress={handleSubmit}
           >
-            <Text className="text-xl font font-bold text-center text-gray-200">
+            <Text className="text-xl font font-SatoshiBold text-center text-gray-200">
               Login
             </Text>
           </TouchableOpacity>

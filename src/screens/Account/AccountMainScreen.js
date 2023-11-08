@@ -58,12 +58,14 @@ export default function AccountMainScreen() {
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <UserIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-bold">Account</Text>
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            Account
+          </Text>
         </View>
 
         <TouchableOpacity onPress={navigateToProfile} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2">
-            <Text className="text-lg text-neutral-800 font-bold">
+            <Text className="text-lg text-neutral-800 font-SatoshiBold">
               Personal Profile
             </Text>
 
@@ -72,7 +74,7 @@ export default function AccountMainScreen() {
         </TouchableOpacity>
 
         <View className="w-full flex flex-row  items-center justify-between gap-2 px-4 mb-4">
-          <Text className="text-lg text-neutral-800 font-bold">
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
             View QR Code
           </Text>
 
@@ -82,11 +84,13 @@ export default function AccountMainScreen() {
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <SettingIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-bold">Settings</Text>
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            Settings
+          </Text>
         </View>
 
         <View className="w-full flex flex-row items-center justify-between gap-2 px-4">
-          <Text className="text-lg text-neutral-800 font-bold">
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
             Notifications
           </Text>
 
@@ -94,7 +98,7 @@ export default function AccountMainScreen() {
         </View>
 
         <View className="w-full flex flex-row  items-center justify-between gap-2 px-4">
-          <Text className="text-lg text-neutral-800 font-bold">
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
             Heart Rate Threshold
           </Text>
 
@@ -103,7 +107,9 @@ export default function AccountMainScreen() {
 
         <TouchableOpacity onPress={handleSignout} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2 ">
-            <Text className="text-lg text-neutral-800 font-bold">Logout</Text>
+            <Text className="text-lg text-neutral-800 font-SatoshiBold">
+              Logout
+            </Text>
           </View>
         </TouchableOpacity>
 

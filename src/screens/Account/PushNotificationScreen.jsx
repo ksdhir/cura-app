@@ -7,6 +7,7 @@ import * as Constants from "expo-constants";
 // services function
 import { saveNotificationToken } from "../../services/caregiver";
 import { testPushNotification } from "../../services/elder";
+import useAuth from "../../hooks/useAuth";
 
 // set push notification handler
 Notifications.setNotificationHandler({
@@ -75,6 +76,16 @@ export default function PushNotificationScreen() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const { user, token } = useAuth();
+
+  const handleClick = () => {
+    try {
+      testPushNotification(user.email, token);
+    } catch (error) {
+      console.log("FAILED");
+      console.log(error.message);
+    }
+  };
 
   console.clear();
   useEffect(() => {
@@ -133,7 +144,7 @@ export default function PushNotificationScreen() {
         <Button
           title="Press to Notify Caregiver"
           onPress={async () => {
-            await testPushNotification();
+            handleClick();
           }}
         />
       </View>
@@ -143,7 +154,7 @@ export default function PushNotificationScreen() {
           className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
           onPress={() => navigation.navigate("HomeScreen")}
         >
-          <Text className=" text-slate-800 text-base font-bold">
+          <Text className=" text-slate-800 text-base font-SatoshiBold">
             Go Back To Home
           </Text>
         </TouchableOpacity>

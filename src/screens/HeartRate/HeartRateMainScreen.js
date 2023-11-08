@@ -16,6 +16,7 @@ import curaTheme from "../../theme/theme";
 import Graph from "../../assets/icons/svg/graph.svg";
 import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
+import IconBtn from "../../components/IconBtn";
 
 //TODO:Fetching
 //1. getElderEmail from caregiver profile by pass in user.email
@@ -34,6 +35,8 @@ export default function HeartRateMainScreen() {
   const navigation = useNavigation();
   const { profileType } = useAuth();
 
+  const [loading, setLoading] = useState(true);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [elderEmailData, setElderEmailData] = useState("");
   const [elderProfile, setElderProfile] = useState({});
   const [heartRateDetail, setHeartRateDetail] = useState({});
@@ -53,11 +56,20 @@ export default function HeartRateMainScreen() {
         if (userLoggedIn === "Caregiver") {
           //get caregiverName
 
+          if (isFirstLoad) {
+            setLoading(true); // Set loading to true only on the first app load
+          }
+
           const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
-          console.log("CAREGIVER EMAIL --- 3", caregiverEmail);
+          // console.log("CAREGIVER EMAIL --- 3", caregiverEmail);
 
           elderEmail = data.caregiver?.elderEmails[0];
-          console.log("ELDER EMAIL --- 4", elderEmail);
+          // console.log("ELDER EMAIL --- 4", elderEmail);
+
+          if (isFirstLoad) {
+            setLoading(false); // Set loading to false on the first app load after data retrieval
+            setIsFirstLoad(false); // Set isFirstLoad to false to prevent further loading
+          }
         } else {
           elderEmail = user.email;
         }
@@ -70,6 +82,7 @@ export default function HeartRateMainScreen() {
         setElderProfile(profileData);
 
         const heartRateDetailData = await getElderHeartRateDetail(elderEmail);
+        console.log("heartRateDetailData", heartRateDetailData);
         setHeartRateDetail(heartRateDetailData);
 
         const heartRateThresholdData = await getElderHeartRateThreshold(
@@ -81,7 +94,7 @@ export default function HeartRateMainScreen() {
         throw Error("Could not get elder profile");
       }
     })();
-  }, [user]);
+  }, [user, isFirstLoad]);
 
   // const caregiverName = user.preferredName;
   const elderEmail = elderEmailData;
@@ -93,9 +106,13 @@ export default function HeartRateMainScreen() {
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
   const bpmStatus =
-    bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
+    bpm >= minThreshold && bpm <= maxThreshold
+      ? "Normal"
+      : bpm < minThreshold
+      ? "Low"
+      : "High";
 
-  const heartwidth = 150;
+  const heartwidth = 180;
   const heartheight = 180;
 
   let speed;
@@ -105,105 +122,151 @@ export default function HeartRateMainScreen() {
     ? (speed = 0.5)
     : (speed = 2);
 
+  let avatarSource;
+  let indicator;
+
+  if (bpm < minThreshold || bpm > maxThreshold) {
+    indicator = "critical";
+  } else if (bpm >= minThreshold - 10 && bpm <= maxThreshold + 10) {
+    indicator = "nearCritical";
+  } else {
+    indicator = "normal";
+  }
+
+  //if indicator is normal, display male_normalbpm
+
+  if (indicator === "normal") {
+    avatarSource = require("../../assets/lottie/male/male_normalbpm.json");
+  } else if (indicator === "critical") {
+    avatarSource = require("../../assets/lottie/male/male_criticalbpm.json");
+  } else if (indicator === "nearCritical") {
+    // use normal avatar for now since it causes confusion
+    avatarSource = require("../../assets/lottie/male/male_normalbpm.json");
+  }
+
   return (
     <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
-      <Header />
-      <View className="w-full justify-center mt-3">
-        {userLoggedIn === "Caregiver" ? (
-          <Text className=" text-xl text-curaBlack font-bold">{elderName}</Text>
-        ) : (
-          <Text className=" text-xl text-curaBlack font-bold">
-            Hello {elderName}
-          </Text>
-        )}
-        <Text className=" text-base text-curaBlack font-medium ">
-          {elderAge} years old
-        </Text>
-      </View>
-      <Image
-        className=" flex-1 justify-start w-full relative -z-10 top-4"
-        source={require("../../assets/images/character/maleCharacter2.png")}
-        style={{
-          resizeMode: "contain",
-        }}
-      />
-      <View
-        className="mb-8 p-4 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
-        style={{
-          height: height * 0.5,
-        }}
-      >
-        <View className="flex flex-row w-full justify-between  items-start">
-          <Text
-            className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium"
-            style={{
-              backgroundColor:
-                bpm >= minThreshold && bpm <= maxThreshold
-                  ? curaTheme.lightColors.successDark
-                  : curaTheme.lightColors.errorDark,
-            }}
-          >
-            {bpmStatus}
-          </Text>
-          <TouchableOpacity
-            className="bg-primary p-[6px] rounded-md"
-            onPress={() =>
-              navigation.navigate("HeartRateHistoryScreen", {
-                bpm,
-                elderEmail,
-                minThreshold,
-                maxThreshold,
-              })
-            }
-          >
-            <Graph
-              width={28}
-              height={28}
-              style={{
-                color: "#fff",
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        {/* Heart Icon */}
-        <View className="flex flex-1 w-full items-center ">
+
+      {loading ? ( // If loading state is true, display loading screen
+        <View className="flex-1 items-center justify-center px-4 bg-curaWhite">
           <Lottie
-            source={require("../../assets/lottie/heartbeat.json")}
+            source={require("../../assets/lottie/loading_demo.json")}
             autoPlay
-            speed={speed}
-            style={{
-              width: heartwidth,
-              height: heartheight,
-            }}
-          />
-        </View>
-        {/* BPM */}
-        <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
-          <View className="flex flex-row items-baseline ">
-            <Text className=" text-7xl text-secondaryDark font-black ">
-              {bpm}
-            </Text>
-            <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
-          </View>
-          <Text className="text-base  text-curaBlack/60 font-bold -mt-3">
-            {timeAgo} MIN AGO
-          </Text>
-        </View>
-        {/* Heart Wave */}
-        {/* <View className="flex w-full items-center ">
-          <Lottie
-            source={require("../../assets/lottie/Animation.json")}
-            autoPlay
-            //slow down the animation
+            loop
             speed={0.7}
             style={{
               width: 150,
-              height: 100,
+              height: 150,
             }}
           />
-        </View> */}
-      </View>
+        </View>
+      ) : (
+        // If loading state is false, display actual data
+        <>
+          <View className="w-full flex-row justify-between py-4">
+            <View>
+              {userLoggedIn === "Caregiver" ? (
+                <Text className="text-xl text-curaBlack font-SatoshiBold">
+                  {elderName}
+                </Text>
+              ) : (
+                <Text className="text-xl text-curaBlack font-SatoshiBold">
+                  {elderName}
+                </Text>
+              )}
+              <Text className=" text-base text-curaBlack font-SatoshiMedium ">
+                {elderAge} years old
+              </Text>
+            </View>
+            <IconBtn
+              name="bell"
+              onPress={() => navigation.navigate("NotificationHistory")}
+              iconStyle={{
+                color: curaTheme.lightColors.primary,
+              }}
+            />
+          </View>
+
+          <Lottie
+            source={avatarSource}
+            autoPlay
+            speed={1}
+            style={{
+              width: 200,
+              height: 160,
+            }}
+          />
+
+          <View
+            className="mb-8 p-4 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
+            style={{
+              height: height * 0.5,
+            }}
+          >
+            <View className="flex flex-row w-full justify-between  items-start">
+              <Text
+                className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm"
+                style={{
+                  fontFamily: curaTheme.fontFamilies.SatoshiMedium,
+                  backgroundColor:
+                    bpm >= minThreshold && bpm <= maxThreshold
+                      ? curaTheme.lightColors.successDark
+                      : curaTheme.lightColors.errorDark,
+                }}
+              >
+                {bpmStatus}
+              </Text>
+              <TouchableOpacity
+                className="bg-primary p-[6px] rounded-md"
+                onPress={() =>
+                  navigation.navigate("HeartRateHistoryScreen", {
+                    bpm,
+                    elderEmail,
+                    minThreshold,
+                    maxThreshold,
+                  })
+                }
+              >
+                <Graph
+                  width={28}
+                  height={28}
+                  style={{
+                    color: "#fff",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            {/* Heart Icon */}
+            <View className="flex flex-1 w-full items-center ">
+              <Lottie
+                source={require("../../assets/lottie/heartbeat.json")}
+                autoPlay
+                speed={speed}
+                style={{
+                  width: heartwidth,
+                  height: heartheight,
+                  // borderWidth: 1,
+                }}
+              />
+            </View>
+            {/* BPM */}
+            <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
+              <View className="flex flex-row items-baseline ">
+                <Text className=" text-7xl text-secondaryDark font-SatoshiBlack">
+                  {bpm}
+                </Text>
+                <Text className="text-3xl text-curaBlack font-SatoshiBold">
+                  BPM
+                </Text>
+              </View>
+              <Text className="text-base  text-curaBlack/60 font-SatoshiBold -mt-3">
+                {timeAgo} MIN AGO
+              </Text>
+            </View>
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 }

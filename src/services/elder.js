@@ -1,8 +1,6 @@
-import { auth } from "../utils/FirebaseConfig";
-
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-export const testPushNotification = async () => {
+export const testPushNotification = async (email, token) => {
   try {
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
@@ -10,9 +8,10 @@ export const testPushNotification = async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          email: auth.currentUser.email,
+          email,
           type: "TEST_NOTIFICATION",
           location: ["48.2253215", "-123.0911397"],
         }),
@@ -175,5 +174,55 @@ export const setElderHeartRateDetail = async (body) => {
   } catch (error) {
     console.log("error", error.message);
     throw Error("Could not set elder heartrate detail");
+  }
+};
+
+//daily-heart-rate-data-visualisation
+//http://10.0.0.113:3003/api/elder/daily-heart-rate-data-visualisation?email=trinapreet@gmail.com
+
+export const getElderDailyHeartRateDataVisualisation = async (email) => {
+  // console.log("fetching elder daily heart rate data visualisation");
+
+  try {
+    const response = await fetch(
+      `${apiUrl}/elder/daily-heart-rate-data-visualisation?email=${email}`
+    );
+
+    const data = await response.json();
+    // console.log(data);
+    console.log(
+      "Successfully fetching elder daily heart rate data visualisation"
+    );
+
+    return data;
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not get elder daily heart rate data visualisation");
+  }
+};
+
+export const fallDetectedPushNotification = async (email, token) => {
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email,
+          type: "FALL_DETECTED",
+          location: ["48.2253215", "-123.0911397"],
+        }),
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not test notification");
   }
 };

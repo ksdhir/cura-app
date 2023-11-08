@@ -8,12 +8,15 @@ export default function HistoryNotification() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="flex flex-1 bg-curaWhite">
+    <SafeAreaView className="flex-1 justify-center px-4 bg-curaWhite">
       <StatusBar style="auto" />
-
-      <View className="flex w-full flex-1 justify-center items-center space-y-4">
-        <Text className="text-2xl text-neutral-800 font-bold mt-4">
-          Notification Notification Screen
+      {/* <Header /> */}
+      <View className="w-full">
+        <Text className="text-5xl font-SatoshiBold">Notifications</Text>
+      </View>
+      <View className="w-full flex-row justify-between py-4">
+        <Text className="text-2xl text-curaBlack font-SatoshiBold mt-4">
+          Notifications
         </Text>
       </View>
     </SafeAreaView>

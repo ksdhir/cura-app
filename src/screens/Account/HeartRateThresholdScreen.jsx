@@ -47,7 +47,7 @@ export default function HeartRateThresholdScreen() {
     <View className="flex-1 items-center justify-center white ">
       <StatusBar style="auto" />
       <View className="w-full flex-1 justify-center px-8">
-        <Text className="text-2xl text-neutral-800 font-bold">
+        <Text className="text-2xl text-neutral-800 font-SatoshiBold">
           HeartRate History
         </Text>
       </View>

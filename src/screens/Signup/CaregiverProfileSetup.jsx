@@ -39,17 +39,17 @@ const CaregiveProfileSetup = () => {
       <View className="flex flex-column flex-1">
         <View className="flex justify-start py-4">
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text className="font-bold"> {"< Back"} </Text>
+            <Text className="font-SatoshiBold"> {"< Back"} </Text>
           </TouchableOpacity>
         </View>
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-bold text-2xl"> Caregiver Profile </Text>
+          <Text className="font-SatoshiBold text-2xl"> Caregiver Profile </Text>
         </View>
 
         <ScrollView className="flex">
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Preferred Name: </Text>
+            <Text className="font-SatoshiBold"> Preferred Name: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -59,7 +59,7 @@ const CaregiveProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Phone number: </Text>
+            <Text className="font-SatoshiBold"> Phone number: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -73,7 +73,7 @@ const CaregiveProfileSetup = () => {
           className="bg-[#D9D9D9] px-4 py-2 rounded-md w-full"
           onPress={handleConfirm}
         >
-          <Text className="text-[17px] text-center font-bold"> Confirm </Text>
+          <Text className="text-[17px] text-center font-SatoshiBold"> Confirm </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
