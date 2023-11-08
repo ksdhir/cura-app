@@ -8,6 +8,11 @@ import FallDetectionScreen from "./FallDetectionScreen";
 import PushNotificationScreen from "./PushNotificationScreen";
 import CaregiverProfile from "../Profile/CaregiverProfile";
 import ElderProfile from "../Profile/ElderProfile";
+import MovementStack from "../Movement/MovementStack";
+
+// Fall Detection Screens
+import ElderFallDetectedScreen from "./ElderFallDetectedScreen.jsx";
+import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen.jsx";
 
 export default function AccountStack() {
   const Stack = createNativeStackNavigator();
@@ -51,6 +56,19 @@ export default function AccountStack() {
         name="ElderProfile"
         component={ElderProfile}
       />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ElderFallDetectedScreen"
+        component={ElderFallDetectedScreen}
+      />
+
+      {/* <Stack.Screen
+        options={{ headerShown: false }}
+        name="ElderFallConfirmationScreen"
+        component={ElderFallConfirmationScreen}
+      /> */}
+
     </Stack.Navigator>
   );
 }
