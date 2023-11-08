@@ -53,7 +53,7 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
-export default function PushNotificationScreen({userEmail}) {
+export default function PushNotificationScreen({ userEmail }) {
   const navigation = useNavigation();
 
   const notificationListener = useRef();
@@ -70,12 +70,54 @@ export default function PushNotificationScreen({userEmail}) {
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
+        const { payload, type, elderEmail, elderName, elderPhoneNumber } =
+          notification.request.content.data;
+
+        if (type == "MOVEMENT_LOCATION") {
+          navigation.navigate("MovementStack", {
+            screen: "MovementMainScreen",
+          });
+        } else if (type == "FALL_DETECTED") {
+          navigation.navigate("AccountStack", {
+            screen: "ElderFallDetectedScreen",
+            params: { elderPhoneNumber, elderName, location: payload.location },
+          });
+        } else if (type == "CRITICAL_HEART_RATE") {
+          navigation.navigate("HeartRateStack", {
+            screen: "CriticalHeartRateScreen",
+            params: {
+              elderEmail: elderEmail,
+              minThreshold: payload.currentMinHeartRate,
+              maxThreshold: payload.currentMaxHeartRate,
+            },
+          });
+        }
       });
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        const { payload, type, elderEmail, elderName, elderPhoneNumber } =
+          response.notification.request.content.data;
+
+        if (type == "MOVEMENT_LOCATION") {
+          navigation.navigate("MovementStack", {
+            screen: "MovementMainScreen",
+          });
+        } else if (type == "FALL_DETECTED") {
+          navigation.navigate("AccountStack", {
+            screen: "ElderFallDetectedScreen",
+            params: { elderPhoneNumber, elderName, location: payload.location },
+          });
+        } else if (type == "CRITICAL_HEART_RATE") {
+          navigation.navigate("HeartRateStack", {
+            screen: "CriticalHeartRateScreen",
+            params: {
+              elderEmail: elderEmail,
+              minThreshold: payload.currentMinHeartRate,
+              maxThreshold: payload.currentMaxHeartRate,
+            },
+          });
+        }
       });
 
     return () => {
@@ -86,7 +128,5 @@ export default function PushNotificationScreen({userEmail}) {
     };
   }, []);
 
-  return (
-    <></>
-  );
+  return <></>;
 }
