@@ -9,6 +9,8 @@ import Movement from "../assets/icons/svg/monitoring.svg";
 import Monitoring from "../assets/icons/svg/heartrate.svg";
 
 const Tab = createBottomTabNavigator();
+const PROFILE_TYPE = "CAREGIVER";
+
 
 export default function TabAnimated() {
   return (

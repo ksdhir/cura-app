@@ -40,9 +40,8 @@ export const caregiverSignup = async (body, token) => {
   }
 };
 
-export const saveNotificationToken = async (expoToken) => {
+export const saveNotificationToken = async (expoToken, email) => {
   try {
-    const email = auth.currentUser.email;
 
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/store-push-notification-token?email=${email}&token=${expoToken}`;
 
@@ -54,6 +53,7 @@ export const saveNotificationToken = async (expoToken) => {
     });
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

@@ -1,4 +1,4 @@
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, Text } from "react-native";
 
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -15,16 +15,15 @@ import AnimatedElderAvatar from "../../components/AnimatedElderAvatar";
 import HomeHeader from "../../components/Home/Header";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import GraphHeader from "../../components/Home/GraphHeader";
-import HeartRateGraph from '../../components/Home/HeartRateGraph';
+import HeartRateGraph from "../../components/Home/HeartRateGraph";
 
+import NoElderProfileFound from "../../components/Home/NoElderProfileFound";
 
 const { width, height } = Dimensions.get("window");
 
 export default function HeartRateMainScreen() {
   const { profileType } = useAuth();
 
-  const [loading, setLoading] = useState(true);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [elderEmailData, setElderEmailData] = useState("");
   const [elderProfile, setElderProfile] = useState(null);
   const [heartRateDetail, setHeartRateDetail] = useState(null);
@@ -41,28 +40,21 @@ export default function HeartRateMainScreen() {
     const init = async () => {
       try {
         if (userLoggedIn === "Caregiver") {
-          if (isFirstLoad) {
-            setLoading(true); // Set loading to true only on the first app load
-          }
-
           const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
-          // console.log("CAREGIVER EMAIL --- 3", caregiverEmail);
-
           elderEmail = data.caregiver?.elderEmails[0];
-          // console.log("ELDER EMAIL --- 4", elderEmail);
 
-          if (isFirstLoad) {
-            setLoading(false); // Set loading to false on the first app load after data retrieval
-            setIsFirstLoad(false); // Set isFirstLoad to false to prevent further loading
+          if (elderEmail) {
+            setElderEmailData(elderEmail);
+          } else {
+            setElderEmailData(undefined);
           }
         } else {
           //Elder flow
           elderEmail = user.email;
+          setElderEmailData(elderEmail);
         }
 
-        //
-
-        setElderEmailData(elderEmail);
+        if (elderEmail === undefined) return;
 
         // Now that you have elderEmail, you can make other async calls
         getElderProfile(elderEmail).then((profile) => {
@@ -80,15 +72,19 @@ export default function HeartRateMainScreen() {
       } catch (error) {
         console.log("error", error.message);
         throw Error("Could not get elder profile");
-      } finally {
-        setLoading(false);
       }
     };
 
     init();
-  }, [user, isFirstLoad]);
+  }, [user]);
 
-  if (loading || !elderProfile || !heartRateDetail || !heartRateThreshold) {
+  // elderEmail is undefined -> write down a message to add Elder
+  if (elderEmailData === undefined) {
+    return <NoElderProfileFound />;
+  }
+
+  // LOAD if not all of those are loaded
+  if (!elderProfile || !heartRateDetail || !heartRateThreshold) {
     return <LoadingSpinner />;
   }
 
@@ -107,9 +103,16 @@ export default function HeartRateMainScreen() {
             height: height * 0.5,
           }}
         >
-          <GraphHeader data={heartRateDetail} threshold={heartRateThreshold} elderEmailData={elderEmailData} />
+          <GraphHeader
+            data={heartRateDetail}
+            threshold={heartRateThreshold}
+            elderEmailData={elderEmailData}
+          />
 
-          <HeartRateGraph heartRateDetail={heartRateDetail} heartRateThreshold={heartRateThreshold} />
+          <HeartRateGraph
+            heartRateDetail={heartRateDetail}
+            heartRateThreshold={heartRateThreshold}
+          />
         </View>
       </>
     </SafeAreaView>
