@@ -17,11 +17,17 @@ import useAuth from "../hooks/useAuth";
 import HistoryNotification from "../screens/Notifcation/HistoryNotification";
 import { useEffect } from "react";
 
+import { useState } from "react";
+import { getHealthData } from "../hooks/googlehealth";
+import { useFallDetectionChecker } from "../hooks/falldetection";
+import { backgroundsync } from "../services/backgroundsync";
+
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   const navigation = useNavigation();
-  const { user, profileType } = useAuth();
+  const { user, profileType, token } = useAuth();
+  const [fallDetectionChecker, setFallDetectionChecker] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -30,11 +36,27 @@ const AppNavigator = () => {
         navigation.navigate("ProfileTypeSetup");
       } else {
         // console.log("profileType:" + profileType);
-
+        if (profileType === "Elder") {
+          getHealthData(user.email);
+        }
         navigation.navigate("Home");
       }
     }
   }, [user, profileType]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    if (user && profileType === "Elder") {
+      getHealthData(user.email);
+      setFallDetectionChecker(useFallDetectionChecker(user.email, token));
+    }
+
+    if (user) {
+      backgroundsync(user.email);
+    }
+  }, [user]);
 
   return (
     <Stack.Navigator initialRouteName="Login">

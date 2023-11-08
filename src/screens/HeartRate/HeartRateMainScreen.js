@@ -82,6 +82,7 @@ export default function HeartRateMainScreen() {
         setElderProfile(profileData);
 
         const heartRateDetailData = await getElderHeartRateDetail(elderEmail);
+        console.log("heartRateDetailData", heartRateDetailData);
         setHeartRateDetail(heartRateDetailData);
 
         const heartRateThresholdData = await getElderHeartRateThreshold(
