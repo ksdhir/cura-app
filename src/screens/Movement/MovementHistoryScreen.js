@@ -14,7 +14,7 @@ export default function MovementHistoryScreen({movements}) {
           <MovementCard
             key={idx}
             locationString={movement.locationString}
-            date_time={movement.date}
+            date_time={new Date(movement.date).toLocaleString('en-US')}
           ></MovementCard>
         ))}
       </View>
