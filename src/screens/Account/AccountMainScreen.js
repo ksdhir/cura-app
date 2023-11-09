@@ -24,7 +24,8 @@ export default function AccountMainScreen(props) {
       console.log("ERROR", error);
     } finally {
       await auth().signOut();
-      navigation.navigate("Welcome");
+      navigation.navigate("Login");
+      console.log("GOOGLE AUTH SIGN OUT SUCCESS");
     }
   };
 

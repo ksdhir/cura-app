@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import HomeStack from "../screens/Home/HomeStack";
 import HeartRateStack from "../screens/HeartRate/HeartRateStack";
 import AccountStack from "../screens/Account/AccountStack";
 import MovementStack from "../screens/Movement/MovementStack";
