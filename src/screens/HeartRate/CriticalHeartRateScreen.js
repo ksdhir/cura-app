@@ -7,6 +7,9 @@ import curaTheme from "../../theme/theme";
 import { getAllNotificationLog } from "../../services/caregiver";
 import { formatDateTime } from "../../helpers";
 import Header from "../../components/layouts/Header";
+import IconBtn from "../../components/IconBtn";
+import PolyUp from "../../assets/icons/svg/polygonup.svg";
+import PolyDown from "../../assets/icons/svg/polygondown.svg";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
