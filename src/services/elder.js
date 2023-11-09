@@ -80,8 +80,9 @@ export const getElderProfile = async (email, token) => {
         Authorization: `Bearer ${token ?? ""}`,
       },
     });
-
-    return response.json();
+    const x = await response.json();
+    console.log(x);
+    return x;
   } catch (error) {
     console.log("error", error.message);
 
@@ -201,6 +202,8 @@ export const getElderDailyHeartRateDataVisualisation = async (email) => {
   }
 };
 
+// ============================> PUSH NOTIFICATIONS APIS
+
 export const fallDetectedPushNotification = async (email, token) => {
   try {
     const response = await fetch(
@@ -226,6 +229,45 @@ export const fallDetectedPushNotification = async (email, token) => {
     throw Error("Could not test notification");
   }
 };
+
+export const movementPushNotification = async (
+  email,
+  latitude,
+  longitude,
+  token
+) => {
+  try {
+
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: email,
+          type: "MOVEMENT_LOCATION",
+          payload: {
+            location: {
+              latitude: latitude,
+              longitude: longitude,
+            },
+          },
+        }),
+      }
+    );
+    const data = await response.json();
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not test notification");
+  }
+};
+
+// ============================> PUSH NOTIFICATIONS APIS ENDS
 
 export const addEmergencyContact = async (body, token) => {
   try {
