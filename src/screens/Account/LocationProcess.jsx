@@ -72,7 +72,29 @@ function locationLiveDetectionProcess(homeCoordinates, currentLocation) {
   );
   if (radius > minimumDistance) {
     // TODO add token
-    movementPushNotification(homeCoordinates.elderEmail, currentLocation.latitude, currentLocation.longitude)
+    AsyncStorage.setItem("isPreviousHome", "false").then(() => {
+      movementPushNotification(
+        homeCoordinates.elderEmail,
+        currentLocation.latitude,
+        currentLocation.longitude
+      );
+    });
+  } else {
+    
+    // is User back home? Send Notifcation of Home but only Once
+
+    AsyncStorage.getItem("isPreviousHome").then((data) => {
+      if (data == null || data == "false") {
+        // user was not home previously
+        AsyncStorage.setItem("isPreviousHome", "true").then(() => {
+          movementPushNotification(
+            homeCoordinates.elderEmail,
+            homeCoordinates.latitude,
+            homeCoordinates.longitude
+          );
+        });
+      }
+    });
   }
 }
 
@@ -90,11 +112,10 @@ export default function LocationProcess({ userEmail }) {
           const latitude = profile.defaultLocation.latitude ?? 49.229033;
           const longitude = profile.defaultLocation.longitude ?? -123.0691669;
 
-
           // 49.229033,-123.0691669
           // console.log(home_latitude, home_longitude);
 
-          const homeCoordinates = { latitude, longitude, elderEmail  };
+          const homeCoordinates = { latitude, longitude, elderEmail };
           const stringify = JSON.stringify(homeCoordinates);
           return AsyncStorage.setItem("homeCoordinates", stringify);
         })
