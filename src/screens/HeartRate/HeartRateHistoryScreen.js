@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Dimensions, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -47,7 +42,6 @@ export default function HeartRateHistoryScreen() {
   const { bpm, elderEmail, minThreshold, maxThreshold } = route.params;
 
   useEffect(() => {
-    
     getElderProfile(elderEmail).then((data) => {
       // console.log(data)
       setDetail(data);
@@ -68,15 +62,11 @@ export default function HeartRateHistoryScreen() {
       // console.log(data)
       setWeeklyRawData(data?.consolidatedData);
     });
-
   }, []);
-
-
 
   if (!detail || !heartRateDetail || !dailyRawData || !weeklyRawData) {
     return <LoadingSpinner />;
   }
-
 
   const weekMin = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMin;
   const weekMax = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMax;
@@ -227,12 +217,30 @@ export default function HeartRateHistoryScreen() {
           {/* =======END GRAPH======= */}
 
           <View className="flex w-full flex-row justify-around ">
-            <Text className="text-lg text-neutral-800 font-normal">
-              Min {daily === true ? dailyMin : weekMin} bpm
-            </Text>
-            <Text className="text-lg text-neutral-800 font-normal">
-              Max {daily === true ? dailyMax : weekMax}bpm
-            </Text>
+            <View className="flex flex-row">
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                min
+              </Text>
+              <Text className="text-lg  text-primary  font-SatoshiMedium">
+                {" "}
+                {daily === true ? dailyMin : weekMin}{" "}
+              </Text>
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                bpm
+              </Text>
+            </View>
+            <View className="flex flex-row">
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                max
+              </Text>
+              <Text className="text-lg text-primary  font-SatoshiMedium">
+                {" "}
+                {daily === true ? dailyMax : weekMax}{" "}
+              </Text>
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                bpm
+              </Text>
+            </View>
           </View>
           <TouchableOpacity
             className="w-full h-12 bg-primary rounded-xl flex items-center justify-center"

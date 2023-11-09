@@ -1,10 +1,10 @@
 import { timeDifference } from "../../helpers";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import Lottie from "lottie-react-native";
 
+const { width, height } = Dimensions.get("window");
+
 const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
-
-
 
   const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
   const time = heartRateDetail?.latestHeartRateRecord?.[0]?.timestamp;
@@ -40,12 +40,12 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
       {/* BPM */}
       <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
         <View className="flex flex-row items-baseline ">
-          <Text className=" text-7xl text-secondaryDark font-SatoshiBlack">
+          <Text className="text-7xl text-secondaryDark font-SatoshiBlack">
             {bpm}
           </Text>
           <Text className="text-3xl text-curaBlack font-SatoshiBold">BPM</Text>
         </View>
-        <Text className="text-base  text-curaBlack/60 font-SatoshiBold mt-3">
+        <Text className="text-base text-curaBlack/60 font-SatoshiBold -mt-3">
           {timeAgo} MIN AGO
         </Text>
       </View>

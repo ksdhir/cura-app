@@ -80,7 +80,7 @@ export default function PushNotificationScreen({ userEmail }) {
         } else if (type == "FALL_DETECTED") {
           navigation.navigate("AccountStack", {
             screen: "ElderFallDetectedScreen",
-            params: { elderPhoneNumber, elderName, location: payload.location },
+            params: { elderPhoneNumber, elderName, location: payload?.location },
           });
         } else if (type == "CRITICAL_HEART_RATE") {
           navigation.navigate("HeartRateStack", {
