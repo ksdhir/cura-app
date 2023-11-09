@@ -24,6 +24,7 @@ import { backgroundsync } from "../services/backgroundsync";
 
 // notification permission
 import PushNotificationScreen from "../screens/Account/PushNotificationScreen";
+import LocationProcess from "../screens/Account/LocationProcess";
 
 const Stack = createNativeStackNavigator();
 
@@ -65,10 +66,9 @@ const AppNavigator = () => {
 
 
 
-  //  useEffect for notifications
-  // const [isLocationPermission, setIsOnce] = useState(false);
-
+  // ========================> PERMISSIONS FOR ALL USERS (ELDER AND CAREGIVER)
   const [askNotifcationPermission, setAskNotifcationPermission] = useState(false);
+  const [askLocationPermission, setAskLocationPermission] = useState(false); // [true, false, false
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
@@ -79,14 +79,24 @@ const AppNavigator = () => {
     if (user && profileType === "Elder") {
       // elder permissions
       console.log('elder permissions')
+
+      // call user profile function
+
+      setUserEmail(user.email)
+      setAskLocationPermission(true);
+
+
     } else if(user && profileType === "Caregiver") {
       setUserEmail(user.email)
       setAskNotifcationPermission(true)
     }
   }, [user]);
 
+  // ========================> PERMISSIONS FOR ALL USERS (ELDER AND CAREGIVER) ENDS HERE
+
   return (
     <>
+      {true && askLocationPermission && <LocationProcess userEmail={userEmail} />}
       {askNotifcationPermission && <PushNotificationScreen userEmail={userEmail} />}
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen

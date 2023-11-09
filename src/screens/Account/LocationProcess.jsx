@@ -1,0 +1,106 @@
+// core packages imports
+import React, { useState, useEffect, useRef } from "react";
+import * as TaskManager from "expo-task-manager";
+import * as Location from "expo-location";
+
+// functionality imports
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import radiusBetweenCoords from "../../utils/radiusBetweenCoords";
+
+// api imports
+import { getElderProfile } from "../../services/elder";
+import { movementPushNotification } from "../../services/elder";
+
+// Define task name
+const LOCATION_TASK_NAME = "background-location-task";
+
+const requestPermissions = async () => {
+  const { status: foregroundStatus } =
+    await Location.requestForegroundPermissionsAsync();
+  if (foregroundStatus === "granted") {
+    const { status: backgroundStatus } =
+      await Location.requestBackgroundPermissionsAsync();
+    if (backgroundStatus === "granted") {
+      console.log("before line 19 -> location updates async");
+      await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+        accuracy: Location.Accuracy.BestForNavigation, // accuracy: Location.Accuracy.Balanced,
+        timeInterval: 200 * 20 * 10, // 20 minutes
+        distanceInterval: 0,
+        showsBackgroundLocationIndicator: true,
+      });
+
+      console.log("hello");
+
+      console.log("After line 19 -> location updates async");
+    }
+  }
+};
+
+// Define Task manager
+TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+  if (error) {
+    // Error occurred - check `error.message` for more details.
+    console.log(error);
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    const { latitude, longitude } = locations[0].coords;
+    // console.log(latitude, longitude)
+
+    const currentLocation = { latitude, longitude };
+
+    // from async storage get home coordinates
+    AsyncStorage.getItem("homeCoordinates").then((data) => {
+      const homeCoordinates = JSON.parse(data);
+      locationLiveDetectionProcess(homeCoordinates, currentLocation);
+    });
+
+    // locationLiveDetectionProcess()
+  }
+});
+
+const minimumDistance = 0.3; // 300 meters
+
+function locationLiveDetectionProcess(homeCoordinates, currentLocation) {
+  // compute radius first
+  const radius = radiusBetweenCoords(
+    homeCoordinates.latitude,
+    homeCoordinates.longitude,
+    currentLocation.latitude,
+    currentLocation.longitude
+  );
+  if (radius > minimumDistance) {
+    // TODO add token
+    movementPushNotification(homeCoordinates.elderEmail, currentLocation.latitude, currentLocation.longitude)
+  }
+}
+
+export default function LocationProcess({ userEmail }) {
+  const [runOnce, setRunOnce] = useState(false);
+  const elderEmail = userEmail;
+
+  useEffect(() => {
+    if (!runOnce) {
+      setRunOnce(true);
+
+      getElderProfile(elderEmail)
+        .then((data) => {
+          const profile = data.profile;
+          const latitude = profile.defaultLocation.latitude ?? 49.229033;
+          const longitude = profile.defaultLocation.longitude ?? -123.0691669;
+
+
+          // 49.229033,-123.0691669
+          // console.log(home_latitude, home_longitude);
+
+          const homeCoordinates = { latitude, longitude, elderEmail  };
+          const stringify = JSON.stringify(homeCoordinates);
+          return AsyncStorage.setItem("homeCoordinates", stringify);
+        })
+        .then((data) => {
+          requestPermissions();
+        });
+    }
+  }, []);
+}
