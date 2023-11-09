@@ -23,7 +23,7 @@ import { getElderProfile } from "../../services/elder";
 // util function
 function parseLocationData(inputData) {
   const transformedData = inputData.notificationLog.map((item) => {
-    const locationString =
+    const locationString = item.payload.location.address ??
       item.payload.location.latitude + " " + item.payload.location.longitude; // You can replace this with the actual location data
     const date = new Date(item.timestamp).toISOString();
     const latitude = item.payload.location.latitude;
