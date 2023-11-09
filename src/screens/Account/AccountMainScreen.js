@@ -51,7 +51,7 @@ export default function AccountMainScreen(props) {
         <Header />
       </View>
 
-      <View className="flex w-full flex-1 justify-center items-center space-y-4">
+      <View className="flex w-full flex-1 space-y-4">
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <UserIcon width={20} height={20} style={{ color: "#323333" }} />
 
@@ -93,7 +93,7 @@ export default function AccountMainScreen(props) {
           </Text>
         </View>
 
-        <View className="w-full flex flex-row items-center justify-between gap-2 px-4">
+        <View className="w-full flex flex-row items-center justify-between py-2 px-4">
           <Text className="text-lg text-neutral-800 font-SatoshiBold">
             Notifications
           </Text>
@@ -101,13 +101,20 @@ export default function AccountMainScreen(props) {
           <MaterialCommunityIcons name={"chevron-right"} size={24} />
         </View>
 
-        <View className="w-full flex flex-row  items-center justify-between gap-2 px-4">
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
-            Heart Rate Threshold
-          </Text>
+        {profileType === "Elder" ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("HeartRateThresholdScreen")}
+            className="w-full p-4 pt-0"
+          >
+            <View className="flex flex-row  items-center justify-between gap-2">
+              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+                Heart Rate Threshold
+              </Text>
 
-          <MaterialCommunityIcons name={"chevron-right"} size={24} />
-        </View>
+              <MaterialCommunityIcons name={"chevron-right"} size={24} />
+            </View>
+          </TouchableOpacity>
+        ) : null}
 
         <TouchableOpacity onPress={handleSignout} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2 ">
@@ -117,7 +124,7 @@ export default function AccountMainScreen(props) {
           </View>
         </TouchableOpacity>
 
-        <ScrollView
+        {/* <ScrollView
           className="flex flex-1 w-full px-4 space-y-3"
           contentContainerStyle={{
             flex: 1,
@@ -145,7 +152,7 @@ export default function AccountMainScreen(props) {
           >
             <Text>Push Notification Screen</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </SafeAreaView>
   );

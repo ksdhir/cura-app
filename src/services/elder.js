@@ -133,6 +133,24 @@ export const getElderHeartRateThreshold = async (email) => {
   }
 };
 
+export const updateElderHeartRateThreshold = async (body, token) => {
+  try {
+    const response = await fetch(`${apiUrl}/elder/heart-threshold`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    return response.json();
+  } catch (error) {
+    console.log("error", error.message);
+    throw Error("Could not set elder heartrate threshold");
+  }
+};
+
 //weekly-heart-rate-data-visualisation
 //http://10.0.0.113:3003/api/elder/weekly-heart-rate-data-visualisation?email=trinapreet@gmail.com
 
@@ -237,7 +255,6 @@ export const movementPushNotification = async (
   token
 ) => {
   try {
-
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
       {
@@ -259,7 +276,7 @@ export const movementPushNotification = async (
       }
     );
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     return data;
   } catch (error) {
     console.log("error", error.message);
