@@ -44,23 +44,7 @@ export default function MovementMainScreen() {
   const navigation = useNavigation();
   const [isElderVisible, setIsElderVisible] = useState(true);
 
-  // const elderVisible = require('../../assets/images/movement/elder-visible.png')
-  // const elderGone = require('../../assets/images/movement/elder-gone.png')
 
-  // Handle Images / Lottie Animations
-  //
-  // The Main Screen -> Calls the for the History Log of the Movement
-  // Displays them in the History log Component
-  // TODO: Integrate tomtom to display string of the location based on the coordinates
-
-  // get elder email
-  // get elder profile also for coords
-
-  // get movement logs
-  // compare last movement log with elder profile coords
-  // set isElderVisible to true or false
-  // using tomtom api decode coords to string
-  // display string in the movement history screen
 
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();

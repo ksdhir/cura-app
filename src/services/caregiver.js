@@ -65,8 +65,6 @@ export const saveNotificationToken = async (expoToken, email) => {
 // =============================> SPECIFIC TYPE NOTIFICATION LOGS
 
 export const getSpecificNotificationLog = async (elderEmail, type) => {
-  console.log("fetching all notification log");
-
   const allValidTypes = ["CRITICAL_HEART_RATE", "FALL_DETECTED", "MOVEMENT_LOCATION"];
 
   try {
@@ -75,7 +73,6 @@ export const getSpecificNotificationLog = async (elderEmail, type) => {
     }
 
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=${type}`;
-    console.log(url);
 
     const response = await fetch(url, {
       method: "GET",
