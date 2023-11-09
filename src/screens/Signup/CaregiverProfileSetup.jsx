@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import useAuth from "../../hooks/useAuth";
 import { caregiverSignup } from "../../services/caregiver";
+import Header from "../../components/layouts/Header";
 
 const CaregiveProfileSetup = () => {
   const navigation = useNavigation();
@@ -35,34 +36,34 @@ const CaregiveProfileSetup = () => {
   };
 
   return (
-    <SafeAreaView className="flex h-full space-y-4 px-4 py-4">
-      <View className="flex flex-column flex-1">
-        <View className="flex justify-start py-4">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text className="font-SatoshiBold"> {"< Back"} </Text>
-          </TouchableOpacity>
-        </View>
+    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+      <Header hideNotification />
 
+      <View className="flex flex-column flex-1">
         <View className="flex justify-start py-4 mb-4">
           <Text className="font-SatoshiBold text-2xl"> Caregiver Profile </Text>
         </View>
 
         <ScrollView className="flex">
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Preferred Name: </Text>
+            <Text className="font-SatoshiMedium text-[16px]">
+              Preferred Name/s
+            </Text>
 
             <TextInput
-              className="border-b-[1px]"
+              className="border-b-[2px] border-[#AFB3B2]"
               value={name}
               onChangeText={(v) => setName(v)}
             />
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Phone number: </Text>
+            <Text className="font-SatoshiMedium text-[16px]">
+              Phone number:
+            </Text>
 
             <TextInput
-              className="border-b-[1px]"
+              className="border-b-[2px] border-[#AFB3B2]"
               value={phoneNumber}
               onChangeText={(v) => setPhoneNumber(v)}
             />
@@ -70,10 +71,12 @@ const CaregiveProfileSetup = () => {
         </ScrollView>
 
         <TouchableOpacity
-          className="bg-[#D9D9D9] px-4 py-2 rounded-md w-full"
+          className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
           onPress={handleConfirm}
         >
-          <Text className="text-[17px] text-center font-SatoshiBold"> Confirm </Text>
+          <Text className="text-[17px] text-center font-SatoshiBold text-white">
+            Confirm
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

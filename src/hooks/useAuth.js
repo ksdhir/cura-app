@@ -14,7 +14,11 @@ const useAuth = () => {
         .then((result) => {
           const claims = result.claims;
           const profileType = claims.profileType;
-          setProfileType(profileType ?? "Elder");
+
+          if (profileType) {
+            setProfileType(profileType);
+          }
+
           setUser(user);
           setIsLoaded(true);
         });
