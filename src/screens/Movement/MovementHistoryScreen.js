@@ -4,25 +4,7 @@ import React from "react";
 // import components
 import MovementCard from "../../components/MovementCard";
 
-export default function MovementHistoryScreen() {
-  const movements = [
-    {
-      locationString: "310 W Broadway Vancouver, BC V5Y1P3",
-      date: "2023-11-01T12:30:00Z", // show time of the day of client
-    },
-    {
-      locationString: "310 W Broadway Vancouver, BC V5Y1P3",
-      date: "2023-11-01T12:30:00Z", // show time of the day of client
-    },
-    {
-      locationString: "310 W Broadway Vancouver, BC V5Y1P3",
-      date: "2023-11-01T12:30:00Z", // show time of the day of client
-    },
-    {
-      locationString: "310 W Broadway Vancouver, BC V5Y1P3",
-      date: "2023-11-01T12:30:00Z", // show time of the day of client
-    },
-  ];
+export default function MovementHistoryScreen({movements}) {
 
   return (
     <View>

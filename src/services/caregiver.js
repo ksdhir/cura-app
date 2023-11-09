@@ -61,6 +61,42 @@ export const saveNotificationToken = async (expoToken, email) => {
   }
 };
 
+
+// =============================> SPECIFIC TYPE NOTIFICATION LOGS
+
+export const getSpecificNotificationLog = async (elderEmail, type) => {
+  console.log("fetching all notification log");
+
+  const allValidTypes = ["CRITICAL_HEART_RATE", "FALL_DETECTED", "MOVEMENT_LOCATION"];
+
+  try {
+    if (allValidTypes.includes(type) === false) {
+      throw new Error("Invalid type");
+    }
+
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=${type}`;
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
+
+// =============================> SPECIFIC TYPE NOTIFICATION LOGS ENDS
+
+
+
 // /api/caregiver/all-notification-log
 
 // http://192.168.56.1:3003/api/caregiver/all-notification-log?elderEmail=trinapreet@gmail.com&type=CRITICAL_HEART_RATE
