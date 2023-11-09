@@ -81,6 +81,8 @@ const AppNavigator = () => {
       setUserEmail(user.email);
       setAskLocationPermission(true);
     } else if (user && profileType === "Caregiver") {
+
+      console.log('caregiver permissions');
       setUserEmail(user.email);
       setAskNotifcationPermission(true);
     }
