@@ -1,102 +1,108 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../../components/layouts/Header";
+import ThresholdItem from "../../components/Account/ThresholdItem";
+import {
+  getElderHeartRateThreshold,
+  updateElderHeartRateThreshold,
+} from "../../services/elder";
+import useAuth from "../../hooks/useAuth";
 
 export default function HeartRateThresholdScreen() {
-  const navigation = useNavigation();
-
   const [minHeartRate, setMinHeartRate] = useState(80);
   const [maxHeartRate, setMaxHeartRate] = useState(110);
-  const [data, setData] = useState();
+  const [lastUpdated, setLastUpdated] = useState(null);
+  const { user, token } = useAuth();
 
-  const handleMinHeartRate = (method) => {
-    switch (method) {
-      case "increment":
-        setMinHeartRate(minHeartRate + 1);
-        break;
-      case "decrement":
-        setMinHeartRate(minHeartRate - 1);
-        break;
+  const handleChangeThreshold = async () => {
+    try {
+      const result = await updateElderHeartRateThreshold(
+        {
+          email: user.email,
+          minimum: minHeartRate,
+          maximum: maxHeartRate,
+        },
+        token
+      );
+
+      const newDate = new Date(result.detail.lastUpdated);
+      setLastUpdated(newDate.toLocaleString());
+
+      alert("Threshold updated successfully!");
+    } catch (error) {
+      alert(error.message);
     }
   };
 
-  const handleMaxHeartRate = (method) => {
-    switch (method) {
-      case "increment":
-        setMaxHeartRate(maxHeartRate + 1);
-        break;
-      case "decrement":
-        setMaxHeartRate(maxHeartRate - 1);
-        break;
-    }
-  };
+  useEffect(() => {
+    if (!user) return;
 
-  const handleChangeThreshold = () => {
-    console.log("change threshold");
-  };
+    const fetchThreshold = async () => {
+      try {
+        const result = await getElderHeartRateThreshold(user.email);
+        setMinHeartRate(result.detail.minimum);
+        setMaxHeartRate(result.detail.maximum);
+
+        const newDate = new Date(result.detail.lastUpdated);
+        setLastUpdated(newDate.toLocaleString());
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+
+    fetchThreshold();
+  }, [user]);
 
   return (
-    <View className="flex-1 items-center justify-center white ">
-      <StatusBar style="auto" />
-      <View className="w-full flex-1 justify-center px-8">
-        <Text className="text-2xl text-neutral-800 font-SatoshiBold">
-          HeartRate History
-        </Text>
-      </View>
-      <View className="flex justify-center items-center">
-        <Text className="">Minimum</Text>
-        <View className="flex flex-row gap-6 justify-center items-center">
-          <TouchableOpacity
-            className="flex justify-center items-center"
-            onPress={() => handleMinHeartRate("decrement")}
-          >
-            <Text className="text-2xl bg-[#09C1CB] rounded-full px-2">-</Text>
-          </TouchableOpacity>
-          <Text className="text-4xl">{minHeartRate}</Text>
-          <TouchableOpacity
-            className="flex justify-center items-center"
-            onPress={() => handleMinHeartRate("increment")}
-          >
-            <Text className="text-2xl bg-[#09C1CB] rounded-full px-2">+</Text>
-          </TouchableOpacity>
+    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-curaWhite">
+      <Header />
+
+      <View className="shadow-2xl p-4 bg-white flex-1 mb-4 justify-between">
+        <View>
+          <Text className="text-[20px] font-SatoshiBold text-[#263130] leading-5 mb-2 font-bold">
+            Heart Rate Threshold
+          </Text>
+
+          <Text className="text-[16px] font-SatoshiMedium text-[#263130] leading-5">
+            Adjust preferred minimum and maximum threshold. The values indicated
+            below is the average range of BPM based on the elderly’s age.
+          </Text>
         </View>
-        <Text>BPM</Text>
-      </View>
-      <View className="flex justify-center items-center">
-        <Text className="">Maximum</Text>
-        <View className="flex flex-row gap-6 justify-center items-center">
-          <TouchableOpacity
-            className="flex justify-center items-center"
-            onPress={() => handleMaxHeartRate("decrement")}
-          >
-            <Text className="text-2xl bg-[#09C1CB] rounded-full px-2">-</Text>
-          </TouchableOpacity>
-          <Text className="text-4xl">{maxHeartRate}</Text>
-          <TouchableOpacity
-            className="flex justify-center items-center"
-            onPress={() => handleMaxHeartRate("increment")}
-          >
-            <Text className="text-2xl bg-[#09C1CB] rounded-full px-2">+</Text>
-          </TouchableOpacity>
+
+        <View className="flex-1">
+          <View className="py-4">
+            <ThresholdItem
+              title="Minimum"
+              value={minHeartRate}
+              onChange={setMinHeartRate}
+            />
+          </View>
+
+          <View className="py-4">
+            <ThresholdItem
+              title="Maximum"
+              value={maxHeartRate}
+              onChange={setMaxHeartRate}
+            />
+          </View>
+
+          {lastUpdated && (
+            <Text className="text-[18px] font-SatoshiMedium text-center mt-4">
+              Last Updated: {lastUpdated}
+            </Text>
+          )}
         </View>
-        <Text>BPM</Text>
-      </View>
-      <View>
+
         <TouchableOpacity
-          className="bg-[#09C1CB] p-2 rounded-lg"
-          onPress={() => handleChangeThreshold()}
+          className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
+          onPress={handleChangeThreshold}
         >
-          <Text className="text-white text-lg">Change Threshold</Text>
+          <Text className="text-[18px] text-center font-SatoshiBold text-white">
+            Change Threshold
+          </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

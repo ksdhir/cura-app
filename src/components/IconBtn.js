@@ -6,6 +6,8 @@ import EditIcon from "../assets/icons/svg/edit.svg";
 import LocationIcon from "../assets/icons/svg/location.svg";
 import MonitoringIcon from "../assets/icons/svg/monitoring.svg";
 import AvatarIcon from "../assets/icons/svg/avatar.svg";
+import AddIcon from "../assets/icons/svg/add.svg";
+import SubtractIcon from "../assets/icons/svg/subtract.svg";
 
 // Define your icon mapping
 const iconMapping = {
@@ -15,6 +17,8 @@ const iconMapping = {
   location: LocationIcon,
   monitoring: MonitoringIcon,
   avatar: AvatarIcon,
+  add: AddIcon,
+  subtract: SubtractIcon,
 };
 
 const IconWithTouchableOpacity = ({
