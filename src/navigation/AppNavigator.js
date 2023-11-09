@@ -27,23 +27,21 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   const navigation = useNavigation();
-  const { user, profileType, token } = useAuth();
+  const { user, profileType, token, isLoaded } = useAuth();
   const [fallDetectionChecker, setFallDetectionChecker] = useState(null);
 
   useEffect(() => {
-    if (user) {
+    if (!isLoaded) return;
+
+    if (!profileType) {
       navigation.navigate("ProfileTypeSetup");
-      if (!profileType) {
-        navigation.navigate("ProfileTypeSetup");
-      } else {
-        // console.log("profileType:" + profileType);
-        if (profileType === "Elder") {
-          getHealthData(user.email);
-        }
-        navigation.navigate("Home");
+    } else {
+      if (profileType === "Elder") {
+        getHealthData(user.email);
       }
+      navigation.navigate("Home");
     }
-  }, [user, profileType]);
+  }, [user, profileType, isLoaded]);
 
   // return <PushNotificationScreen />
 
@@ -81,8 +79,7 @@ const AppNavigator = () => {
       setUserEmail(user.email);
       setAskLocationPermission(true);
     } else if (user && profileType === "Caregiver") {
-
-      console.log('caregiver permissions');
+      console.log("caregiver permissions");
       setUserEmail(user.email);
       setAskNotifcationPermission(true);
     }
@@ -92,9 +89,7 @@ const AppNavigator = () => {
 
   return (
     <>
-      {askLocationPermission && (
-        <LocationProcess userEmail={userEmail} />
-      )}
+      {askLocationPermission && <LocationProcess userEmail={userEmail} />}
       {askNotifcationPermission && (
         <PushNotificationScreen userEmail={userEmail} />
       )}
