@@ -90,7 +90,7 @@ const AppNavigator = () => {
 
   return (
     <>
-      {true && askLocationPermission && (
+      {askLocationPermission && (
         <LocationProcess userEmail={userEmail} />
       )}
       {askNotifcationPermission && (
