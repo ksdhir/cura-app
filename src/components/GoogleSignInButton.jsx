@@ -30,7 +30,8 @@ const GoogleSignInButton = () => {
       />
 
       <Text className="text-[17px] font-SatoshiMedium  text-[#787E7E]">
-        Sign In With Google
+        {" "}
+        Sign In With Google{" "}
       </Text>
     </TouchableOpacity>
   );

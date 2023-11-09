@@ -89,7 +89,8 @@ export default function Login() {
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
             <Text className="text-[16px] font-SatoshiBold underline ml-2">
-              Sign Up
+              {" "}
+              Sign Up{" "}
             </Text>
           </TouchableOpacity>
         </View>
