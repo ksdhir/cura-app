@@ -24,12 +24,10 @@ const requestPermissions = async () => {
       console.log("before line 19 -> location updates async");
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.BestForNavigation, // accuracy: Location.Accuracy.Balanced,
-        timeInterval: 200 * 20 * 10, // 20 minutes
+        timeInterval: 1000 * 60 * 20, // 20 minutes
         distanceInterval: 0,
         showsBackgroundLocationIndicator: true,
       });
-
-      console.log("hello");
 
       console.log("After line 19 -> location updates async");
     }

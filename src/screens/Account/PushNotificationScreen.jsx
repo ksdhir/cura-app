@@ -74,23 +74,23 @@ export default function PushNotificationScreen({ userEmail }) {
           notification.request.content.data;
 
         if (type == "MOVEMENT_LOCATION") {
-          navigation.navigate("MovementStack", {
-            screen: "MovementMainScreen",
-          });
+          // navigation.navigate("MovementStack", {
+          //   screen: "MovementMainScreen",
+          // });
         } else if (type == "FALL_DETECTED") {
           navigation.navigate("AccountStack", {
             screen: "ElderFallDetectedScreen",
             params: { elderPhoneNumber, elderName, location: payload?.location },
           });
         } else if (type == "CRITICAL_HEART_RATE") {
-          navigation.navigate("HeartRateStack", {
-            screen: "CriticalHeartRateScreen",
-            params: {
-              elderEmail: elderEmail,
-              minThreshold: payload.currentMinHeartRate,
-              maxThreshold: payload.currentMaxHeartRate,
-            },
-          });
+          // navigation.navigate("HeartRateStack", {
+          //   screen: "CriticalHeartRateScreen",
+          //   params: {
+          //     elderEmail: elderEmail,
+          //     minThreshold: payload.currentMinHeartRate,
+          //     maxThreshold: payload.currentMaxHeartRate,
+          //   },
+          // });
         }
       });
 
