@@ -11,17 +11,15 @@ import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
 
 export default function AccountMainScreen(props) {
-  // console.log("PROFILE TYPE FROM PROPS", props.route.params.profileType);
   const navigation = useNavigation();
   const profileType = props.route.params.profileType;
 
   const handleSignout = async () => {
-    console.log("GOOGLE AUTH SIGN OUT");
 
     try {
       await GoogleSignin.revokeAccess();
     } catch (error) {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
     } finally {
       await auth().signOut();
       navigation.navigate("Login");

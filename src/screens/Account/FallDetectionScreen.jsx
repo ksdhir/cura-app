@@ -26,7 +26,7 @@ const FallDetectionScreen = () => {
         const magnitute = Math.sqrt(x * x + y * y + z * z);
         setData({ x, y, z });
         if (magnitute > ACCELERATION_THRESHOLD) {
-          console.log("Fall detected with magnitude: ", magnitute);
+          // console.log("Fall detected with magnitude: ", magnitute);
           setMagnitude(magnitute);
           isFallDetected = true;
         }

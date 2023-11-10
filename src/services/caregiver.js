@@ -15,7 +15,7 @@ export const getCaregiverProfile = async (email, token) => {
 
     return response.json();
   } catch (error) {
-    console.log("error", error.message);
+    console.error("error", error.message);
     return null;
   }
 };
@@ -35,7 +35,7 @@ export const caregiverSignup = async (body, token) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log("error", error.message);
+    console.error("error", error.message);
     return null;
   }
 };
@@ -53,10 +53,10 @@ export const saveNotificationToken = async (expoToken, email) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error.message);
   }
 };
@@ -84,7 +84,7 @@ export const getSpecificNotificationLog = async (elderEmail, type) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error.message);
   }
 };
@@ -100,7 +100,6 @@ export const getSpecificNotificationLog = async (elderEmail, type) => {
 
 //pass in elderEmail
 export const getAllNotificationLog = async (elderEmail) => {
-  console.log("fetching all notification log");
 
   try {
     return {
@@ -141,7 +140,6 @@ export const getAllNotificationLog = async (elderEmail) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
     throw new Error(error.message);
   }
 };

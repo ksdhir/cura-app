@@ -15,7 +15,6 @@ import { Picker } from "@react-native-picker/picker";
 import { BLOOD_TYPES, SEX_LIST } from "../../api/constants";
 
 const ElderProfile = () => {
-  console.log("ELDER PROFILE");
   const [isEdit, setIsEdit] = useState(false);
   const { user, token } = useAuth();
 
@@ -30,22 +29,6 @@ const ElderProfile = () => {
   const [bloodType, setBloodType] = useState();
 
   const handleConfirm = async () => {
-    // setIsEdit(false);
-    // console.log("handleConfirm");
-    // console.log({
-    //   name,
-    //   preferredName: name,
-    //   phoneNumber,
-    //   email: user.email,
-    //   age: parseInt(age),
-    //   medicalConditions,
-    //   allergies,
-    //   medications,
-    //   sex,
-    //   bloodType,
-    //   notes,
-    // });
-    // return;
 
     if (!age) {
       alert("Please enter your age");
@@ -79,7 +62,6 @@ const ElderProfile = () => {
         token
       );
 
-      console.log("completed");
     } catch (error) {
       alert(error.message);
     } finally {
@@ -97,7 +79,6 @@ const ElderProfile = () => {
     const fetchElderProfile = async () => {
       try {
         const data = await getElderProfile(user.email, token);
-        console.log("DA", data.profile);
         if (data) {
           setName(data.profile.preferredName ?? data.profile.name);
           setPhoneNumber(data.profile.phoneNumber);
@@ -105,7 +86,7 @@ const ElderProfile = () => {
           setSex(data.profile.sex);
         }
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     };
 

@@ -59,7 +59,6 @@ export default function HeartRateMainScreen() {
         // Now that you have elderEmail, you can make other async calls
         getElderProfile(elderEmail).then((profile) => {
           setElderProfile(profile);
-          console.log(elderEmailData);
         });
 
         getElderHeartRateDetail(elderEmail).then((heartRateDetail) => {
@@ -70,7 +69,6 @@ export default function HeartRateMainScreen() {
           setHeartRateThreshold(heartRateThreshold)
         );
       } catch (error) {
-        console.log("error", error.message);
         throw Error("Could not get elder profile");
       }
     };

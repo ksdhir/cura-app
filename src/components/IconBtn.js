@@ -42,7 +42,7 @@ const IconWithTouchableOpacity = ({
   const IconSource = iconMapping[name];
 
   if (!IconSource) {
-    console.error("No icon found for name:", name);
+    // console.error("No icon found for name:", name);
 
     // Handle unknown icon names
     return null; // You can return null or show a default icon
