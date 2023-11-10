@@ -1,4 +1,9 @@
-import { View, Text, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -28,7 +33,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 //4. Also get the average bpm per day of this week (Max data is 7)
 
 export default function HeartRateHistoryScreen() {
-  const { width, height } = Dimensions.get("window");
+  const { width, height } = useWindowDimensions();
 
   const navigation = useNavigation();
   const [detail, setDetail] = useState(null);
@@ -149,14 +154,26 @@ export default function HeartRateHistoryScreen() {
               borderRadius: 50,
             }}
           >
-            <Text className="text-3xl text-curaBlack font-SatoshiBold">
+            <Text
+              className={
+                height > 760
+                  ? "text-5xl text-curaBlack font-SatoshiBold"
+                  : "text-3xl text-curaBlack font-SatoshiBold"
+              }
+            >
               AVERAGE
             </Text>
             <View className="flex flex-row items-baseline -mt-1 ">
-              <Text className="text-7xl text-secondaryDark font-SatoshiBlack ">
+              <Text
+                className={
+                  height > 760
+                    ? "text-8xl text-secondaryDark font-SatoshiBlack"
+                    : "text-7xl text-secondaryDark font-SatoshiBlack "
+                }
+              >
                 {daily === true ? dailyAverage : weekAverage}
               </Text>
-              <Text className="text-3xl text-curaBlack font-SatoshiBold">
+              <Text className="text-3xl text-curaGray font-SatoshiBold">
                 BPM
               </Text>
             </View>
@@ -186,6 +203,8 @@ export default function HeartRateHistoryScreen() {
                 initialSpacing={width / 32}
                 scrollToEnd={false}
                 isAnimated={true}
+                disablePress={true}
+                // onPress={(item, index) => console.log("item", item)}
               />
             </View>
           ) : (
@@ -210,6 +229,7 @@ export default function HeartRateHistoryScreen() {
                 initialSpacing={width / 40}
                 disableScroll={true}
                 isAnimated={true}
+                disablePress={true}
               />
             </View>
           )}

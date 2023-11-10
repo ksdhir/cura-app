@@ -1,10 +1,8 @@
 import Lottie from "lottie-react-native";
-import { Dimensions, useWindowDimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 
 const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
-
-  // const avatarSource = require("../assets/lottie/male/male_normalbpm.json");
 
   let { width, height } = useWindowDimensions();
 
@@ -37,13 +35,13 @@ const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
 
   let avatarHeight;
 
-  if (height > 720) {
+  if (height > 760) {
     avatarHeight = 220;
   } else {
     avatarHeight = 160;
   }
 
-  console.log("screen height", height);
+  // console.log("screen height", height);
 
   return (
     <Lottie

@@ -10,13 +10,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     SatoshiMedium: require("./src/assets/fonts/Satoshi-Medium.otf"),
     SatoshiBold: require("./src/assets/fonts/Satoshi-Bold.otf"),
     SatoshiBlack: require("./src/assets/fonts/Satoshi-Black.otf"),
-    // for testing
-    LemonLove: require("./src/assets/fonts/Lemon-Love.ttf"),
   });
 
   useEffect(() => {
