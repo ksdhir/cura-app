@@ -10,6 +10,8 @@ import AddIcon from "../assets/icons/svg/add.svg";
 import SubtractIcon from "../assets/icons/svg/subtract.svg";
 import ElderlyIcon from "../assets/icons/svg/elderly.svg";
 import CaregiverIcon from "../assets/icons/svg/caregiver.svg";
+import PolygonUp from "../assets/icons/svg/polygonup.svg";
+import PolygonDown from "../assets/icons/svg/polygondown.svg";
 
 // Define your icon mapping
 const iconMapping = {
@@ -23,6 +25,8 @@ const iconMapping = {
   subtract: SubtractIcon,
   caregiver: CaregiverIcon,
   elderly: ElderlyIcon,
+  polygonup: PolygonUp,
+  polygondown: PolygonDown,
 };
 
 const IconWithTouchableOpacity = ({
