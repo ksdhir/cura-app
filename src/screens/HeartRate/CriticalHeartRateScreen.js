@@ -10,6 +10,7 @@ import Header from "../../components/layouts/Header";
 import IconBtn from "../../components/IconBtn";
 import PolyUp from "../../assets/icons/svg/polygonup.svg";
 import PolyDown from "../../assets/icons/svg/polygondown.svg";
+import Title from "../../components/layouts/ScreenTitle";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
@@ -36,12 +37,10 @@ export default function CriticalHeartRateScreen() {
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
-      <StatusBar style="auto" />
+      <StatusBar />
       <Header />
 
-      <View className="w-full">
-        <Text className="text-5xl font-SatoshiBold">Critical Heart Rate</Text>
-      </View>
+      <Title title="Critical Heart Rate" />
       <View className="w-full justify-center px-2 py-4 bg-primaryDark rounded-xl ">
         <Text className="text-xl text-curaWhite ">Image placeholder</Text>
         <Text className="text-lg text-curaWhite ">Min: {minThreshold}</Text>
