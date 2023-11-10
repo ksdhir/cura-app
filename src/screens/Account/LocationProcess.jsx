@@ -29,8 +29,6 @@ const requestPermissions = async () => {
         showsBackgroundLocationIndicator: true,
       });
 
-      console.log("hello");
-
       console.log("After line 19 -> location updates async");
     }
   }
