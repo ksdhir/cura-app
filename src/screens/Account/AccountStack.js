@@ -70,12 +70,6 @@ export default function AccountStack(props) {
         name="ElderFallDetectedScreen"
         component={ElderFallDetectedScreen}
       />
-
-      {/* <Stack.Screen
-        options={{ headerShown: false }}
-        name="ElderFallConfirmationScreen"
-        component={ElderFallConfirmationScreen}
-      /> */}
     </Stack.Navigator>
   );
 }

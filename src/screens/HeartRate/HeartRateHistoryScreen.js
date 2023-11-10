@@ -48,18 +48,14 @@ export default function HeartRateHistoryScreen() {
     });
 
     getElderHeartRateDetail(elderEmail).then((data) => {
-      // console.log(data)
       setHeartRateDetail(data);
-      // console.log(data);
     });
 
     getElderDailyHeartRateDataVisualisation(elderEmail).then((data) => {
-      // console.log(data)
       setDailyRawData(data?.consolidatedData);
     });
 
     getElderWeeklyHeartRateDataVisualisation(elderEmail).then((data) => {
-      // console.log(data)
       setWeeklyRawData(data?.consolidatedData);
     });
   }, []);

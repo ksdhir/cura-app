@@ -23,17 +23,10 @@ export default function CriticalHeartRateScreen() {
   useEffect(() => {
     getAllNotificationLog(elderEmail).then((data) => {
       setLog(data);
-      // console.log(data);
     });
   }, []);
 
-  // const testLogId = log?.notificationLog?.[0]?.id;
-  // const testLogTime = formatDateTime(log?.notificationLog?.[0]?.timestamp);
-  // const testLogType = log?.notificationLog?.[0]?.type;
-  // console.log(testLogId);
-  // console.log(testLogTime);
-  // console.log(testLogType);
-
+  
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
       <StatusBar style="auto" />

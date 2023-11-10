@@ -43,8 +43,6 @@ const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
     avatarHeight = 160;
   }
 
-  console.log("screen height", height);
-
   return (
     <Lottie
       source={avatarSource}

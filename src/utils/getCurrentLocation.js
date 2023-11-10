@@ -21,7 +21,6 @@ export default currentLocation = async () => {
       throw new Error("Could not get location coords");
     }
   } catch (error) {
-    console.log(error);
     throw Error("Could not get location coords");
   }
 };

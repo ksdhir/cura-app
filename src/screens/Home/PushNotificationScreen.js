@@ -81,7 +81,6 @@ export default function PushNotificationScreen() {
     registerForPushNotificationsAsync()
       .then((token) => {
         setExpoPushToken(token);
-        //console.log(user.email)
         return token;
       })
       .then((token) => {
@@ -95,7 +94,6 @@ export default function PushNotificationScreen() {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
       });
 
     return () => {
