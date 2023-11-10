@@ -27,14 +27,14 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
   return (
     <>
       {/* Heart Icon */}
-      <View className={height > 760 ? "flex flex-1 w-full items-center mb-6" : "flex flex-1 w-full items-center"}>
+      <View className={height > 780 ? "flex flex-1 w-full items-center mb-6" : "flex flex-1 w-full items-center"}>
         <Lottie
           source={require("../../assets/lottie/heartbeat.json")}
           autoPlay
           speed={speed}
           style={{
             width: 180,
-            height: height > 760 ? 210 : 180,
+            height: height > 780 ? 210 : 180,
           }}
         />
       </View>
@@ -43,7 +43,7 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
       <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
         <View className="flex flex-row items-baseline ">
           <Text
-            className={height > 760 ? "text-8xl text-secondaryDark font-SatoshiBlack" : "text-7xltext-secondaryDark font-SatoshiBlack"}
+            className={height > 780 ? "text-8xl text-secondaryDark font-SatoshiBlack" : "text-7xl text-secondaryDark font-SatoshiBlack"}
           >
             {bpm}
           </Text>

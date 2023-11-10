@@ -156,7 +156,7 @@ export default function HeartRateHistoryScreen() {
           >
             <Text
               className={
-                height > 760
+                height > 780
                   ? "text-5xl text-curaBlack font-SatoshiBold"
                   : "text-3xl text-curaBlack font-SatoshiBold"
               }
@@ -166,7 +166,7 @@ export default function HeartRateHistoryScreen() {
             <View className="flex flex-row items-baseline -mt-1 ">
               <Text
                 className={
-                  height > 760
+                  height > 780
                     ? "text-8xl text-secondaryDark font-SatoshiBlack"
                     : "text-7xl text-secondaryDark font-SatoshiBlack "
                 }

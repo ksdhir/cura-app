@@ -38,12 +38,6 @@ export default function CriticalHeartRateScreen() {
     );
   }, []);
 
-  const detectedAbnormalHeartrate =
-    heartrateLog?.notificationLog?.[0]?.payload?.detectedAbnormalHeartRate;
-  console.log("====================================");
-  console.log("detectedAbnormalHeartrate :", detectedAbnormalHeartrate);
-  const detectedTime = heartrateLog?.notificationLog?.[0]?.timestamp;
-
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
       <StatusBar style="auto" />

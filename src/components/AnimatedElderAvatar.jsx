@@ -35,9 +35,11 @@ const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
 
   let avatarHeight;
 
-  if (height > 760) {
+  if (height > 780) {
     avatarHeight = 220;
-  } else {
+  } else if (height > 760) {
+    avatarHeight = 190;
+  } else if (height > 720) {
     avatarHeight = 160;
   }
 
