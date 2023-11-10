@@ -62,9 +62,9 @@ export default function HeartRateMainScreen() {
           console.log(elderEmailData);
         });
 
-        getElderHeartRateDetail(elderEmail).then((heartRateDetail) =>
-          setHeartRateDetail(heartRateDetail)
-        );
+        getElderHeartRateDetail(elderEmail).then((heartRateDetail) => {
+          setHeartRateDetail(heartRateDetail);
+        });
 
         getElderHeartRateThreshold(elderEmail).then((heartRateThreshold) =>
           setHeartRateThreshold(heartRateThreshold)

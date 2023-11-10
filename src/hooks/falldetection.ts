@@ -1,5 +1,6 @@
 import { Accelerometer } from "expo-sensors";
 import { fallDetectedPushNotification } from "../services/elder";
+import currentLocation from "../utils/getCurrentLocation";
 
 export const useFallDetectionChecker = (email: string, token: any) => {
   const ACCELERATION_THRESHOLD = 5; // Adjust this value based on your needs
@@ -17,7 +18,16 @@ export const useFallDetectionChecker = (email: string, token: any) => {
         console.log("Fall detected with magnitude: ", magnitute);
         isFallDetected = true;
         // Call Push Notification
-        fallDetectedPushNotification(email, token);
+        // get locatioon
+        currentLocation().then((location) => {
+          const payload = {
+            location: {
+              latitude: location.latitude,
+              longitude: location.longitude,
+            },
+          };
+          fallDetectedPushNotification(email, token, payload);
+        });
       }
     });
   };

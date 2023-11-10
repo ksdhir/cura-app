@@ -17,7 +17,7 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
   // fallDetectionChecker = useFallDetectionChecker();
 
   // Get Google Health Data
-  getHealthData(userEmail);
+  // getHealthData(userEmail);
 
   // Be sure to return the successful result type!
   return BackgroundFetch.BackgroundFetchResult.NewData;
