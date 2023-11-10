@@ -222,7 +222,7 @@ export const getElderDailyHeartRateDataVisualisation = async (email) => {
 
 // ============================> PUSH NOTIFICATIONS APIS
 
-export const fallDetectedPushNotification = async (email, token) => {
+export const fallDetectedPushNotification = async (email, token, payload) => {
   try {
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
@@ -235,7 +235,7 @@ export const fallDetectedPushNotification = async (email, token) => {
         body: JSON.stringify({
           email,
           type: "FALL_DETECTED",
-          location: ["48.2253215", "-123.0911397"],
+          payload: payload,
         }),
       }
     );

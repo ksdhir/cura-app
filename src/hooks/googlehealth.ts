@@ -38,6 +38,8 @@ export const getHealthData = (email: string) => {
           userEmail
         );
 
+        console.log("googleHeartRateData: ", googleHeartRateData);
+
         if (serverLatestHeartRateData.latestHeartRateRecord.length > 0) {
           const serverHeartRateTime = new Date(
             serverLatestHeartRateData.latestHeartRateRecord[0].timestamp

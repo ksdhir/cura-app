@@ -36,9 +36,6 @@ const AppNavigator = () => {
     if (!profileType) {
       navigation.navigate("ProfileTypeSetup");
     } else {
-      if (profileType === "Elder") {
-        getHealthData(user.email);
-      }
       navigation.navigate("Home");
     }
   }, [user, profileType, isLoaded]);
