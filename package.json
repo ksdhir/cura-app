@@ -39,6 +39,7 @@
     "expo-task-manager": "~11.3.0",
     "expo-web-browser": "~12.3.2",
     "firebase": "^10.4.0",
+    "js-base64": "^3.7.5",
     "lottie-react-native": "5.1.6",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
