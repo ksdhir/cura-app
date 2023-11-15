@@ -73,7 +73,9 @@ const AppNavigator = () => {
       ElderForegroundWorker(user.email, getHeartRate);
 
       // Initialize Fall Detection Checker
-      setFallDetectionChecker(useFallDetectionChecker(user.email));
+      setFallDetectionChecker(
+        useFallDetectionChecker(user.email, token, navigation)
+      );
     } else if (user && profileType === "Caregiver") {
       setUserEmail(user.email);
       setAskNotifcationPermission(true);

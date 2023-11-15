@@ -17,11 +17,12 @@ export const useFallDetectionChecker = (
   const debouncer = useDebouce((magnitude: number) => {
     // Reset fall detection
     isFallDetected = false;
+    console.log("Fall Detected");
 
     // Nagivate to Fall Detected Screen
     navigation.navigate("Home", {
       screen: "AccountStack",
-      params: { screen: "ElderFallDetectedScreen" },
+      params: { screen: "ElderFallConfirmationScreen" },
     });
   }, 500);
 
