@@ -11,11 +11,8 @@ const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
   const [avatarSource, setAvatarSource] = useState(require("../assets/lottie/male/male_normalbpm.json"));
 
   const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
-  console.log("bpm", bpm);
   const minThreshold = heartRateThreshold?.detail?.minimum;
-  console.log("minThreshold", minThreshold);
   const maxThreshold = heartRateThreshold?.detail?.maximum;
-  console.log("maxThreshold", maxThreshold);
 
 
   useEffect(() => {

@@ -12,6 +12,7 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
   const time = heartRateDetail?.latestHeartRateRecord?.[0]?.timestamp;
   const timeAgo = timeDifference(time);
   const minThreshold = heartRateThreshold?.detail?.minimum;
+  console.log("minThreshold------", minThreshold)
   const maxThreshold = heartRateThreshold?.detail?.maximum;
 
 

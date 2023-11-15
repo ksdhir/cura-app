@@ -94,8 +94,8 @@ export default function HeartRateMainScreen() {
 
         <View className="flex w-full items-center">
           <AnimatedElderAvatar
-            data={heartRateDetail}
-            threshold={heartRateThreshold}
+            heartRateDetail={heartRateDetail}
+            heartRateThreshold={heartRateThreshold}
           />
 
           <View
@@ -106,7 +106,7 @@ export default function HeartRateMainScreen() {
           >
             <GraphHeader
               data={heartRateDetail}
-              threshold={heartRateThreshold}
+              heartRateThreshold={heartRateThreshold}
               elderEmailData={elderEmailData}
             />
 
