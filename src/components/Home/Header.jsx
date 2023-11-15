@@ -29,9 +29,7 @@ const HomeHeader = ({ userLoggedIn, profile, elderEmailData }) => {
 
       <IconBtn
         name="bell"
-        onPress={() => navigation.navigate("NotificationHistory", {
-          elderEmail: elderEmailData,
-        })}
+        onPress={() => navigation.navigate("NotificationHistory")}
         iconStyle={{
           color: curaTheme.lightColors.primary,
         }}

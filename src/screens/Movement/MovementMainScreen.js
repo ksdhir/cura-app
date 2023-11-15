@@ -19,11 +19,14 @@ import {
   getSpecificNotificationLog,
 } from "../../services/caregiver";
 import { getElderProfile } from "../../services/elder";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
+import Header from "../../components/layouts/Header";
 
 // util function
 function parseLocationData(inputData) {
   const transformedData = inputData.notificationLog.map((item) => {
-    const locationString = item.payload.location.address ??
+    const locationString =
+      item.payload.location.address ??
       item.payload.location.latitude + " " + item.payload.location.longitude; // You can replace this with the actual location data
     const date = new Date(item.timestamp).toISOString();
     const latitude = item.payload.location.latitude;
@@ -44,8 +47,6 @@ export default function MovementMainScreen() {
   const navigation = useNavigation();
   const [isElderVisible, setIsElderVisible] = useState(true);
 
-
-
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const { user, profileType, token } = useAuth();
@@ -58,11 +59,10 @@ export default function MovementMainScreen() {
 
   useEffect(() => {
     if (!isFocused) {
-      setIsLoading(true)
+      setIsLoading(true);
       return;
     }
     if (user) {
-
       getCaregiverProfile(user.email)
         .then((data) => {
           return data.caregiver.elderEmails[0];
@@ -79,13 +79,11 @@ export default function MovementMainScreen() {
           return { latitude, longitude, email: profile.email };
         })
         .then((coords) => {
-          
           homeCoords = coords;
-          const elderEmail = coords.email
+          const elderEmail = coords.email;
           return getSpecificNotificationLog(elderEmail, "MOVEMENT_LOCATION");
         })
         .then((logs) => {
-
           const parsedLogs = parseLocationData(logs);
           setMovementLogs(parsedLogs);
 
@@ -96,13 +94,17 @@ export default function MovementMainScreen() {
           const currentLatitude = homeCoords.latitude;
           const currentLongitude = homeCoords.longitude;
 
-          if (lastLatitude == currentLatitude && lastLongitude == currentLongitude) {
+          if (
+            lastLatitude == currentLatitude &&
+            lastLongitude == currentLongitude
+          ) {
             return setIsElderVisible(true);
           } else {
             return setIsElderVisible(false);
           }
-        }).then(() => {
-         setIsLoading(false);
+        })
+        .then(() => {
+          setIsLoading(false);
         });
     }
   }, [isFocused, user]);
@@ -116,19 +118,17 @@ export default function MovementMainScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite">
-      <StatusBar style="auto" />
+    <SafeAreaView className="flex-1 items-center justify-start bg-curaWhite px-4">
+      <StatusBar />
       {/* Header of the Page */}
-      <View className="w-full h-[10vh] justify-center px-8">
-        <Text className="text-2xl text-neutral-800 font-SatoshiBold">
-          Movement
-        </Text>
-      </View>
+      <Header />
+      <ScreenTitle title="Movement" />
+
       {/* Main Content of the page */}
-      <View className="h-[75vh] w-full p-8 flex space-y-8">
+      <View className="h-[75vh] w-full flex space-y-4">
         {/* Dynamically Render the Image of the  */}
         {/* TODO: replace with lottie animation */}
-        <View className="items-center">
+        <View className="pt-8 items-center ">
           {isElderVisible ? (
             <Image
               source={require("../../assets/images/movement/elder_visible.png")}
@@ -143,8 +143,14 @@ export default function MovementMainScreen() {
             <MovementStatus isActive={isElderVisible} />
           </View>
         </View>
-        <Text className="text-xl text-curaGray font-SatoshiBold">History</Text>
-        <ScrollView className="">
+        <Text className="text-lg text-curaBlack font-SatoshiMedium">
+          History
+        </Text>
+        <ScrollView
+          className=""
+          //hide scrollbar
+          showsVerticalScrollIndicator={false}
+        >
           <MovementHistoryScreen movements={movementLogs} />
         </ScrollView>
       </View>

@@ -1,5 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,7 +9,7 @@ import Header from "../../components/layouts/Header";
 import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
 
-export default function AccountMainScreen(props, { elderEmail }) {
+export default function AccountMainScreen(props) {
   const navigation = useNavigation();
   const profileType = props.route.params.profileType;
 
@@ -45,21 +44,21 @@ export default function AccountMainScreen(props, { elderEmail }) {
       <StatusBar style="auto" />
 
       <View className="px-4">
-        <Header elderEmail={elderEmail} />
+        <Header />
       </View>
 
       <View className="flex w-full flex-1 space-y-4">
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <UserIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+          <Text className="text-lg text-curaBlack font-SatoshiBold">
             Account
           </Text>
         </View>
 
         <TouchableOpacity onPress={navigateToProfile} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2">
-            <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
               Personal Profile
             </Text>
 
@@ -98,13 +97,13 @@ export default function AccountMainScreen(props, { elderEmail }) {
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <SettingIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+          <Text className="text-lg text-curaBlack font-SatoshiBold">
             Settings
           </Text>
         </View>
 
         <View className="w-full flex flex-row items-center justify-between py-2 px-4">
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+          <Text className="text-lg text-curaBlack font-SatoshiBold">
             Notifications
           </Text>
 
@@ -117,7 +116,7 @@ export default function AccountMainScreen(props, { elderEmail }) {
             className="w-full p-4 pt-0"
           >
             <View className="flex flex-row  items-center justify-between gap-2">
-              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+              <Text className="text-lg text-curaBlack font-SatoshiBold">
                 Heart Rate Threshold
               </Text>
 
@@ -128,7 +127,7 @@ export default function AccountMainScreen(props, { elderEmail }) {
 
         <TouchableOpacity onPress={handleSignout} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2 ">
-            <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
               Logout
             </Text>
           </View>
