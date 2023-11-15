@@ -10,17 +10,10 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
-import {
-  getAllNotificationLog,
-  getSpecificNotificationLog,
-} from "../../services/caregiver";
-import { formatDateTime, timeDifference } from "../../helpers";
+import { getSpecificNotificationLog } from "../../services/caregiver";
+import { timeDifference } from "../../helpers";
 import Header from "../../components/layouts/Header";
 import IconBtn from "../../components/IconBtn";
-import PolyUp from "../../assets/icons/svg/polygonup.svg";
-import PolyDown from "../../assets/icons/svg/polygondown.svg";
-import { Icon } from "@rneui/base";
-import Title from "../../components/layouts/ScreenTitle";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
