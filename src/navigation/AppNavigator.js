@@ -15,9 +15,8 @@ import useAuth from "../hooks/useAuth";
 import HistoryNotification from "../screens/Notifcation/HistoryNotification";
 import { useEffect, useState } from "react";
 
-import { getHealthData } from "../hooks/googlehealth";
 import { useFallDetectionChecker } from "../hooks/falldetection";
-import { backgroundsync } from "../services/backgroundsync";
+import { backgroundsync } from "../services/ElderBackgroundWorker";
 
 // notification permission
 import PushNotificationScreen from "../screens/Account/PushNotificationScreen";
@@ -25,6 +24,9 @@ import LocationProcess from "../screens/Account/LocationProcess";
 
 // Test Screen
 import TestScreen from "../screens/Home/TestScreen";
+import ElderForegroundWorker from "../services/ElderForegroundWorker";
+
+import useFitbitAuth from "../hooks/userFitbitAuth";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +34,7 @@ const AppNavigator = () => {
   const navigation = useNavigation();
   const { user, profileType, token, isLoaded } = useAuth();
   const [fallDetectionChecker, setFallDetectionChecker] = useState(null);
+  const { tokenData, getHeartRate } = useFitbitAuth();
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -63,10 +66,14 @@ const AppNavigator = () => {
 
       setUserEmail(user.email);
       setAskLocationPermission(true);
-      getHealthData(user.email);
-      setFallDetectionChecker(
-        useFallDetectionChecker(user.email, token, navigation)
-      );
+      // getHealthData(user.email);
+
+      // Initialize Foreground Worker
+      console.log("Initializing Foreground Worker");
+      ElderForegroundWorker(user.email, getHeartRate);
+
+      // Initialize Fall Detection Checker
+      setFallDetectionChecker(useFallDetectionChecker(user.email));
     } else if (user && profileType === "Caregiver") {
       setUserEmail(user.email);
       setAskNotifcationPermission(true);
