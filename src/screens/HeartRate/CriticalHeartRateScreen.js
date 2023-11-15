@@ -22,9 +22,7 @@ export default function CriticalHeartRateScreen() {
 
   const route = useRoute();
 
-  const { bpm, elderEmail, minThreshold, maxThreshold } = route.params;
-  console.log("====================================");
-  console.log(elderEmail);
+  const { elderEmail, minThreshold, maxThreshold } = route.params;
 
   useEffect(() => {
     getSpecificNotificationLog(elderEmail, "CRITICAL_HEART_RATE").then(
@@ -37,7 +35,7 @@ export default function CriticalHeartRateScreen() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
       <StatusBar />
-      <Header elderEmail={elderEmail} />
+      <Header />
 
       <View className="w-full">
         <Text className="text-5xl text-curaBlack font-SatoshiBold">

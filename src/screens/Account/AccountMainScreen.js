@@ -1,5 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,7 +9,7 @@ import Header from "../../components/layouts/Header";
 import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
 
-export default function AccountMainScreen(props, { elderEmail }) {
+export default function AccountMainScreen(props) {
   const navigation = useNavigation();
   const profileType = props.route.params.profileType;
 
@@ -45,7 +44,7 @@ export default function AccountMainScreen(props, { elderEmail }) {
       <StatusBar style="auto" />
 
       <View className="px-4">
-        <Header elderEmail={elderEmail} />
+        <Header />
       </View>
 
       <View className="flex w-full flex-1 space-y-4">
