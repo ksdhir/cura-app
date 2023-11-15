@@ -42,7 +42,6 @@ export const caregiverSignup = async (body, token) => {
 
 export const saveNotificationToken = async (expoToken, email) => {
   try {
-
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/store-push-notification-token?email=${email}&token=${expoToken}`;
 
     const response = await fetch(url, {
@@ -61,11 +60,14 @@ export const saveNotificationToken = async (expoToken, email) => {
   }
 };
 
-
 // =============================> SPECIFIC TYPE NOTIFICATION LOGS
 
 export const getSpecificNotificationLog = async (elderEmail, type) => {
-  const allValidTypes = ["CRITICAL_HEART_RATE", "FALL_DETECTED", "MOVEMENT_LOCATION"];
+  const allValidTypes = [
+    "CRITICAL_HEART_RATE",
+    "FALL_DETECTED",
+    "MOVEMENT_LOCATION",
+  ];
 
   try {
     if (allValidTypes.includes(type) === false) {
@@ -89,46 +91,28 @@ export const getSpecificNotificationLog = async (elderEmail, type) => {
   }
 };
 
-
 // =============================> SPECIFIC TYPE NOTIFICATION LOGS ENDS
 
+// ================================= get all notification logs
 
+// As of now make it simple, the name of the event and timestamp, example Fall Detected at human_readable_time
+// This will returns notification logs.
+// /api/caregiver/all-notification-log?elderEmail=elder@cura-app.ca&type=ALL
 
-// /api/caregiver/all-notification-log
-
-// http://192.168.56.1:3003/api/caregiver/all-notification-log?elderEmail=trinapreet@gmail.com&type=CRITICAL_HEART_RATE
-
-//pass in elderEmail
-export const getAllNotificationLog = async (elderEmail) => {
+export const getAllNotificationLog = async (elderEmail, type) => {
+  const allValidTypes = [
+    "CRITICAL_HEART_RATE",
+    "FALL_DETECTED",
+    "MOVEMENT_LOCATION",
+    "ALL",
+  ];
 
   try {
-    return {
-      notificationLog: [
-        {
-          id: "65371ac2a8de82acefb6073c",
-          timestamp: "2023-10-24T01:15:46.570Z",
-          type: "CRITICAL_HEART_RATE",
-          location: ["48.2253215", "-123.0911397"],
-          elderProfileId: "652b1db7987df94e5d394d2b",
-        },
-        {
-          id: "65371abfa8de82acefb6073b",
-          timestamp: "2023-10-24T01:15:43.087Z",
-          type: "CRITICAL_HEART_RATE",
-          location: ["48.2253215", "-123.0911397"],
-          elderProfileId: "652b1db7987df94e5d394d2b",
-        },
-        {
-          id: "65371a2ea8de82acefb6073a",
-          timestamp: "2023-10-24T01:13:18.400Z",
-          type: "CRITICAL_HEART_RATE",
-          location: ["48.2253215", "-123.0911397"],
-          elderProfileId: "652b1db7987df94e5d394d2b",
-        },
-      ],
-    };
-    const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=CRITICAL_HEART_RATE`;
-    console.log(url);
+    if (allValidTypes.includes(type) === false) {
+      throw new Error("Invalid type");
+    }
+
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=${type}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -140,6 +124,7 @@ export const getAllNotificationLog = async (elderEmail) => {
     const data = await response.json();
     return data;
   } catch (error) {
+    console.error(error);
     throw new Error(error.message);
   }
 };

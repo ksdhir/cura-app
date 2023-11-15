@@ -10,12 +10,11 @@ import Header from "../../components/layouts/Header";
 import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
 
-export default function AccountMainScreen(props) {
+export default function AccountMainScreen(props, { elderEmail }) {
   const navigation = useNavigation();
   const profileType = props.route.params.profileType;
 
   const handleSignout = async () => {
-
     try {
       await GoogleSignin.revokeAccess();
     } catch (error) {
@@ -46,7 +45,7 @@ export default function AccountMainScreen(props) {
       <StatusBar style="auto" />
 
       <View className="px-4">
-        <Header />
+        <Header elderEmail={elderEmail} />
       </View>
 
       <View className="flex w-full flex-1 space-y-4">

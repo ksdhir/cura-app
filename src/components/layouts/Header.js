@@ -3,7 +3,7 @@ import curaTheme from "../../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import IconBtn from "../IconBtn";
 
-const Header = ({ children, hideNotification = false }) => {
+const Header = ({ children, hideNotification = false, elderEmail }) => {
   const navigation = useNavigation();
 
   return (
@@ -23,7 +23,11 @@ const Header = ({ children, hideNotification = false }) => {
       {!hideNotification && (
         <IconBtn
           name="bell"
-          onPress={() => navigation.navigate("NotificationHistory")}
+          onPress={() =>
+            navigation.navigate("NotificationHistory", {
+              elderEmail,
+            })
+          }
           iconStyle={{
             color: curaTheme.lightColors.primary,
           }}
