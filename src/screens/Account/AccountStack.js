@@ -2,7 +2,6 @@ import { View, Text } from "react-native";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AccountMainScreen from "./AccountMainScreen";
-import GoogleHealthScreen from "../HeartRate/GoogleHealthScreen";
 import HeartRateThresholdScreen from "./HeartRateThresholdScreen";
 import FallDetectionScreen from "./FallDetectionScreen";
 import PushNotificationScreen from "./PushNotificationScreen";
@@ -25,11 +24,6 @@ export default function AccountStack(props) {
         name="AccountMainScreen"
         component={AccountMainScreen}
         initialParams={{ profileType: props.route.params.profileType }}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="GoogleHealthScreen"
-        component={GoogleHealthScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
