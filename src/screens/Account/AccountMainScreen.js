@@ -74,13 +74,26 @@ export default function AccountMainScreen(props, { elderEmail }) {
           >
             <View className="flex flex-row  items-center justify-between gap-2">
               <Text className="text-lg text-neutral-800 font-SatoshiBold">
-                Add Caregiver
+                  Scan QR Code
               </Text>
 
               <MaterialCommunityIcons name={"chevron-right"} size={24} />
             </View>
           </TouchableOpacity>
-        ) : null}
+        ) : (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ViewQRCode")}
+            className="w-full p-4 pt-0"
+          >
+            <View className="flex flex-row  items-center justify-between gap-2">
+              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+                View QR Code
+              </Text>
+
+              <MaterialCommunityIcons name={"chevron-right"} size={24} />
+            </View>
+          </TouchableOpacity>
+        )}
 
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <SettingIcon width={20} height={20} style={{ color: "#323333" }} />

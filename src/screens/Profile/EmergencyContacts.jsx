@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TouchableOpacity,
   View,
   Text,
   ScrollView,
   TextInput,
+  StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
 import { addEmergencyContact } from "../../services/elder";
+import { BarCodeScanner } from "expo-barcode-scanner";
+import { useNavigation } from '@react-navigation/native';
+
 
 // Function to validate email using a regular expression
 function isValidEmail(email) {
@@ -18,18 +22,58 @@ function isValidEmail(email) {
 }
 
 const ProfileEmergencyContacts = () => {
+
+  const navigation = useNavigation();
+
   const { user, token } = useAuth();
+  const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [relationship, setRelationship] = useState("");
 
+  // camera varibles
+  const [scanned, setScanned] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null);
+  const [openCamera, setOpenCamera] = useState(true);
+
   useEffect(() => {
     if (!user || !token) return;
+
+    const getBarCodeScannerPermissions = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    };
+
+    getBarCodeScannerPermissions();
   }, [user, token]);
 
   if (!user) {
     return null;
   }
 
+  if (hasPermission === null) {
+    return null;
+  }
+  if (hasPermission === false) {
+    return null;
+  }
+
+  // handle camera scan
+  const handleBarCodeScanned = ({ type, data }) => {
+    try {
+      setScanned(true);
+      // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+      setOpenCamera(false);
+      const caregiverData = JSON.parse(data);
+      setContactName(caregiverData.name)
+      setContactEmail(caregiverData.email); 
+    } catch (error) {
+      alert("Invalid QR Code");
+      navigation.navigate('AccountMainScreen');
+
+    }
+  };
+
+  // hit API to handle Emergency Contact
   const handleAddEmergencyContact = async () => {
     // Validate the input
     if (!isValidEmail(contactEmail)) {
@@ -68,43 +112,102 @@ const ProfileEmergencyContacts = () => {
         <Header />
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-SatoshiBold text-2xl">Emergency Contact</Text>
+          <Text className="font-SatoshiBold text-2xl">
+            {openCamera ? "Scan QR Code" : "Add Emergency Contact"}
+          </Text>
         </View>
 
-        <ScrollView className="flex">
-          <View className="flex justify-start py-4 gap-2">
-            <View className="flex flex-row justify-between items-end">
-              <Text className="font-SatoshiBold">Care Person's Email</Text>
+        {!openCamera && (
+          <ScrollView className="flex">
+
+            {/* Email */}
+            <View className="flex justify-start py-4 gap-2">
+              <View className="flex flex-row justify-between items-end">
+                <Text className="font-SatoshiBold">Care Person's Name</Text>
+              </View>
+
+              <TextInput
+                className="border-b-[1px] font-SatoshiBold"
+                editable={false} selectTextOnFocus={false}
+                value={contactName}
+                onChangeText={(value) => setContactName(value)}
+              />
             </View>
 
-            <TextInput
-              className="border-b-[1px] font-SatoshiBold"
-              value={contactEmail}
-              onChangeText={(value) => setContactEmail(value)}
-            />
-          </View>
+            {/* Email */}
+            <View className="flex justify-start py-4 gap-2">
+              <View className="flex flex-row justify-between items-end">
+                <Text className="font-SatoshiBold">Care Person's Email</Text>
+              </View>
 
-          <View className="flex justify-start py-4 gap-2">
-            <View className="flex flex-row justify-between items-end">
-              <Text className="font-SatoshiBold">Relationship</Text>
+              <TextInput
+                className="border-b-[1px] font-SatoshiBold"
+                editable={false} selectTextOnFocus={false}
+                value={contactEmail}
+                onChangeText={(value) => setContactEmail(value)}
+              />
             </View>
 
-            <TextInput
-              className="border-b-[1px] font-SatoshiBold"
-              value={relationship}
-              onChangeText={(value) => setRelationship(value)}
+            {/* Relationship */}
+            <View className="flex justify-start py-4 gap-2">
+              <View className="flex flex-row justify-between items-end">
+                <Text className="font-SatoshiBold">Relationship</Text>
+              </View>
+
+              <TextInput
+                className="border-b-[1px] font-SatoshiBold"
+                value={relationship}
+                onChangeText={(value) => setRelationship(value)}
+              />
+            </View>
+          </ScrollView>
+        )}
+
+        {openCamera && (
+          <View className="flex flex-1 flex-col justify-center mb-4">
+            <BarCodeScanner
+              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+              }}
             />
           </View>
-        </ScrollView>
+        )}
 
-        <TouchableOpacity
-          className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
-          onPress={handleAddEmergencyContact}
-        >
-          <Text className="text-[17px] text-center font-SatoshiBold text-white">
-            Add Emergency Contact
-          </Text>
-        </TouchableOpacity>
+        {!openCamera && (
+          <TouchableOpacity
+            className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
+            onPress={handleAddEmergencyContact}
+          >
+            <Text className="text-[17px] text-center font-SatoshiBold text-white">
+              Add Emergency Contact
+            </Text>
+          </TouchableOpacity>
+        )}
+        {openCamera && (
+          <View className="px-2">
+            <TouchableOpacity
+              className={`px-4 py-3 rounded-xl w-full mb-4 ${
+                scanned ? "bg-primary" : "bg-curaBlack/10"
+              }`}
+              onPress={() => setScanned(false)}
+              disabled={!scanned}
+            >
+              <Text
+                className={`text-[17px] text-center font-SatoshiBold ${
+                  scanned ? "text-white" : " text-curaGray"
+                }`}
+              >
+                Scan Again
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
