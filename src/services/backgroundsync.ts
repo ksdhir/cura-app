@@ -13,6 +13,8 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
     `Got background fetch call at date: ${new Date(now).toISOString()}`
   );
 
+  getHealthData("elder@cura-app.ca");
+
   // Use Fall Detection Checker
   // fallDetectionChecker = useFallDetectionChecker();
 

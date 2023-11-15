@@ -15,7 +15,6 @@ const GoogleSignInButton = () => {
     try {
       const user = await auth().signInWithCredential(googleCredential);
     } catch (error) {
-      console.log("ERROR", error);
     }
   };
 

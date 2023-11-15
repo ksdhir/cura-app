@@ -7,7 +7,7 @@ import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
 import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 // Animated Tab Bar
-import TabAnimated from "./TabAnimated";
+// import TabAnimated from "./TabAnimated";
 import TabElder from "./TabElder";
 import TabCaregiver from "./TabCaregiver";
 import { useNavigation } from "@react-navigation/native";
@@ -59,7 +59,7 @@ const AppNavigator = () => {
   // ========================> PERMISSIONS FOR ALL USERS (ELDER AND CAREGIVER)
   const [askNotifcationPermission, setAskNotifcationPermission] =
     useState(false);
-  const [askLocationPermission, setAskLocationPermission] = useState(false); // [true, false, false
+  const [askLocationPermission, setAskLocationPermission] = useState(false); // [true, false, false]
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
@@ -69,14 +69,12 @@ const AppNavigator = () => {
 
     if (user && profileType === "Elder") {
       // elder permissions
-      console.log("elder permissions");
 
       // call user profile function
 
       setUserEmail(user.email);
       setAskLocationPermission(true);
     } else if (user && profileType === "Caregiver") {
-      console.log("caregiver permissions");
       setUserEmail(user.email);
       setAskNotifcationPermission(true);
     }

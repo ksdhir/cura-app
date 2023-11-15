@@ -54,10 +54,9 @@ export default function CriticalHeartRateScreen() {
           source={require("../../assets/images/character/maleCritical.png")}
           style={{
             width: 120,
-            height: 160,
+            height: 150,
             position: "absolute",
             zIndex: 10,
-
             transform: [
               {
                 translateX: width / 2 - 80,
@@ -65,8 +64,7 @@ export default function CriticalHeartRateScreen() {
             ],
 
             //crop the image to the size of the parent
-            top: 5,
-
+            bottom: 0,
             resizeMode: "contain",
           }}
         />
@@ -107,7 +105,7 @@ export default function CriticalHeartRateScreen() {
               heartrateLog.notificationLog.map((item, index) => (
                 <View
                   key={item.id}
-                  className="flex flex-row py-6 bg-curaWhite space-x-2 "
+                  className="flex flex-row py-4 bg-curaWhite space-x-2 "
                 >
                   <IconBtn
                     name={

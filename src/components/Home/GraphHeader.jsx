@@ -3,19 +3,19 @@ import { Text, TouchableOpacity, View } from "react-native";
 import curaTheme from "../../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 
-const GraphHeader = ({ data, threshold, elderEmailData }) => {
+const GraphHeader = ({ data, heartRateThreshold, elderEmailData }) => {
   const navigation = useNavigation();
 
   const bpm = data?.latestHeartRateRecord?.[0]?.beatsPerMinute;
-  const minThreshold = threshold?.detail?.minimum;
-  const maxThreshold = threshold?.detail?.maximum;
+  const minThreshold = heartRateThreshold?.detail?.minimum;
+  const maxThreshold = heartRateThreshold?.detail?.maximum;
 
   const bpmStatus =
     bpm >= minThreshold && bpm <= maxThreshold
       ? "Normal"
       : bpm < minThreshold
-      ? "Low"
-      : "High";
+        ? "Low"
+        : "High";
 
   return (
     <View className="flex flex-row w-full justify-between  items-start">

@@ -55,7 +55,7 @@ const CaregiverProfile = () => {
           setPhoneNumber(data.caregiver.phoneNumber);
         }
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     };
 
