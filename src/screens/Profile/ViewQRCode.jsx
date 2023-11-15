@@ -52,7 +52,7 @@ const ViewQRCode = () => {
             <Text className="text-4xl font-bold">{caregiverName}</Text>
             <Text className="text-xl mb-6">Contact Person</Text>
             <View className="mb-8">
-              <QRCode fgColor={"#09C1CB"} value={user.email} size={275} />
+              <QRCode fgColor={"#09C1CB"} value={JSON.stringify({email: user.email, name: caregiverName})} size={275} />
             </View>
           </View>
         </View>
