@@ -7,7 +7,7 @@ import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
 import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 // Animated Tab Bar
-import TabAnimated from "./TabAnimated";
+// import TabAnimated from "./TabAnimated";
 import TabElder from "./TabElder";
 import TabCaregiver from "./TabCaregiver";
 import { useNavigation } from "@react-navigation/native";

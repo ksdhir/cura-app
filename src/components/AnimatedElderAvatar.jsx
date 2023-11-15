@@ -1,4 +1,5 @@
 import Lottie from "lottie-react-native";
+import { useEffect, useState } from "react";
 import { useWindowDimensions } from "react-native";
 
 
@@ -6,31 +7,44 @@ const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
 
   let { width, height } = useWindowDimensions();
 
+  const [indicator, setIndicator] = useState("normal"); // ["normal", "critical", "nearCritical"]
+  const [avatarSource, setAvatarSource] = useState(require("../assets/lottie/male/male_normalbpm.json"));
 
   const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
+  console.log("bpm", bpm);
   const minThreshold = heartRateThreshold?.detail?.minimum;
+  console.log("minThreshold", minThreshold);
   const maxThreshold = heartRateThreshold?.detail?.maximum;
+  console.log("maxThreshold", maxThreshold);
 
-  let avatarSource;
-  let indicator;
 
-  if (bpm < minThreshold || bpm > maxThreshold) {
-    indicator = "critical";
-  } else if (bpm >= minThreshold - 10 && bpm <= maxThreshold + 10) {
-    indicator = "nearCritical";
-  } else {
-    indicator = "normal";
-  }
+  useEffect(() => {
+    if (bpm < minThreshold || bpm > maxThreshold) {
+      setIndicator("critical");
+    } else if (bpm >= minThreshold - 10 && bpm <= maxThreshold + 10) {
+      setIndicator("nearCritical");
+    } else {
+      setIndicator("normal");
+    }
+  }, [bpm, minThreshold, maxThreshold]);
 
-  //if indicator is normal, display male_normalbpm
-  if (indicator === "normal") {
-    avatarSource = require("../assets/lottie/male/male_normalbpm.json");
-  } else if (indicator === "critical") {
-    avatarSource = require("../assets/lottie/male/male_criticalbpm.json");
-  } else if (indicator === "nearCritical") {
-    // use normal avatar for now since it causes confusion
-    avatarSource = require("../assets/lottie/male/male_normalbpm.json");
-  }
+  useEffect(() => {
+    // Update avatar source based on the indicator
+    switch (indicator) {
+      case "normal":
+        setAvatarSource(require("../assets/lottie/male/male_normalbpm.json"));
+        break;
+      case "critical":
+        setAvatarSource(require("../assets/lottie/male/male_criticalbpm.json"));
+        break;
+      case "nearCritical":
+        // Use normal avatar for now since it causes confusion
+        setAvatarSource(require("../assets/lottie/male/male_normalbpm.json"));
+        break;
+      default:
+        setAvatarSource(require("../assets/lottie/male/male_normalbpm.json"));
+    }
+  }, [indicator]);
 
 
   let avatarHeight;
