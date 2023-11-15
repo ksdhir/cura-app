@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import IconBtn from "../IconBtn";
 import curaTheme from "../../theme/theme";
 
-const HomeHeader = ({ userLoggedIn, profile }) => {
+const HomeHeader = ({ userLoggedIn, profile, elderEmailData }) => {
   const navigation = useNavigation();
   const elderName = profile?.profile?.preferredName;
   const elderAge = profile?.profile?.age;
@@ -29,7 +29,9 @@ const HomeHeader = ({ userLoggedIn, profile }) => {
 
       <IconBtn
         name="bell"
-        onPress={() => navigation.navigate("NotificationHistory")}
+        onPress={() => navigation.navigate("NotificationHistory", {
+          elderEmail: elderEmailData,
+        })}
         iconStyle={{
           color: curaTheme.lightColors.primary,
         }}

@@ -46,7 +46,6 @@ export const elderSignUp = async (body, token) => {
 };
 
 export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
-
   try {
     const url = `${apiUrl}/caregiver/profile?email=${caregiverEmail}`;
 
@@ -88,7 +87,6 @@ export const getElderProfile = async (email, token) => {
 //http://192.168.56.1:3003/api/elder/heart-rate-details?email=trinapreet@gmail.com
 
 export const getElderHeartRateDetail = async (email) => {
-
   try {
     const response = await fetch(
       `${apiUrl}/elder/heart-rate-details?email=${email}`
@@ -106,7 +104,6 @@ export const getElderHeartRateDetail = async (email) => {
 //http://192.168.56.1:3003/api/elder/heart-threshold?email=trinapreet@gmail.com
 
 export const getElderHeartRateThreshold = async (email) => {
-
   try {
     const response = await fetch(
       `${apiUrl}/elder/heart-threshold?email=${email}`
@@ -142,7 +139,6 @@ export const updateElderHeartRateThreshold = async (body, token) => {
 //http://10.0.0.113:3003/api/elder/weekly-heart-rate-data-visualisation?email=trinapreet@gmail.com
 
 export const getElderWeeklyHeartRateDataVisualisation = async (email) => {
-
   try {
     const response = await fetch(
       `${apiUrl}/elder/weekly-heart-rate-data-visualisation?email=${email}`
@@ -170,7 +166,6 @@ export const setElderHeartRateDetail = async (body) => {
       },
       body: JSON.stringify(body),
     });
-
   } catch (error) {
     console.error("error", error.message);
     throw Error("Could not set elder heartrate detail");
