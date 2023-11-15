@@ -74,7 +74,7 @@ export default function AccountMainScreen(props) {
           >
             <View className="flex flex-row  items-center justify-between gap-2">
               <Text className="text-lg text-neutral-800 font-SatoshiBold">
-                Add Caregiver
+                  Scan QR Code
               </Text>
 
               <MaterialCommunityIcons name={"chevron-right"} size={24} />
