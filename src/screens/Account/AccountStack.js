@@ -2,7 +2,6 @@ import { View, Text } from "react-native";
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AccountMainScreen from "./AccountMainScreen";
-import GoogleHealthScreen from "../HeartRate/GoogleHealthScreen";
 import HeartRateThresholdScreen from "./HeartRateThresholdScreen";
 import FallDetectionScreen from "./FallDetectionScreen";
 import PushNotificationScreen from "./PushNotificationScreen";
@@ -11,8 +10,7 @@ import ElderProfile from "../Profile/ElderProfile";
 import MovementStack from "../Movement/MovementStack";
 
 // Fall Detection Screens
-import ElderFallDetectedScreen from "./ElderFallDetectedScreen.jsx";
-import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen.jsx";
+import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen";
 import ProfileEmergencyContacts from "../Profile/EmergencyContacts";
 import ViewQRCode from "../Profile/ViewQRCode";
 import DemoScreen from "./DemoScreen";
@@ -26,11 +24,6 @@ export default function AccountStack(props) {
         name="AccountMainScreen"
         component={AccountMainScreen}
         initialParams={{ profileType: props.route.params.profileType }}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="GoogleHealthScreen"
-        component={GoogleHealthScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -77,6 +70,11 @@ export default function AccountStack(props) {
         options={{ headerShown: false }}
         name="ElderFallDetectedScreen"
         component={ElderFallDetectedScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ElderFallConfirmationScreen"
+        component={ElderFallConfirmationScreen}
       />
 
       <Stack.Screen

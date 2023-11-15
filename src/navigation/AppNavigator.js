@@ -7,7 +7,7 @@ import ProfileSetupSuccess from "../screens/Signup/ProfileSetupSuccess";
 import CaregiverProfileSetup from "../screens/Signup/CaregiverProfileSetup";
 
 // Animated Tab Bar
-import TabAnimated from "./TabAnimated";
+// import TabAnimated from "./TabAnimated";
 import TabElder from "./TabElder";
 import TabCaregiver from "./TabCaregiver";
 import { useNavigation } from "@react-navigation/native";
@@ -15,13 +15,18 @@ import useAuth from "../hooks/useAuth";
 import HistoryNotification from "../screens/Notifcation/HistoryNotification";
 import { useEffect, useState } from "react";
 
-import { getHealthData } from "../hooks/googlehealth";
 import { useFallDetectionChecker } from "../hooks/falldetection";
-import { backgroundsync } from "../services/backgroundsync";
+import { backgroundsync } from "../services/ElderBackgroundWorker";
 
 // notification permission
 import PushNotificationScreen from "../screens/Account/PushNotificationScreen";
 import LocationProcess from "../screens/Account/LocationProcess";
+
+// Test Screen
+import TestScreen from "../screens/Home/TestScreen";
+import ElderForegroundWorker from "../services/ElderForegroundWorker";
+
+import useFitbitAuth from "../hooks/userFitbitAuth";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +34,7 @@ const AppNavigator = () => {
   const navigation = useNavigation();
   const { user, profileType, token, isLoaded } = useAuth();
   const [fallDetectionChecker, setFallDetectionChecker] = useState(null);
+  const { tokenData, getHeartRate } = useFitbitAuth();
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -41,20 +47,6 @@ const AppNavigator = () => {
   }, [user, profileType, isLoaded]);
 
   // return <PushNotificationScreen />
-
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-    if (user && profileType === "Elder") {
-      getHealthData(user.email);
-      setFallDetectionChecker(useFallDetectionChecker(user.email, token));
-    }
-
-    if (user) {
-      backgroundsync(user.email);
-    }
-  }, [user]);
 
   // ========================> PERMISSIONS FOR ALL USERS (ELDER AND CAREGIVER)
   const [askNotifcationPermission, setAskNotifcationPermission] =
@@ -74,6 +66,16 @@ const AppNavigator = () => {
 
       setUserEmail(user.email);
       setAskLocationPermission(true);
+      // getHealthData(user.email);
+
+      // Initialize Foreground Worker
+      console.log("Initializing Foreground Worker");
+      ElderForegroundWorker(user.email, getHeartRate);
+
+      // Initialize Fall Detection Checker
+      setFallDetectionChecker(
+        useFallDetectionChecker(user.email, token, navigation)
+      );
     } else if (user && profileType === "Caregiver") {
       setUserEmail(user.email);
       setAskNotifcationPermission(true);

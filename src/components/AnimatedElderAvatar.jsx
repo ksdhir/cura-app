@@ -1,4 +1,5 @@
 import Lottie from "lottie-react-native";
+import { useEffect, useState } from "react";
 import { useWindowDimensions } from "react-native";
 
 
@@ -6,44 +7,42 @@ const AnimatedElderAvatar = ({ heartRateDetail, heartRateThreshold }) => {
 
   let { width, height } = useWindowDimensions();
 
+  const [avatarSource, setAvatarSource] = useState(require("../assets/lottie/male/male_normalbpm.json"));
+  const [avatarHeight, setAvatarHeight] = useState(160);
 
   const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
 
-  let avatarSource;
-  let indicator;
 
-  if (bpm < minThreshold || bpm > maxThreshold) {
-    indicator = "critical";
-  } else if (bpm >= minThreshold - 10 && bpm <= maxThreshold + 10) {
-    indicator = "nearCritical";
-  } else {
-    indicator = "normal";
-  }
+  useEffect(() => {
+    if (bpm < minThreshold || bpm > maxThreshold) {
+      setAvatarSource(require("../assets/lottie/male/male_criticalbpm.json"));
+    } else if (bpm >= minThreshold - 10 && bpm <= maxThreshold + 10) {
+      setAvatarSource(require("../assets/lottie/male/male_normalbpm.json"));
+    } else {
+      setAvatarSource(require("../assets/lottie/male/male_normalbpm.json"));
+    }
+  }, [bpm, minThreshold, maxThreshold]);
 
-  //if indicator is normal, display male_normalbpm
-  if (indicator === "normal") {
-    avatarSource = require("../assets/lottie/male/male_normalbpm.json");
-  } else if (indicator === "critical") {
-    avatarSource = require("../assets/lottie/male/male_criticalbpm.json");
-  } else if (indicator === "nearCritical") {
-    // use normal avatar for now since it causes confusion
-    avatarSource = require("../assets/lottie/male/male_normalbpm.json");
-  }
+  useEffect(() => {
+    setAvatarHeight(getAvatarHeight(height));
+  }, [height]);
 
+  const getAvatarHeight = (height) => {
+    let avatarHeight;
 
-  let avatarHeight;
+    if (height > 780) {
+      avatarHeight = 220;
+    } else if (height > 760) {
+      avatarHeight = 190;
+    } else if (height > 720) {
+      avatarHeight = 160;
+    }
 
-  if (height > 780) {
-    avatarHeight = 220;
-  } else if (height > 760) {
-    avatarHeight = 190;
-  } else if (height > 720) {
-    avatarHeight = 160;
-  }
+    return avatarHeight;
+  };
 
-  // console.log("screen height", height);
 
   return (
     <Lottie

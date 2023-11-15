@@ -1,11 +1,15 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/layouts/Header";
-import ImgFallDetected from "../../assets/images/fall-detection.svg";
+
+import ImgFallDetected from "../../assets/images/fall-detected.svg";
 
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 const ElderFallDetectedScreen = () => {
+  const handleOKTouchable = () => {
+    console.log("OK");
+  };
   const handleCallTouchable = () => {
     console.log("Call");
   };
@@ -14,24 +18,26 @@ const ElderFallDetectedScreen = () => {
     <SafeAreaView className="flex-1 p-4 items-center bg-curaWhite">
       {/* Header of the Page */}
       <Header />
-      <View className="pt-8 px-6 flex w-full items-center gap-2">
+      <View className="pt-12 px-6 flex w-full items-center gap-2">
         <ImgFallDetected style={{ width: 150, height: 150 }} />
-        <View className="flex items-center">
-          <Text className="text-5xl font-SatoshiBold">Rocky Balboa</Text>
-          <Text className="text-5xl font-SatoshiBold">might have fallen!</Text>
-          <Text className="text-center text-lg">
-            We’ve detected a potential fall incident and is waiting for Rocky to
-            prompt.
-          </Text>
-        </View>
+        <Text className="text-4xl font-SatoshiBold">We detected a fall</Text>
       </View>
-      <View className="flex w-full pt-8">
-        {/* <View className="flex items-center py-8">
+      <View className="flex w-full mt-6">
+        <TouchableOpacity
+          className="bg-success rounded-xl py-2.5 px-4"
+          onPress={() => {
+            handleOKTouchable();
+          }}
+        >
+          <Text className="text-curaWhite text-lg text-center font-SatoshiMedium">
+            I'M OK
+          </Text>
+        </TouchableOpacity>
+        <View className="flex items-center py-10">
           <CountdownCircleTimer
             isPlaying
             duration={15}
             strokeWidth={18}
-            size={170}
             colors={["#09C1CB", "#EE754E"]}
             colorsTime={[15, 0]}
             onComplete={() => {
@@ -47,10 +53,10 @@ const ElderFallDetectedScreen = () => {
                 <Text>seconds</Text>
               </>
             )}
-          </CountdownCircleTimer> 
-            </View>*/}
+          </CountdownCircleTimer>
+        </View>
         <TouchableOpacity
-          className="bg-primary rounded-xl py-2.5 px-4"
+          className="bg-error rounded-xl py-2.5 px-4"
           onPress={() => {
             handleCallTouchable();
           }}

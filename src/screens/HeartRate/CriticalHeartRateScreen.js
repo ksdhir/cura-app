@@ -10,16 +10,10 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import curaTheme from "../../theme/theme";
-import {
-  getAllNotificationLog,
-  getSpecificNotificationLog,
-} from "../../services/caregiver";
-import { formatDateTime, timeDifference } from "../../helpers";
+import { getSpecificNotificationLog } from "../../services/caregiver";
+import { timeDifference } from "../../helpers";
 import Header from "../../components/layouts/Header";
 import IconBtn from "../../components/IconBtn";
-import PolyUp from "../../assets/icons/svg/polygonup.svg";
-import PolyDown from "../../assets/icons/svg/polygondown.svg";
-import { Icon } from "@rneui/base";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
@@ -29,6 +23,8 @@ export default function CriticalHeartRateScreen() {
   const route = useRoute();
 
   const { bpm, elderEmail, minThreshold, maxThreshold } = route.params;
+  console.log("====================================");
+  console.log(elderEmail);
 
   useEffect(() => {
     getSpecificNotificationLog(elderEmail, "CRITICAL_HEART_RATE").then(
@@ -40,8 +36,8 @@ export default function CriticalHeartRateScreen() {
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
-      <StatusBar style="auto" />
-      <Header />
+      <StatusBar />
+      <Header elderEmail={elderEmail} />
 
       <View className="w-full">
         <Text className="text-5xl text-curaBlack font-SatoshiBold">
@@ -53,10 +49,9 @@ export default function CriticalHeartRateScreen() {
           source={require("../../assets/images/character/maleCritical.png")}
           style={{
             width: 120,
-            height: 160,
+            height: 150,
             position: "absolute",
             zIndex: 10,
-
             transform: [
               {
                 translateX: width / 2 - 80,
@@ -64,8 +59,7 @@ export default function CriticalHeartRateScreen() {
             ],
 
             //crop the image to the size of the parent
-            top: 5,
-
+            bottom: 0,
             resizeMode: "contain",
           }}
         />
@@ -106,7 +100,7 @@ export default function CriticalHeartRateScreen() {
               heartrateLog.notificationLog.map((item, index) => (
                 <View
                   key={item.id}
-                  className="flex flex-row py-6 bg-curaWhite space-x-2 "
+                  className="flex flex-row py-4 bg-curaWhite space-x-2 "
                 >
                   <IconBtn
                     name={

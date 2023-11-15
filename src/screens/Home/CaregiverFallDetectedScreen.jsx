@@ -1,11 +1,11 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/layouts/Header";
-import ImgFallDetected from "../../assets/images/fall-detection.svg";
+import ImgFallDetected from "../../assets/images/fall_detection.svg";
 
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
-const ElderFallDetectedScreen = () => {
+const CaregiverFallDetectedScreen = () => {
   const handleCallTouchable = () => {
     console.log("Call");
   };
@@ -25,8 +25,8 @@ const ElderFallDetectedScreen = () => {
           </Text>
         </View>
       </View>
-      <View className="flex w-full pt-8">
-        {/* <View className="flex items-center py-8">
+      <View className="flex w-full">
+        <View className="flex items-center py-8">
           <CountdownCircleTimer
             isPlaying
             duration={15}
@@ -47,8 +47,8 @@ const ElderFallDetectedScreen = () => {
                 <Text>seconds</Text>
               </>
             )}
-          </CountdownCircleTimer> 
-            </View>*/}
+          </CountdownCircleTimer>
+        </View>
         <TouchableOpacity
           className="bg-primary rounded-xl py-2.5 px-4"
           onPress={() => {
@@ -64,4 +64,4 @@ const ElderFallDetectedScreen = () => {
   );
 };
 
-export default ElderFallDetectedScreen;
+export default CaregiverFallDetectedScreen;

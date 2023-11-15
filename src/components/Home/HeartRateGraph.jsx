@@ -1,12 +1,15 @@
 import { timeDifference } from "../../helpers";
 import { View, Text, Dimensions, useWindowDimensions } from "react-native";
 import Lottie from "lottie-react-native";
+import { useEffect, useState } from "react";
 
 
 const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
 
   let { width, height } = useWindowDimensions();
 
+  const [speed, setSpeed] = useState(1);
+  const [heartSource, setHeartSource] = useState(require("../../assets/lottie/heart/normal.json"));
 
   const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
   const time = heartRateDetail?.latestHeartRateRecord?.[0]?.timestamp;
@@ -14,27 +17,33 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
 
+  useEffect(() => {
+    if (bpm < minThreshold) {
+      setSpeed(0.5);
+      setHeartSource(require("../../assets/lottie/heart/low.json"));
+    } else if (bpm > maxThreshold) {
+      setSpeed(4);
+      setHeartSource(require("../../assets/lottie/heart/high.json"));
+    } else {
+      setSpeed(1);
+      setHeartSource(require("../../assets/lottie/heart/normal.json"));
+    }
+  }, [bpm, minThreshold, maxThreshold]);
 
-
-  // default and adjusted speeds
-  let speed = 1;
-  if (bpm < minThreshold) {
-    speed = 0.5;
-  } else if (bpm > maxThreshold) {
-    speed = 2;
-  }
 
   return (
     <>
       {/* Heart Icon */}
       <View className={height > 780 ? "flex flex-1 w-full items-center mb-6" : "flex flex-1 w-full items-center"}>
         <Lottie
-          source={require("../../assets/lottie/heartbeat.json")}
+          source={heartSource}
           autoPlay
           speed={speed}
           style={{
             width: 180,
             height: height > 780 ? 210 : 180,
+            position: "relative",
+            bottom: 8,
           }}
         />
       </View>

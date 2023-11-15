@@ -90,12 +90,16 @@ export default function HeartRateMainScreen() {
     <SafeAreaView className="flex-1 items-center justify-between px-4 bg-curaWhite">
       <StatusBar style="auto" />
       <>
-        <HomeHeader userLoggedIn={userLoggedIn} profile={elderProfile} />
+        <HomeHeader
+          userLoggedIn={userLoggedIn}
+          profile={elderProfile}
+          elderEmailData={elderEmailData}
+        />
 
         <View className="flex w-full items-center">
           <AnimatedElderAvatar
-            data={heartRateDetail}
-            threshold={heartRateThreshold}
+            heartRateDetail={heartRateDetail}
+            heartRateThreshold={heartRateThreshold}
           />
 
           <View
@@ -106,7 +110,7 @@ export default function HeartRateMainScreen() {
           >
             <GraphHeader
               data={heartRateDetail}
-              threshold={heartRateThreshold}
+              heartRateThreshold={heartRateThreshold}
               elderEmailData={elderEmailData}
             />
 
