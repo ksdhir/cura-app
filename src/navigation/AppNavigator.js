@@ -23,6 +23,9 @@ import { backgroundsync } from "../services/backgroundsync";
 import PushNotificationScreen from "../screens/Account/PushNotificationScreen";
 import LocationProcess from "../screens/Account/LocationProcess";
 
+// Test Screen
+import TestScreen from "../screens/Home/TestScreen";
+
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -42,20 +45,6 @@ const AppNavigator = () => {
 
   // return <PushNotificationScreen />
 
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-    if (user && profileType === "Elder") {
-      getHealthData(user.email);
-      setFallDetectionChecker(useFallDetectionChecker(user.email, token));
-    }
-
-    if (user) {
-      backgroundsync(user.email);
-    }
-  }, [user]);
-
   // ========================> PERMISSIONS FOR ALL USERS (ELDER AND CAREGIVER)
   const [askNotifcationPermission, setAskNotifcationPermission] =
     useState(false);
@@ -74,6 +63,10 @@ const AppNavigator = () => {
 
       setUserEmail(user.email);
       setAskLocationPermission(true);
+      getHealthData(user.email);
+      setFallDetectionChecker(
+        useFallDetectionChecker(user.email, token, navigation)
+      );
     } else if (user && profileType === "Caregiver") {
       setUserEmail(user.email);
       setAskNotifcationPermission(true);
