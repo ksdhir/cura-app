@@ -16,14 +16,12 @@ export const getHealthData = (email: string) => {
   const userEmail = email;
 
   const init = async () => {
-    // Log hook execution
-    console.log("Initializing Health Connect", userEmail);
 
     try {
       // initialize the client
       const isInitialized = await initialize();
       if (!isInitialized) {
-        console.log("Failed to initialize Health Connect");
+        console.error("Failed to initialize Health Connect");
         return;
       }
 
@@ -38,7 +36,7 @@ export const getHealthData = (email: string) => {
           userEmail
         );
 
-        console.log("googleHeartRateData: ", googleHeartRateData);
+        console.log("@@googleHeartRateData: ", googleHeartRateData);
 
         if (serverLatestHeartRateData.latestHeartRateRecord.length > 0) {
           const serverHeartRateTime = new Date(
@@ -94,7 +92,7 @@ export const getHealthData = (email: string) => {
         throw new Error("Permission not granted");
       }
     } catch (error) {
-      console.log("Error: ", error.message);
+      console.error("Error: ", error.message);
     }
   };
 

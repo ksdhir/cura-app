@@ -14,6 +14,7 @@ import MovementStack from "../Movement/MovementStack";
 import ElderFallDetectedScreen from "./ElderFallDetectedScreen.jsx";
 import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen.jsx";
 import ProfileEmergencyContacts from "../Profile/EmergencyContacts";
+import DemoScreen from "./DemoScreen";
 
 export default function AccountStack(props) {
   const Stack = createNativeStackNavigator();
@@ -71,11 +72,11 @@ export default function AccountStack(props) {
         component={ElderFallDetectedScreen}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         options={{ headerShown: false }}
-        name="ElderFallConfirmationScreen"
-        component={ElderFallConfirmationScreen}
-      /> */}
+        name="DemoScreen"
+        component={DemoScreen}
+      />
     </Stack.Navigator>
   );
 }

@@ -21,15 +21,12 @@ const requestPermissions = async () => {
     const { status: backgroundStatus } =
       await Location.requestBackgroundPermissionsAsync();
     if (backgroundStatus === "granted") {
-      console.log("before line 19 -> location updates async");
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.BestForNavigation, // accuracy: Location.Accuracy.Balanced,
         timeInterval: 1000 * 60 * 20, // 20 minutes
         distanceInterval: 0,
         showsBackgroundLocationIndicator: true,
       });
-
-      console.log("After line 19 -> location updates async");
     }
   }
 };
@@ -38,23 +35,21 @@ const requestPermissions = async () => {
 TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
   if (error) {
     // Error occurred - check `error.message` for more details.
-    console.log(error);
+    console.error(error);
     return;
   }
   if (data) {
     const { locations } = data;
     const { latitude, longitude } = locations[0].coords;
-    // console.log(latitude, longitude)
 
     const currentLocation = { latitude, longitude };
+    console.log(currentLocation, "from location process")
 
     // from async storage get home coordinates
     AsyncStorage.getItem("homeCoordinates").then((data) => {
       const homeCoordinates = JSON.parse(data);
       locationLiveDetectionProcess(homeCoordinates, currentLocation);
     });
-
-    // locationLiveDetectionProcess()
   }
 });
 
@@ -110,8 +105,6 @@ export default function LocationProcess({ userEmail }) {
           const latitude = profile.defaultLocation.latitude ?? 49.229033;
           const longitude = profile.defaultLocation.longitude ?? -123.0691669;
 
-          // 49.229033,-123.0691669
-          // console.log(home_latitude, home_longitude);
 
           const homeCoordinates = { latitude, longitude, elderEmail };
           const stringify = JSON.stringify(homeCoordinates);
