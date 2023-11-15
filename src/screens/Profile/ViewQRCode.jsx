@@ -14,7 +14,7 @@ import { getCaregiverProfile } from "../../services/caregiver";
 
 import QRCode from "react-qr-code";
 
-const ScanQRCode = () => {
+const ViewQRCode = () => {
   const { user, token } = useAuth();
   const [caregiverName, setCaregiverName] = useState("");
   const [once, setOnce] = useState(false);
@@ -44,7 +44,7 @@ const ScanQRCode = () => {
         <Header />
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-SatoshiBold text-2xl">Scan QR Code</Text>
+          <Text className="font-SatoshiBold text-2xl">View QR Code</Text>
         </View>
 
         <View className="flex flex-1 justify-center items-center">
@@ -61,4 +61,4 @@ const ScanQRCode = () => {
   );
 };
 
-export default ScanQRCode;
+export default ViewQRCode;

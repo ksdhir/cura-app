@@ -14,7 +14,7 @@ import MovementStack from "../Movement/MovementStack";
 import ElderFallDetectedScreen from "./ElderFallDetectedScreen.jsx";
 import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen.jsx";
 import ProfileEmergencyContacts from "../Profile/EmergencyContacts";
-import ScanQRCode from "../Profile/ScanQRCode";
+import ViewQRCode from "../Profile/ViewQRCode";
 import DemoScreen from "./DemoScreen";
 
 export default function AccountStack(props) {
@@ -69,8 +69,8 @@ export default function AccountStack(props) {
 
       <Stack.Screen
         options={{ headerShown: false }}
-        name="ScanQRCode"
-        component={ScanQRCode}
+        name="ViewQRCode"
+        component={ViewQRCode}
       />
 
       <Stack.Screen

@@ -82,12 +82,12 @@ export default function AccountMainScreen(props) {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            onPress={() => navigation.navigate("ScanQRCode")}
+            onPress={() => navigation.navigate("ViewQRCode")}
             className="w-full p-4 pt-0"
           >
             <View className="flex flex-row  items-center justify-between gap-2">
               <Text className="text-lg text-neutral-800 font-SatoshiBold">
-                Scan QR Code
+                View QR Code
               </Text>
 
               <MaterialCommunityIcons name={"chevron-right"} size={24} />
