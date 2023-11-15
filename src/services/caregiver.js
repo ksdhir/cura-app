@@ -15,7 +15,7 @@ export const getCaregiverProfile = async (email, token) => {
 
     return response.json();
   } catch (error) {
-    console.log("error", error.message);
+    console.error("error", error.message);
     return null;
   }
 };
@@ -35,14 +35,13 @@ export const caregiverSignup = async (body, token) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log("error", error.message);
+    console.error("error", error.message);
     return null;
   }
 };
 
-export const saveNotificationToken = async (expoToken) => {
+export const saveNotificationToken = async (expoToken, email) => {
   try {
-    const email = auth.currentUser.email;
 
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/store-push-notification-token?email=${email}&token=${expoToken}`;
 
@@ -54,12 +53,46 @@ export const saveNotificationToken = async (expoToken) => {
     });
 
     const data = await response.json();
+    // console.log(data);
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(error.message);
   }
 };
+
+
+// =============================> SPECIFIC TYPE NOTIFICATION LOGS
+
+export const getSpecificNotificationLog = async (elderEmail, type) => {
+  const allValidTypes = ["CRITICAL_HEART_RATE", "FALL_DETECTED", "MOVEMENT_LOCATION"];
+
+  try {
+    if (allValidTypes.includes(type) === false) {
+      throw new Error("Invalid type");
+    }
+
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=${type}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+};
+
+
+// =============================> SPECIFIC TYPE NOTIFICATION LOGS ENDS
+
+
 
 // /api/caregiver/all-notification-log
 
@@ -67,7 +100,6 @@ export const saveNotificationToken = async (expoToken) => {
 
 //pass in elderEmail
 export const getAllNotificationLog = async (elderEmail) => {
-  console.log("fetching all notification log");
 
   try {
     return {
@@ -108,7 +140,6 @@ export const getAllNotificationLog = async (elderEmail) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log(error);
     throw new Error(error.message);
   }
 };

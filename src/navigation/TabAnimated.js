@@ -18,12 +18,7 @@ const careGiver = true;
 
 export default function TabAnimated() {
   const { user, profileType } = useAuth();
-
-  console.log("profileType:" + profileType);
-
   const profile = profileType;
-
-  console.log(profile);
 
   return (
     <>

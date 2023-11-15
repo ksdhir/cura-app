@@ -1,30 +1,29 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import auth from "@react-native-firebase/auth";
-import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
 import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
 
-export default function AccountMainScreen() {
+export default function AccountMainScreen(props) {
   const navigation = useNavigation();
-  const { user, profileType } = useAuth();
+  const profileType = props.route.params.profileType;
 
   const handleSignout = async () => {
-    console.log("GOOGLE AUTH SIGN OUT");
 
     try {
       await GoogleSignin.revokeAccess();
     } catch (error) {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
     } finally {
       await auth().signOut();
-      navigation.navigate("Welcome");
+      navigation.navigate("Login");
+      console.log("GOOGLE AUTH SIGN OUT SUCCESS");
     }
   };
 
@@ -42,10 +41,6 @@ export default function AccountMainScreen() {
     }
   };
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <SafeAreaView className="flex flex-1 bg-curaWhite">
       <StatusBar style="auto" />
@@ -54,16 +49,18 @@ export default function AccountMainScreen() {
         <Header />
       </View>
 
-      <View className="flex w-full flex-1 justify-center items-center space-y-4">
+      <View className="flex w-full flex-1 space-y-4">
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <UserIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-bold">Account</Text>
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            Account
+          </Text>
         </View>
 
         <TouchableOpacity onPress={navigateToProfile} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2">
-            <Text className="text-lg text-neutral-800 font-bold">
+            <Text className="text-lg text-neutral-800 font-SatoshiBold">
               Personal Profile
             </Text>
 
@@ -71,43 +68,61 @@ export default function AccountMainScreen() {
           </View>
         </TouchableOpacity>
 
-        <View className="w-full flex flex-row  items-center justify-between gap-2 px-4 mb-4">
-          <Text className="text-lg text-neutral-800 font-bold">
-            View QR Code
-          </Text>
+        {profileType === "Elder" ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileEmergencyContacts")}
+            className="w-full p-4 pt-0"
+          >
+            <View className="flex flex-row  items-center justify-between gap-2">
+              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+                Add Caregiver
+              </Text>
 
-          <MaterialCommunityIcons name={"chevron-right"} size={24} />
-        </View>
+              <MaterialCommunityIcons name={"chevron-right"} size={24} />
+            </View>
+          </TouchableOpacity>
+        ) : null}
 
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <SettingIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-bold">Settings</Text>
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            Settings
+          </Text>
         </View>
 
-        <View className="w-full flex flex-row items-center justify-between gap-2 px-4">
-          <Text className="text-lg text-neutral-800 font-bold">
+        <View className="w-full flex flex-row items-center justify-between py-2 px-4">
+          <Text className="text-lg text-neutral-800 font-SatoshiBold">
             Notifications
           </Text>
 
           <MaterialCommunityIcons name={"chevron-right"} size={24} />
         </View>
 
-        <View className="w-full flex flex-row  items-center justify-between gap-2 px-4">
-          <Text className="text-lg text-neutral-800 font-bold">
-            Heart Rate Threshold
-          </Text>
+        {profileType === "Elder" ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("HeartRateThresholdScreen")}
+            className="w-full p-4 pt-0"
+          >
+            <View className="flex flex-row  items-center justify-between gap-2">
+              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+                Heart Rate Threshold
+              </Text>
 
-          <MaterialCommunityIcons name={"chevron-right"} size={24} />
-        </View>
+              <MaterialCommunityIcons name={"chevron-right"} size={24} />
+            </View>
+          </TouchableOpacity>
+        ) : null}
 
         <TouchableOpacity onPress={handleSignout} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2 ">
-            <Text className="text-lg text-neutral-800 font-bold">Logout</Text>
+            <Text className="text-lg text-neutral-800 font-SatoshiBold">
+              Logout
+            </Text>
           </View>
         </TouchableOpacity>
 
-        <ScrollView
+        {/* <ScrollView
           className="flex flex-1 w-full px-4 space-y-3"
           contentContainerStyle={{
             flex: 1,
@@ -135,7 +150,7 @@ export default function AccountMainScreen() {
           >
             <Text>Push Notification Screen</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </SafeAreaView>
   );

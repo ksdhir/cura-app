@@ -12,15 +12,16 @@ import {
   setElderHeartRateDetail,
 } from "../services/elder";
 import { auth } from "../utils/FirebaseConfig";
-import { server } from "../../metro.config";
 
 export const getHealthData = () => {
   const userEmail = auth?.currentUser?.email;
 
   const init = async () => {
+    // Log hook execution
     try {
       // initialize the client
       const isInitialized = await initialize();
+
       if (!isInitialized) {
         console.log("Failed to initialize Health Connect");
         return;
@@ -130,7 +131,6 @@ export const getHealthData = () => {
 
       return timeInMinute % 10 === 0;
     });
-
     return filteredHeartRates;
   };
 

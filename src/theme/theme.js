@@ -16,6 +16,7 @@ const curaTheme = createTheme({
     curaGray: "#849A99",
     curaBlack: "#263130",
   },
+
   fontSizes: {
     sm: 14,
     base: 16,
@@ -32,6 +33,12 @@ const curaTheme = createTheme({
     medium: "500",
     bold: "700",
     black: "900",
+  },
+  fontFamilies: {
+    SatoshiMedium: "SatoshiMedium",
+    SatoshiBold: "SatoshiBold",
+    SatoshiBlack: "SatoshiBlack",
+    LemonLove: "LemonLove",
   },
   components: {
     Button: {

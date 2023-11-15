@@ -22,15 +22,13 @@ const useHealthData = () => {
 
   useEffect(() => {
     const init = async () => {
-      console.log("init");
 
       // initialize the client
       const isInitialized = await initialize();
       if (!isInitialized) {
-        console.log("Failed to initialize Health Connect");
+        console.error("Failed to initialize Health Connect");
         return;
       }
-      console.log("before permmissions");
       try {
         const grantedPermissions = await requestPermission([
           { accessType: "read", recordType: "Steps" },
@@ -38,11 +36,9 @@ const useHealthData = () => {
           { accessType: "read", recordType: "FloorsClimbed" },
           { accessType: "read", recordType: "HeartRate" },
         ]);
-        console.log("permissionns granted");
         setAndroidPermissions(grantedPermissions);
       } catch (error) {
-        console.log(error);
-        console.log("in the error");
+        console.error(error);
       }
       // request permissions
     };

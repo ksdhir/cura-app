@@ -5,17 +5,22 @@ const useAuth = () => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [profileType, setProfileType] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const onAuthStateChanged = (user) => {
-
     if (user) {
       auth()
         .currentUser.getIdTokenResult()
         .then((result) => {
           const claims = result.claims;
           const profileType = claims.profileType;
-          setProfileType(profileType);
+
+          if (profileType) {
+            setProfileType(profileType);
+          }
+
           setUser(user);
+          setIsLoaded(true);
         });
     }
 
@@ -34,7 +39,8 @@ const useAuth = () => {
   return {
     user,
     token,
-    profileType
+    profileType,
+    isLoaded,
   };
 };
 

@@ -4,6 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import { elderSignUp } from "../../services/elder";
 import { caregiverSignup } from "../../services/caregiver";
 import useAuth from "../../hooks/useAuth";
+import Header from "../../components/layouts/Header";
+import CuraIcon from "../../assets/images/cura-final-icon.svg";
+import CaregiverIcon from "../../assets/icons/svg/caregiver.svg";
+import ElderIcon from "../../assets/icons/svg/elderly.svg";
 
 const ProfileTypeSelection = () => {
   const navigation = useNavigation();
@@ -28,34 +32,40 @@ const ProfileTypeSelection = () => {
 
   return (
     <>
-      <SafeAreaView className="flex h-full space-y-4 px-4 py-16">
-        <View className=" flex-1 flex">
-          <View className="flex justify-start py-4 mb-8"></View>
+      <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+        <Header hideNotification />
 
-          <View className=" flex flex-row justify-center items-center mb-4">
-            <View className="flex-0 w-[100px] h-[100px] bg-[#D9D9D9] rounded-full" />
-          </View>
+        <View className="flex justify-center items-center flex-1 mb-[200px]">
+          <CuraIcon />
 
-          <Text className="text-2xl text-center mb-8 p-8 font-bold">
+          <Text className="text-[24px] w-[256px] text-center font-SatoshiBold py-8">
             Choose what type of account you’ll be using
           </Text>
 
-          <View className="flex justify-between flex-row  w-full  gap-4">
+          <View className="flex flex-row  w-full space-x-6">
             <TouchableOpacity
-              className="bg-[#D9D9D9] px-4 py-2 rounded-md flex-1"
+              className="flex-1 bg-primary rounded-xl p-4 flex justify-center items-center"
               onPress={() => handleRedirection("Caregiver")}
             >
-              <Text className="text-[17px] text-center font-bold">
-                {" "}
-                Caregiver{" "}
+              <CaregiverIcon
+                width={27}
+                height={39}
+                style={{ color: "white" }}
+              />
+              <Text className="text-white font-SatoshiMedium text-[16px]">
+                Caregiver
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              className="bg-[#D9D9D9] px-4 py-2 rounded-md flex-1"
+              className="flex-1 bg-secondaryDark  rounded-xl p-4 flex justify-center items-center"
               onPress={() => handleRedirection("Elder")}
             >
-              <Text className="text-[17px] text-center font-bold"> Elder </Text>
+              <ElderIcon width={21} height={39} style={{ color: "white" }} />
+
+              <Text className="text-white font-SatoshiMedium text-[16px]">
+                Senior
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

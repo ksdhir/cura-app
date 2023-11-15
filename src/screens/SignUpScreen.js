@@ -6,16 +6,24 @@ import auth from "@react-native-firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { elderSignUp } from "../services/elder";
 import { caregiverSignup } from "../services/caregiver";
+import Header from "../components/layouts/Header";
 
 export default function SignUpScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async () => {
     // Validate the input
     if (!isValidEmail(email) || password.length < 6) {
       alert("Invalid input");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      setConfirmPassword("");
       return;
     }
 
@@ -57,64 +65,63 @@ export default function SignUpScreen() {
   }
 
   return (
-    <View className="flex-1 bg-teal-300 justify-between pt-4">
-      <SafeAreaView className="flex-1">
-        <View className="flex-row justify-start">
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            className="bg-teal-600 p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
-          >
-            <Text className="text-gray-200"> Back </Text>
-          </TouchableOpacity>
-        </View>
-        <View className="flex-row flex-1 justify-center items-center">
-          <Text className="text-4xl font-bold text-gray-800">
-            Sign Up Screen
-          </Text>
-        </View>
-      </SafeAreaView>
-      <View
-        className="flex bg-white p-8"
-        style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
-      >
-        <View className="form space-y-1.5">
-          <Text className="text-gray-700 ml-4">Email Address</Text>
-          <TextInput
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-            value={email}
-            onChangeText={(value) => setEmail(value)}
-            placeholder="Enter Email"
-          />
-          <Text className="text-gray-700 ml-4">Password</Text>
-          <TextInput
-            className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-7"
-            secureTextEntry
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-            placeholder="Enter Password"
-          />
-          <TouchableOpacity
-            className="py-3 bg-indigo-500 rounded-xl"
-            onPress={handleSubmit}
-          >
-            <Text className="text-lg font-bold text-center text-gray-200">
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Text className="text-xl text-gray-700 font-bold text-center py-3">
-          Or
-        </Text>
+    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+      <View className="flex flex-column flex-1">
+        <Header hideNotification />
 
-        <View className="flex-row justify-center mt-5">
-          <Text className="text-gray-500 font-semibold">
-            Already have an account?
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text className="font-semibold text-indigo-500"> Login</Text>
-          </TouchableOpacity>
+        <View className="flex justify-start py-4 mb-4">
+          <Text className="font-SatoshiBold text-5xl">Create Account</Text>
         </View>
+
+        <View className="flex flex-1">
+          <View className="flex justify-start py-4 gap-2">
+            <View className="flex flex-row justify-between items-end">
+              <Text className="font-SatoshiMedium">Username / Email</Text>
+            </View>
+
+            <TextInput
+              className="border-b-[1px] font-SatoshiBold"
+              value={email}
+              onChangeText={(v) => setEmail(v)}
+            />
+          </View>
+
+          <View className="flex justify-start py-4 gap-2">
+            <View className="flex flex-row justify-between items-end">
+              <Text className="font-SatoshiMedium">Password</Text>
+            </View>
+
+            <TextInput
+              className="border-b-[1px] font-SatoshiBold"
+              secureTextEntry
+              value={password}
+              onChangeText={(v) => setPassword(v)}
+            />
+          </View>
+
+          <View className="flex justify-start py-4 gap-2">
+            <View className="flex flex-row justify-between items-end">
+              <Text className="font-SatoshiMedium">Confirm Password</Text>
+            </View>
+
+            <TextInput
+              className="border-b-[1px] font-SatoshiBold"
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={(v) => setConfirmPassword(v)}
+            />
+          </View>
+        </View>
+
+        <TouchableOpacity
+          className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
+          onPress={handleSubmit}
+        >
+          <Text className="text-[17px] text-center font-SatoshiBold text-white">
+            Sign Up
+          </Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

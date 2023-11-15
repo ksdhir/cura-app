@@ -33,6 +33,12 @@ module.exports = {
         "6xl": "60px",
         black: "82px",
       },
+      fontFamily: {
+        SatoshiMedium: "SatoshiMedium",
+        SatoshiBold: "SatoshiBold",
+        SatoshiBlack: "SatoshiBlack",
+        LemonLove: "LemonLove",
+      },
     },
   },
   plugins: [],

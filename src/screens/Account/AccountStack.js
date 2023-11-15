@@ -7,8 +7,16 @@ import HeartRateThresholdScreen from "./HeartRateThresholdScreen";
 import FallDetectionScreen from "./FallDetectionScreen";
 import PushNotificationScreen from "./PushNotificationScreen";
 import CaregiverProfile from "../Profile/CaregiverProfile";
+import ElderProfile from "../Profile/ElderProfile";
+import MovementStack from "../Movement/MovementStack";
 
-export default function AccountStack() {
+// Fall Detection Screens
+import ElderFallDetectedScreen from "./ElderFallDetectedScreen.jsx";
+import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen.jsx";
+import ProfileEmergencyContacts from "../Profile/EmergencyContacts";
+import DemoScreen from "./DemoScreen";
+
+export default function AccountStack(props) {
   const Stack = createNativeStackNavigator();
 
   return (
@@ -16,6 +24,7 @@ export default function AccountStack() {
       <Stack.Screen
         name="AccountMainScreen"
         component={AccountMainScreen}
+        initialParams={{ profileType: props.route.params.profileType }}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -43,6 +52,30 @@ export default function AccountStack() {
         options={{ headerShown: false }}
         name="CaregiverProfile"
         component={CaregiverProfile}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ElderProfile"
+        component={ElderProfile}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ProfileEmergencyContacts"
+        component={ProfileEmergencyContacts}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ElderFallDetectedScreen"
+        component={ElderFallDetectedScreen}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="DemoScreen"
+        component={DemoScreen}
       />
     </Stack.Navigator>
   );

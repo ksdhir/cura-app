@@ -81,7 +81,6 @@ export default function PushNotificationScreen() {
     registerForPushNotificationsAsync()
       .then((token) => {
         setExpoPushToken(token);
-        //console.log(user.email)
         return token;
       })
       .then((token) => {
@@ -95,7 +94,6 @@ export default function PushNotificationScreen() {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
       });
 
     return () => {
@@ -107,48 +105,49 @@ export default function PushNotificationScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Test Push Notifications:</Text>
-      <Text>expoPushToken: {JSON.stringify(expoPushToken)}</Text>
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <Text>
-          Title: {notification && notification.request.content.title}{" "}
-        </Text>
-        <Text>Body: {notification && notification.request.content.body}</Text>
-        <Text>
-          Data:{" "}
-          {notification && JSON.stringify(notification.request.content.data)}
-        </Text>
-      </View>
+    <></>
+    // <View style={styles.container}>
+    //   <Text style={styles.text}>Test Push Notifications:</Text>
+    //   <Text>expoPushToken: {JSON.stringify(expoPushToken)}</Text>
+    //   <View style={{ alignItems: "center", justifyContent: "center" }}>
+    //     <Text>
+    //       Title: {notification && notification.request.content.title}{" "}
+    //     </Text>
+    //     <Text>Body: {notification && notification.request.content.body}</Text>
+    //     <Text>
+    //       Data:{" "}
+    //       {notification && JSON.stringify(notification.request.content.data)}
+    //     </Text>
+    //   </View>
 
-      {/* Self Notification Scheduler */}
-      {/* <Button
-        title="Press to schedule a notification"
-        onPress={async () => {
-          await schedulePushNotification();
-        }}
-      /> */}
+    //   {/* Self Notification Scheduler */}
+    //   {/* <Button
+    //     title="Press to schedule a notification"
+    //     onPress={async () => {
+    //       await schedulePushNotification();
+    //     }}
+    //   /> */}
 
-      <View className="mt-2">
-        <Button
-          title="Press to Notify Caregiver"
-          onPress={async () => {
-            await testPushNotification();
-          }}
-        />
-      </View>
+    //   <View className="mt-2">
+    //     <Button
+    //       title="Press to Notify Caregiver"
+    //       onPress={async () => {
+    //         await testPushNotification();
+    //       }}
+    //     />
+    //   </View>
 
-      <View className="flex-col justify-center items-center w-full p-8 space-y-3">
-        <TouchableOpacity
-          className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
-          onPress={() => navigation.navigate("HomeScreen")}
-        >
-          <Text className=" text-slate-800 text-base font-bold">
-            Go Back To Home
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    //   <View className="flex-col justify-center items-center w-full p-8 space-y-3">
+    //     <TouchableOpacity
+    //       className="w-full bg-slate-300 p-4 rounded-lg flex justify-center items-center "
+    //       onPress={() => navigation.navigate("HomeScreen")}
+    //     >
+    //       <Text className=" text-slate-800 text-base font-SatoshiBold">
+    //         Go Back To Home
+    //       </Text>
+    //     </TouchableOpacity>
+    //   </View>
+    // </View>
   );
 }
 

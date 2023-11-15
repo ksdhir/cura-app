@@ -1,21 +1,16 @@
 import HeartRateStack from "../screens/HeartRate/HeartRateStack";
 import AccountStack from "../screens/Account/AccountStack";
 import MovementStack from "../screens/Movement/MovementStack";
-import { View, Text } from "react-native";
 import React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AnimatedTabBar from "../helpers/AnimatedTabBar";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// lottie
-import Lottie from "lottie-react-native";
-import curaTheme from "../theme/theme";
-import useAuth from "../hooks/useAuth";
-import { useNavigation } from "@react-navigation/native";
 import Profile from "../assets/icons/svg/avatar.svg";
 import Movement from "../assets/icons/svg/monitoring.svg";
 import Monitoring from "../assets/icons/svg/heartrate.svg";
 
 const Tab = createBottomTabNavigator();
+const PROFILE_TYPE = "CAREGIVER";
+
 
 export default function TabAnimated() {
   return (
@@ -66,6 +61,7 @@ export default function TabAnimated() {
         <Tab.Screen
           name="AccountStack"
           component={AccountStack}
+          initialParams={{ profileType: "Caregiver" }}
           options={{
             headerShown: false,
             tabBarLabel: "Profile", // Add this line for the label
@@ -86,12 +82,3 @@ export default function TabAnimated() {
     </>
   );
 }
-
-// tabBarIcon: ({ ref }) => (
-//   <Lottie
-//     ref={ref}
-//     loop={false}
-//     source={require('../assets/lottie/settings.icon.json')}
-//     style={styles.icon}
-//   />
-// ),

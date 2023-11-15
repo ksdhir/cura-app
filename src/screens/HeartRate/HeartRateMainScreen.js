@@ -1,10 +1,8 @@
-import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
-import Lottie from "lottie-react-native";
+import { View, Dimensions, Text } from "react-native";
 
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "@react-navigation/native";
-import { timeDifference } from "../../helpers";
+
 import {
   getElderEmailFromCaregiverEmail,
   getElderProfile,
@@ -12,32 +10,24 @@ import {
   getElderHeartRateThreshold,
 } from "../../services/elder";
 import { SafeAreaView } from "react-native-safe-area-context";
-import curaTheme from "../../theme/theme";
-import Graph from "../../assets/icons/svg/graph.svg";
 import useAuth from "../../hooks/useAuth";
-import IconBtn from "../../components/IconBtn";
+import AnimatedElderAvatar from "../../components/AnimatedElderAvatar";
+import HomeHeader from "../../components/Home/Header";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import GraphHeader from "../../components/Home/GraphHeader";
+import HeartRateGraph from "../../components/Home/HeartRateGraph";
 
-//TODO:Fetching
-//1. getElderEmail from caregiver profile by pass in user.email
-//2. getElderProfile [name, age] from elder profile by pass in elderEmail
-//3. getElderHeartRateDetail [latest BPM and time] from elder profile by pass in elderEmail
-//4. getElderHeartRateThreshold [min and max BPM] from elder profile by pass in elderEmail
-
-//NOTE:
-//1. BPM is the latest BPM pass it to the HeartRateHistoryScreen
-//2. ElderEmail is the elderEmail pass it to the HeartRateHistoryScreen
-//3. Pass minThreshold and maxThreshold to the CriticalHeartRateScreen
+import NoElderProfileFound from "../../components/Home/NoElderProfileFound";
 
 const { width, height } = Dimensions.get("window");
 
 export default function HeartRateMainScreen() {
-  const navigation = useNavigation();
   const { profileType } = useAuth();
 
   const [elderEmailData, setElderEmailData] = useState("");
-  const [elderProfile, setElderProfile] = useState({});
-  const [heartRateDetail, setHeartRateDetail] = useState({});
-  const [heartRateThreshold, setHeartRateThreshold] = useState({});
+  const [elderProfile, setElderProfile] = useState(null);
+  const [heartRateDetail, setHeartRateDetail] = useState(null);
+  const [heartRateThreshold, setHeartRateThreshold] = useState(null);
 
   const { user, token } = useAuth();
   const userLoggedIn = profileType;
@@ -46,176 +36,87 @@ export default function HeartRateMainScreen() {
     if (!user) return;
     const caregiverEmail = user.email;
     let elderEmail;
-    let caregiverName;
 
-    (async () => {
+    const init = async () => {
       try {
         if (userLoggedIn === "Caregiver") {
-          //get caregiverName
-
           const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
-          console.log("CAREGIVER EMAIL --- 3", caregiverEmail);
-
           elderEmail = data.caregiver?.elderEmails[0];
-          console.log("ELDER EMAIL --- 4", elderEmail);
+
+          if (elderEmail) {
+            setElderEmailData(elderEmail);
+          } else {
+            setElderEmailData(undefined);
+          }
         } else {
+          //Elder flow
           elderEmail = user.email;
+          setElderEmailData(elderEmail);
         }
 
-        setElderEmailData(elderEmail);
-        // console.log("Elder Email====", elderEmail);
+        if (elderEmail === undefined) return;
 
         // Now that you have elderEmail, you can make other async calls
-        const profileData = await getElderProfile(elderEmail);
-        setElderProfile(profileData);
+        getElderProfile(elderEmail).then((profile) => {
+          setElderProfile(profile);
+        });
 
-        const heartRateDetailData = await getElderHeartRateDetail(elderEmail);
-        setHeartRateDetail(heartRateDetailData);
+        getElderHeartRateDetail(elderEmail).then((heartRateDetail) => {
+          setHeartRateDetail(heartRateDetail);
+        });
 
-        const heartRateThresholdData = await getElderHeartRateThreshold(
-          elderEmail
+        getElderHeartRateThreshold(elderEmail).then((heartRateThreshold) =>
+          setHeartRateThreshold(heartRateThreshold)
         );
-        setHeartRateThreshold(heartRateThresholdData);
       } catch (error) {
-        console.log("error", error.message);
         throw Error("Could not get elder profile");
       }
-    })();
+    };
+
+    init();
   }, [user]);
 
-  // const caregiverName = user.preferredName;
-  const elderEmail = elderEmailData;
-  const elderName = elderProfile?.profile?.preferredName;
-  const elderAge = elderProfile?.profile?.age;
-  const bpm = heartRateDetail?.latestHeartRateRecord?.[0]?.beatsPerMinute;
-  const time = heartRateDetail?.latestHeartRateRecord?.[0]?.timestamp;
-  const timeAgo = timeDifference(time);
-  const minThreshold = heartRateThreshold?.detail?.minimum;
-  const maxThreshold = heartRateThreshold?.detail?.maximum;
-  const bpmStatus =
-    bpm >= minThreshold && bpm <= maxThreshold ? "Normal" : "Critical";
+  // elderEmail is undefined -> write down a message to add Elder
+  if (elderEmailData === undefined) {
+    return <NoElderProfileFound />;
+  }
 
-  const heartwidth = 150;
-  const heartheight = 180;
-
-  let speed;
-  bpm >= minThreshold && bpm <= maxThreshold
-    ? (speed = 1)
-    : bpm < minThreshold
-    ? (speed = 0.5)
-    : (speed = 2);
+  // LOAD if not all of those are loaded
+  if (!elderProfile || !heartRateDetail || !heartRateThreshold) {
+    return <LoadingSpinner />;
+  }
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center px-4 bg-curaWhite">
+    <SafeAreaView className="flex-1 items-center justify-between px-4 bg-curaWhite">
       <StatusBar style="auto" />
-      {/* <Header /> */}
-      <View className="w-full flex-row justify-between py-4">
-        <View>
-          {userLoggedIn === "Caregiver" ? (
-            <Text className=" text-xl text-curaBlack font-bold">
-              {elderName}
-            </Text>
-          ) : (
-            <Text className=" text-xl text-curaBlack font-bold">
-              Hello {elderName}
-            </Text>
-          )}
-          <Text className=" text-base text-curaBlack font-medium ">
-            {elderAge} years old
-          </Text>
-        </View>
-        <IconBtn
-          name="bell"
-          onPress={() => navigation.navigate("NotificationHistory")}
-          iconStyle={{
-            color: curaTheme.lightColors.primary,
-          }}
-        />
-      </View>
+      <>
+        <HomeHeader userLoggedIn={userLoggedIn} profile={elderProfile} />
 
-      <Image
-        className=" flex-1 justify-start w-full relative -z-10 top-4"
-        source={require("../../assets/images/character/maleCharacter2.png")}
-        style={{
-          resizeMode: "contain",
-        }}
-      />
-      <View
-        className="mb-8 p-4 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
-        style={{
-          height: height * 0.5,
-        }}
-      >
-        <View className="flex flex-row w-full justify-between  items-start">
-          <Text
-            className=" bg-successDark px-4 py-1 rounded-full text-curaWhite text-sm font-medium"
+        <View className="flex w-full items-center">
+          <AnimatedElderAvatar
+            heartRateDetail={heartRateDetail}
+            heartRateThreshold={heartRateThreshold}
+          />
+
+          <View
+            className="mb-8 p-4 w-full flex items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
             style={{
-              backgroundColor:
-                bpm >= minThreshold && bpm <= maxThreshold
-                  ? curaTheme.lightColors.successDark
-                  : curaTheme.lightColors.errorDark,
+              height: height * 0.5,
             }}
           >
-            {bpmStatus}
-          </Text>
-          <TouchableOpacity
-            className="bg-primary p-[6px] rounded-md"
-            onPress={() =>
-              navigation.navigate("HeartRateHistoryScreen", {
-                bpm,
-                elderEmail,
-                minThreshold,
-                maxThreshold,
-              })
-            }
-          >
-            <Graph
-              width={28}
-              height={28}
-              style={{
-                color: "#fff",
-              }}
+            <GraphHeader
+              data={heartRateDetail}
+              heartRateThreshold={heartRateThreshold}
+              elderEmailData={elderEmailData}
             />
-          </TouchableOpacity>
-        </View>
-        {/* Heart Icon */}
-        <View className="flex flex-1 w-full items-center ">
-          <Lottie
-            source={require("../../assets/lottie/heartbeat.json")}
-            autoPlay
-            speed={speed}
-            style={{
-              width: heartwidth,
-              height: heartheight,
-            }}
-          />
-        </View>
-        {/* BPM */}
-        <View className="flex flex-1 flex-col items-center justify-center pt-6 pb-2 ">
-          <View className="flex flex-row items-baseline ">
-            <Text className=" text-7xl text-secondaryDark font-black ">
-              {bpm}
-            </Text>
-            <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+
+            <HeartRateGraph
+              heartRateDetail={heartRateDetail}
+              heartRateThreshold={heartRateThreshold}
+            />
           </View>
-          <Text className="text-base  text-curaBlack/60 font-bold -mt-3">
-            {timeAgo} MIN AGO
-          </Text>
         </View>
-        {/* Heart Wave */}
-        {/* <View className="flex w-full items-center ">
-          <Lottie
-            source={require("../../assets/lottie/Animation.json")}
-            autoPlay
-            //slow down the animation
-            speed={0.7}
-            style={{
-              width: 150,
-              height: 100,
-            }}
-          />
-        </View> */}
-      </View>
+      </>
     </SafeAreaView>
   );
 }

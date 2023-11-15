@@ -1,4 +1,9 @@
-import { View, Text, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -6,15 +11,21 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   getElderProfile,
   getElderHeartRateDetail,
+  getElderDailyHeartRateDataVisualisation,
   getElderWeeklyHeartRateDataVisualisation,
 } from "../../services/elder";
 import { Button } from "@rneui/themed";
 import { BarChart } from "react-native-gifted-charts";
 import getDayName from "../../helpers/getDayName";
+import convertUTCtoVancouverTime from "../../helpers/convertUTCtoVancouverTime";
 import curaTheme from "../../theme/theme";
 import IconBtn from "../../components/IconBtn";
 
 import { useFonts } from "expo-font";
+import Header from "../../components/layouts/Header";
+
+// import components
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 //TODO:Fetching
 //1. getElderProfile [dailyAverage, dailyMin, dailyMax] from elder profile by pass in elderEmail
@@ -23,14 +34,14 @@ import { useFonts } from "expo-font";
 //4. Also get the average bpm per day of this week (Max data is 7)
 
 export default function HeartRateHistoryScreen() {
-  const { width, height } = Dimensions.get("window");
+  const { width, height } = useWindowDimensions();
 
   const navigation = useNavigation();
-  const [detail, setDetail] = useState({});
-  const [heartRateDetail, setHeartRateDetail] = useState({});
+  const [detail, setDetail] = useState(null);
+  const [heartRateDetail, setHeartRateDetail] = useState(null);
   const [daily, setDaily] = useState(true);
-  const [dailyRawData, setDailyRawData] = useState([]);
-  const [weeklyRawData, setWeeklyRawData] = useState([]);
+  const [dailyRawData, setDailyRawData] = useState(null);
+  const [weeklyRawData, setWeeklyRawData] = useState(null);
 
   const route = useRoute();
 
@@ -38,27 +49,35 @@ export default function HeartRateHistoryScreen() {
 
   useEffect(() => {
     getElderProfile(elderEmail).then((data) => {
+      // console.log(data)
       setDetail(data);
     });
 
     getElderHeartRateDetail(elderEmail).then((data) => {
       setHeartRateDetail(data);
-      // console.log(data);
+    });
+
+    getElderDailyHeartRateDataVisualisation(elderEmail).then((data) => {
+      setDailyRawData(data?.consolidatedData);
     });
 
     getElderWeeklyHeartRateDataVisualisation(elderEmail).then((data) => {
       setWeeklyRawData(data?.consolidatedData);
-      // console.log(weeklyRawData);
     });
   }, []);
+
+  if (!detail || !heartRateDetail || !dailyRawData || !weeklyRawData) {
+    return <LoadingSpinner />;
+  }
 
   const weekMin = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMin;
   const weekMax = heartRateDetail?.latestHeartRateRecord?.[0]?.weekMax;
   const weekAverage = heartRateDetail?.latestHeartRateRecord?.[0]?.weekAverage;
 
-  const dailyMin = detail.profile?.heartRateThreshold.minimum;
-  const dailyMax = detail.profile?.heartRateThreshold.maximum;
-  const dailyAverage = 95;
+  const dailyMin = heartRateDetail?.latestHeartRateRecord?.[0]?.todayMin;
+  const dailyMax = heartRateDetail?.latestHeartRateRecord?.[0]?.todayMax;
+  const dailyAverage =
+    heartRateDetail?.latestHeartRateRecord?.[0]?.todayAverage;
 
   const weeklyData = Object.entries(weeklyRawData)
     .slice(-7)
@@ -67,38 +86,24 @@ export default function HeartRateHistoryScreen() {
       label: getDayName(dateString),
     }));
 
-  const data = Array.from(
-    { length: 12 },
-    () => Math.floor(Math.random() * 70) + 90
+  const dailyData = Object.entries(dailyRawData).map(
+    ([dateString, value], index, arr) => ({
+      value: value,
+      label: convertUTCtoVancouverTime(dateString)
+        .toLowerCase()
+        ?.replace(/\s/g, ""),
+    })
   );
-
-  const dailyData = data.map((value, index) => {
-    return {
-      value,
-      label: `${index}hr`,
-      frontColor:
-        index === data.length - 1
-          ? curaTheme.lightColors.secondaryDark
-          : undefined,
-    };
-  });
-
-  // let screenHeight;
-  // if (height < 800) {
-  //   screenHeight = "md";
-  // } else if (height < 1000) {
-  //   screenHeight = "lg";
-  // }
 
   return (
     <SafeAreaView className="flex flex-1 w-full items-center justify-center bg-curaWhite px-4">
       <StatusBar style="auto" />
       <View className="flex flex-1 w-full">
         <View className="flex w-full justify-between rounded-t-xl pt-4 pb-8 relative -z-10 items-center bg-primary/20">
-          <Text className=" text-base text-primaryDark font-bold">
+          <Text className=" text-base text-primaryDark font-SatoshiBold">
             Current Heart Rate
           </Text>
-          <Text className="text-base text-primaryDark font-bold">
+          <Text className="text-base text-primaryDark font-SatoshiBold">
             {bpm} BPM
           </Text>
         </View>
@@ -107,7 +112,7 @@ export default function HeartRateHistoryScreen() {
         <View className="flex flex-1 mb-8 -mt-4 px-4 py-3 w-full bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60 justify-between rounded-xl">
           <View className="flex flex-row w-full justify-around px-14 ">
             <Text
-              className="text-base flex-1 text-center py-2 bg-primary font-medium rounded-l-full"
+              className="text-base flex-1 text-center py-2 bg-primary font-SatoshiMedium rounded-l-full"
               style={{
                 color:
                   daily === true
@@ -123,7 +128,7 @@ export default function HeartRateHistoryScreen() {
               Daily
             </Text>
             <Text
-              className="text-base flex-1 text-center py-2 font-medium rounded-r-full"
+              className="text-base flex-1 text-center py-2 font-SatoshiMedium rounded-r-full"
               style={{
                 color:
                   daily === false
@@ -146,12 +151,28 @@ export default function HeartRateHistoryScreen() {
               borderRadius: 50,
             }}
           >
-            <Text className="text-3xl text-curaBlack font-bold">AVERAGE</Text>
+            <Text
+              className={
+                height > 780
+                  ? "text-5xl text-curaBlack font-SatoshiBold"
+                  : "text-3xl text-curaBlack font-SatoshiBold"
+              }
+            >
+              AVERAGE
+            </Text>
             <View className="flex flex-row items-baseline -mt-1 ">
-              <Text className="text-7xl text-secondaryDark font-black ">
+              <Text
+                className={
+                  height > 780
+                    ? "text-8xl text-secondaryDark font-SatoshiBlack"
+                    : "text-7xl text-secondaryDark font-SatoshiBlack "
+                }
+              >
                 {daily === true ? dailyAverage : weekAverage}
               </Text>
-              <Text className="text-3xl text-curaBlack font-bold">BPM</Text>
+              <Text className="text-3xl text-curaGray font-SatoshiBold">
+                BPM
+              </Text>
             </View>
           </View>
 
@@ -179,6 +200,8 @@ export default function HeartRateHistoryScreen() {
                 initialSpacing={width / 32}
                 scrollToEnd={false}
                 isAnimated={true}
+                disablePress={true}
+                // onPress={(item, index) => console.log("item", item)}
               />
             </View>
           ) : (
@@ -203,6 +226,7 @@ export default function HeartRateHistoryScreen() {
                 initialSpacing={width / 40}
                 disableScroll={true}
                 isAnimated={true}
+                disablePress={true}
               />
             </View>
           )}
@@ -210,38 +234,65 @@ export default function HeartRateHistoryScreen() {
           {/* =======END GRAPH======= */}
 
           <View className="flex w-full flex-row justify-around ">
-            <Text className="text-lg text-neutral-800 font-normal">
-              Min {daily === true ? dailyMin : weekMin} bpm
-            </Text>
-            <Text className="text-lg text-neutral-800 font-normal">
-              Max {daily === true ? dailyMax : weekMax}bpm
-            </Text>
+            <View className="flex flex-row">
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                min
+              </Text>
+              <Text className="text-lg  text-primary  font-SatoshiMedium">
+                {" "}
+                {daily === true ? dailyMin : weekMin}{" "}
+              </Text>
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                bpm
+              </Text>
+            </View>
+            <View className="flex flex-row">
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                max
+              </Text>
+              <Text className="text-lg text-primary  font-SatoshiMedium">
+                {" "}
+                {daily === true ? dailyMax : weekMax}{" "}
+              </Text>
+              <Text className="text-lg  text-curaBlack  font-SatoshiMedium">
+                bpm
+              </Text>
+            </View>
           </View>
-          <View
-            className="flex w-full "
-            contentContainerStyle={{
-              marginVertical: 0,
-            }}
+          <TouchableOpacity
+            className="w-full h-12 bg-primary rounded-xl flex items-center justify-center"
+            onPressIn={() =>
+              navigation.navigate("CriticalHeartRateScreen", {
+                elderEmail,
+                bpm,
+                minThreshold,
+                maxThreshold,
+              })
+            }
           >
-            <Button
-              title="Critical Heart Rate"
-              titleStyle={{
-                fontSize: 22,
-                fontWeight: "medium",
-              }}
-              onPress={() =>
-                navigation.navigate("CriticalHeartRateScreen", {
-                  elderEmail,
-                  bpm,
-                  minThreshold,
-                  maxThreshold,
-                })
-              }
-            />
-          </View>
+            <Text className="font-SatoshiMedium text-white text-xl text">
+              Critical Heart Rate
+            </Text>
+          </TouchableOpacity>
         </View>
         {/*  CARD  */}
       </View>
     </SafeAreaView>
   );
 }
+
+// Button: {
+//   containerStyle: {
+//     height: 48,
+//     width: "100%",
+//     borderRadius: 12,
+//     marginVertical: 8,
+//   },
+//   buttonStyle: {
+//     height: 48,
+//     borderRadius: 12,
+//   },
+//   titleStyle: {
+//     color: "#F8FFFE",
+//   },
+// },

@@ -59,11 +59,10 @@ const ElderProfileSetup = () => {
         token
       );
 
-      console.log("completed");
 
       navigation.navigate("ProfileSetupSuccess");
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 
@@ -73,17 +72,17 @@ const ElderProfileSetup = () => {
         {/* START */}
         <View className="flex justify-start py-4">
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text className="font-bold"> {"< Back"} </Text>
+            <Text className="font-SatoshiBold"> {"< Back"} </Text>
           </TouchableOpacity>
         </View>
 
         <View className="flex justify-start py-4 mb-4">
-          <Text className="font-bold text-2xl"> Elder Profile </Text>
+          <Text className="font-SatoshiBold text-2xl"> Elder Profile </Text>
         </View>
 
         <ScrollView className="flex ">
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Preferred Name: </Text>
+            <Text className="font-SatoshiBold"> Preferred Name: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -93,7 +92,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Age: </Text>
+            <Text className="font-SatoshiBold"> Age: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -103,7 +102,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Phone number: </Text>
+            <Text className="font-SatoshiBold"> Phone number: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -113,7 +112,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Sex: </Text>
+            <Text className="font-SatoshiBold"> Sex: </Text>
 
             <View className="border-[1px] rounded-md">
               <Picker
@@ -132,7 +131,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Blood Type: </Text>
+            <Text className="font-SatoshiBold"> Blood Type: </Text>
 
             <View className="border-[1px] rounded-md">
               <Picker
@@ -153,7 +152,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Medical Conditions: </Text>
+            <Text className="font-SatoshiBold"> Medical Conditions: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -163,7 +162,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Allergies: </Text>
+            <Text className="font-SatoshiBold"> Allergies: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -173,7 +172,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Medications: </Text>
+            <Text className="font-SatoshiBold"> Medications: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -183,7 +182,7 @@ const ElderProfileSetup = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-bold"> Notes: </Text>
+            <Text className="font-SatoshiBold"> Notes: </Text>
 
             <TextInput
               className="border-b-[1px]"
@@ -196,7 +195,7 @@ const ElderProfileSetup = () => {
             className="bg-[#D9D9D9] px-4 py-2 rounded-md w-full"
             onPress={handleConfirm}
           >
-            <Text className="text-[17px] text-center font-bold"> Confirm </Text>
+            <Text className="text-[17px] text-center font-SatoshiBold"> Confirm </Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
