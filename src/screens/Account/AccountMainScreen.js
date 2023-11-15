@@ -51,14 +51,14 @@ export default function AccountMainScreen(props) {
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <UserIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+          <Text className="text-lg text-curaBlack font-SatoshiBold">
             Account
           </Text>
         </View>
 
         <TouchableOpacity onPress={navigateToProfile} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2">
-            <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
               Personal Profile
             </Text>
 
@@ -97,13 +97,13 @@ export default function AccountMainScreen(props) {
         <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
           <SettingIcon width={20} height={20} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+          <Text className="text-lg text-curaBlack font-SatoshiBold">
             Settings
           </Text>
         </View>
 
         <View className="w-full flex flex-row items-center justify-between py-2 px-4">
-          <Text className="text-lg text-neutral-800 font-SatoshiBold">
+          <Text className="text-lg text-curaBlack font-SatoshiBold">
             Notifications
           </Text>
 
@@ -116,7 +116,7 @@ export default function AccountMainScreen(props) {
             className="w-full p-4 pt-0"
           >
             <View className="flex flex-row  items-center justify-between gap-2">
-              <Text className="text-lg text-neutral-800 font-SatoshiBold">
+              <Text className="text-lg text-curaBlack font-SatoshiBold">
                 Heart Rate Threshold
               </Text>
 
@@ -127,7 +127,7 @@ export default function AccountMainScreen(props) {
 
         <TouchableOpacity onPress={handleSignout} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2 ">
-            <Text className="text-lg text-neutral-800 font-SatoshiBold">
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
               Logout
             </Text>
           </View>

@@ -86,7 +86,9 @@ export default function CriticalHeartRateScreen() {
         </View>
       </View>
       <View className="w-full flex-1 justify-center ">
-        <Text className="text-lg text-curaBlack pb-4 ">History</Text>
+        <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4 ">
+          History
+        </Text>
         <ScrollView
           showsVerticalScrollIndicator={false}
           className="w-full flex "

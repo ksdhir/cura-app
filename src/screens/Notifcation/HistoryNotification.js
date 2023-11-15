@@ -49,7 +49,7 @@ export default function HistoryNotification() {
     };
 
     init();
-  }, [user, userLoggedIn]); // Removed 'isLoaded' and 'elderEmail' from dependencies
+  }, [user, userLoggedIn]);
 
   useEffect(() => {
     // Fetch notification logs when 'elderEmail' changes
@@ -66,29 +66,29 @@ export default function HistoryNotification() {
       };
 
       fetchNotificationLogs();
-
-      const today = new Date();
-      const todayLog = [];
-      const earlierLog = [];
-
-      notificationLog?.notificationLog?.map((log) => {
-        //if log timestamp is within 24 hours from current time, push to todayLog
-        //other wise push to earlierLog
-
-        if (
-          new Date(log.timestamp) >=
-          new Date(today.getTime() - 24 * 60 * 60 * 1000)
-        ) {
-          todayLog.push(log);
-        } else {
-          earlierLog.push(log);
-        }
-      });
-
-      setTodayNotification(todayLog);
-      setEarlierNotification(earlierLog);
     }
   }, [elderEmail]);
+
+  useEffect(() => {
+    // Logic for categorizing logs into today and earlier
+    const today = new Date();
+    const todayLog = [];
+    const earlierLog = [];
+
+    notificationLog?.notificationLog?.forEach((log) => {
+      if (
+        new Date(log.timestamp) >=
+        new Date(today.getTime() - 24 * 60 * 60 * 1000)
+      ) {
+        todayLog.push(log);
+      } else {
+        earlierLog.push(log);
+      }
+    });
+
+    setTodayNotification(todayLog);
+    setEarlierNotification(earlierLog);
+  }, [notificationLog]);
 
   // const logTimestamp = notificationLog?.notificationLog[0]?.timestamp;
   // console.log("logTimestamp", logTimestamp);
@@ -119,7 +119,7 @@ export default function HistoryNotification() {
             showsVerticalScrollIndicator={false}
             className="w-full flex "
           >
-            <Text className="text-lg text-curaBlack font-SatoshiBold pb-1 border-b border-b-curaGray/20">
+            <Text className="text-lg text-curaBlack font-SatoshiMedium pb-1 border-b border-b-curaGray/20">
               Today
             </Text>
             <View className="flex flex-col">
@@ -150,7 +150,7 @@ export default function HistoryNotification() {
                 );
               })}
             </View>
-            <Text className="text-lg text-curaBlack font-SatoshiBold pt-4 pb-1 border-b border-b-curaGray/20">
+            <Text className="text-lg text-curaBlack font-SatoshiMedium pt-4 pb-1 border-b border-b-curaGray/20">
               Earlier
             </Text>
             <View className="flex flex-col">
