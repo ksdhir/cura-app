@@ -19,6 +19,7 @@ import { BarChart } from "react-native-gifted-charts";
 import getDayName from "../../helpers/getDayName";
 import convertUTCtoVancouverTime from "../../helpers/convertUTCtoVancouverTime";
 import curaTheme from "../../theme/theme";
+import IconBtn from "../../components/IconBtn";
 
 import { useFonts } from "expo-font";
 import Header from "../../components/layouts/Header";
