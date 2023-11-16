@@ -11,6 +11,7 @@ import MovementStack from "../Movement/MovementStack";
 
 // Fall Detection Screens
 import ElderFallConfirmationScreen from "./ElderFallConfirmationScreen";
+import ElderFallDetectedScreen from "./ElderFallDetectedScreen";
 import ProfileEmergencyContacts from "../Profile/EmergencyContacts";
 import ViewQRCode from "../Profile/ViewQRCode";
 import DemoScreen from "./DemoScreen";
@@ -71,6 +72,8 @@ export default function AccountStack(props) {
         name="ElderFallDetectedScreen"
         component={ElderFallDetectedScreen}
       />
+
+
       <Stack.Screen
         options={{ headerShown: false }}
         name="ElderFallConfirmationScreen"
