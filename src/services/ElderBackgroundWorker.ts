@@ -231,6 +231,7 @@ export const useElderBackgroundWorker = (
   profileType = profileTypeParam;
   token = tokenParam;
   getHeartRate = getHeartRateParam;
+  console.log("Background worker started...");
   init();
   return registerBackgroundFetchAsync();
 };

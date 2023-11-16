@@ -20,6 +20,7 @@ export const useElderForegroundWorker = (
   };
 
   const init = () => {
+    console.log("Foreground worker running...");
     getCriticalHeartRateThreshold();
     getHeartRate();
     interval = setInterval(() => {
