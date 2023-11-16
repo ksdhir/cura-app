@@ -23,6 +23,8 @@ export const useElderForegroundWorker = (
     console.log("Foreground worker running...");
     getCriticalHeartRateThreshold();
     getHeartRate();
+
+    getFitbitHeartRateData();
     interval = setInterval(() => {
       const date = new Date();
       const timeInMinutes = date.getMinutes();
