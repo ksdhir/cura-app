@@ -39,6 +39,9 @@ const AppNavigator = () => {
   const [fallDetectionChecker, setFallDetectionChecker] = useState(null);
   const [foregroundWorker, setForegroundWorker] = useState(null);
   const [backgroundWorker, setBackgroundWorker] = useState(null);
+  
+  const { tokenData, getHeartRate } = useFitbitAuth();
+
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -64,7 +67,7 @@ const AppNavigator = () => {
     }
 
     if (user && profileType === "Elder") {
-      const { tokenData, getHeartRate } = useFitbitAuth();
+      
       // elder permissions
 
       // call user profile function

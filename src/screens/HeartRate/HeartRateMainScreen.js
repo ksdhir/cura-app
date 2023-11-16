@@ -18,11 +18,13 @@ import GraphHeader from "../../components/Home/GraphHeader";
 import HeartRateGraph from "../../components/Home/HeartRateGraph";
 
 import NoElderProfileFound from "../../components/Home/NoElderProfileFound";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
 export default function HeartRateMainScreen() {
   const { profileType } = useAuth();
+  const isFocused = useIsFocused();
 
   const [elderEmailData, setElderEmailData] = useState("");
   const [elderProfile, setElderProfile] = useState(null);
@@ -33,6 +35,10 @@ export default function HeartRateMainScreen() {
   const userLoggedIn = profileType;
 
   useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
+    console.log("inside here now")
     if (!user) return;
     const caregiverEmail = user.email;
     let elderEmail;
@@ -74,7 +80,7 @@ export default function HeartRateMainScreen() {
     };
 
     init();
-  }, [user]);
+  }, [isFocused, user]);
 
   // elderEmail is undefined -> write down a message to add Elder
   if (elderEmailData === undefined) {
