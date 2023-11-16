@@ -16,7 +16,11 @@ import HistoryNotification from "../screens/Notifcation/HistoryNotification";
 import { useEffect, useState } from "react";
 
 import { useFallDetectionChecker } from "../hooks/falldetection";
-import { backgroundsync } from "../services/ElderBackgroundWorker";
+import {
+  useElderForegroundWorker,
+  useResetForegroundWorker,
+} from "../services/ElderForegroundWorker";
+import { useElderBackgroundWorker } from "../services/ElderBackgroundWorker";
 
 // notification permission
 import PushNotificationScreen from "../screens/Account/PushNotificationScreen";
@@ -24,7 +28,6 @@ import LocationProcess from "../screens/Account/LocationProcess";
 
 // Test Screen
 import TestScreen from "../screens/Home/TestScreen";
-import ElderForegroundWorker from "../services/ElderForegroundWorker";
 
 import useFitbitAuth from "../hooks/userFitbitAuth";
 
@@ -34,6 +37,8 @@ const AppNavigator = () => {
   const navigation = useNavigation();
   const { user, profileType, token, isLoaded } = useAuth();
   const [fallDetectionChecker, setFallDetectionChecker] = useState(null);
+  const [foregroundWorker, setForegroundWorker] = useState(null);
+  const [backgroundWorker, setBackgroundWorker] = useState(null);
   const { tokenData, getHeartRate } = useFitbitAuth();
 
   useEffect(() => {
@@ -68,9 +73,32 @@ const AppNavigator = () => {
       setAskLocationPermission(true);
       // getHealthData(user.email);
 
+      // Reset Current Foreground Worker
+      // setForegroundWorker(useResetForegroundWorker());
+
       // Initialize Foreground Worker
-      console.log("Initializing Foreground Worker");
-      ElderForegroundWorker(user.email, getHeartRate);
+      if (!foregroundWorker) {
+        setForegroundWorker(
+          useElderForegroundWorker(
+            user.email,
+            profileType,
+            tokenData,
+            getHeartRate
+          )
+        );
+      }
+
+      // Initialize Background Worker
+      if (!backgroundWorker) {
+        setBackgroundWorker(
+          useElderBackgroundWorker(
+            user.email,
+            profileType,
+            tokenData,
+            getHeartRate
+          )
+        );
+      }
 
       // Initialize Fall Detection Checker
       setFallDetectionChecker(
