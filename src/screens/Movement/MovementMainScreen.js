@@ -121,7 +121,7 @@ export default function MovementMainScreen() {
     <SafeAreaView className="flex-1 items-center justify-start bg-curaWhite px-4">
       <StatusBar />
       {/* Header of the Page */}
-      <Header />
+      <Header toHome={true} />
       <ScreenTitle title="Movement" />
 
       {/* Main Content of the page */}
