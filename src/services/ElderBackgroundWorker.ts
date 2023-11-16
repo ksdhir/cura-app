@@ -1,3 +1,6 @@
+import * as BackgroundFetch from "expo-background-fetch";
+import * as TaskManager from "expo-task-manager";
+
 import {
   getElderHeartRateThreshold,
   getElderHeartRateDetail,
@@ -6,58 +9,43 @@ import {
 } from "./elder";
 import currentLocation from "../utils/getCurrentLocation";
 
-let interval: NodeJS.Timeout | null = null;
+const BACKGROUND_FETCH_TASK = "background-fetch";
+let email = null;
+let getHeartRate = null;
+let token = null;
+let profileType = null;
 
-export const useElderForegroundWorker = (
-  email: string,
-  profileType: any,
-  token: any,
-  getHeartRate: any
-) => {
-  const criticalHeartRateThreshold = {
-    maximum: 0,
-    minimum: 0,
-  };
+const criticalHeartRateThreshold = {
+  maximum: 0,
+  minimum: 0,
+};
 
-  const init = () => {
-    getCriticalHeartRateThreshold();
-    getHeartRate();
-    interval = setInterval(() => {
-      const date = new Date();
-      const timeInMinutes = date.getMinutes();
-      if (timeInMinutes % 10 !== 0) {
-        console.log("Foreground worker running...", date.toLocaleTimeString());
-      }
-      if (timeInMinutes % 10 === 0) {
-        console.log(
-          "GETTING HEART RATE DATA FROM FITBIT:",
-          date.toLocaleTimeString()
-        );
-        getFitbitHeartRateData();
-      }
-    }, 1000 * 60);
+const getCriticalHeartRateThreshold = () => {
+  try {
+    getElderHeartRateThreshold(email)
+      .then((res) => {
+        criticalHeartRateThreshold.maximum = res.detail.maximum;
+        criticalHeartRateThreshold.minimum = res.detail.minimum;
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  } catch (error) {
+    console.log(error.message);
+    return (
+      (criticalHeartRateThreshold.maximum = 0),
+      (criticalHeartRateThreshold.minimum = 0)
+    );
+  }
+};
 
-    return interval;
-  };
+const init = () => {
+  getCriticalHeartRateThreshold();
+  getHeartRate();
+};
 
-  const getCriticalHeartRateThreshold = () => {
-    try {
-      getElderHeartRateThreshold(email)
-        .then((res) => {
-          criticalHeartRateThreshold.maximum = res.detail.maximum;
-          criticalHeartRateThreshold.minimum = res.detail.minimum;
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    } catch (error) {
-      console.log(error.message);
-      return (
-        (criticalHeartRateThreshold.maximum = 0),
-        (criticalHeartRateThreshold.minimum = 0)
-      );
-    }
-  };
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+  // Be sure to return the successful result type!
 
   const getFitbitHeartRateData = async () => {
     try {
@@ -181,7 +169,6 @@ export const useElderForegroundWorker = (
 
     return responseData.latestHeartRateRecord[0].timestamp;
   };
-
   const useChechCriticalHeartRate = (heartRate: number) => {
     if (
       heartRate > criticalHeartRateThreshold.maximum ||
@@ -207,10 +194,43 @@ export const useElderForegroundWorker = (
     });
   };
 
-  return init();
-};
+  const currentDate = new Date();
+  const currentTime = currentDate.getMinutes();
+  if (currentTime % 10 !== 0) {
+    console.log(
+      "Background worker running...",
+      currentDate.toLocaleTimeString()
+    );
+  }
+  if (currentTime % 10 === 0) {
+    console.log(
+      "GETTING HEART RATE DATA FROM FITBIT:",
+      currentDate.toLocaleTimeString()
+    );
+    getFitbitHeartRateData();
+  }
 
-export const useResetForegroundWorker = () => {
-  clearInterval(interval);
-  return null;
+  return BackgroundFetch.BackgroundFetchResult.NewData;
+});
+
+async function registerBackgroundFetchAsync() {
+  return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+    minimumInterval: 60, // seconds
+    stopOnTerminate: false, // android only,
+    startOnBoot: true, // android only
+  });
+}
+
+export const useElderBackgroundWorker = (
+  emailParam: string,
+  profileTypeParam: any,
+  tokenParam: any,
+  getHeartRateParam: any
+) => {
+  email = emailParam;
+  profileType = profileTypeParam;
+  token = tokenParam;
+  getHeartRate = getHeartRateParam;
+  init();
+  return registerBackgroundFetchAsync();
 };

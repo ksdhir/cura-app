@@ -55,9 +55,10 @@ const useFitbitAuth = () => {
 
       if (response?.status === 200) {
         const data = await response.json();
-        console.log("====================================");
-        console.log(data["activities-heart-intraday"]);
-        console.log("====================================");
+        // console.log("====================================");
+        // console.log(data["activities-heart-intraday"]);
+        // console.log("====================================");
+        return data["activities-heart-intraday"];
       } else if (response?.status === 401) {
         //Refresh token
         const result = await handleRefreshToken();
