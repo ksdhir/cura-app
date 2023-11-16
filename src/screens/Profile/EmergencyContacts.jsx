@@ -12,8 +12,8 @@ import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
 import { addEmergencyContact } from "../../services/elder";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation } from "@react-navigation/native";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 // Function to validate email using a regular expression
 function isValidEmail(email) {
@@ -22,7 +22,6 @@ function isValidEmail(email) {
 }
 
 const ProfileEmergencyContacts = () => {
-
   const navigation = useNavigation();
 
   const { user, token } = useAuth();
@@ -34,6 +33,9 @@ const ProfileEmergencyContacts = () => {
   const [scanned, setScanned] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
   const [openCamera, setOpenCamera] = useState(true);
+
+  // loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user || !token) return;
@@ -64,12 +66,19 @@ const ProfileEmergencyContacts = () => {
       // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
       setOpenCamera(false);
       const caregiverData = JSON.parse(data);
-      setContactName(caregiverData.name)
-      setContactEmail(caregiverData.email); 
+      setContactName(caregiverData.name);
+      setContactEmail(caregiverData.email);
+
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+  
+
+
     } catch (error) {
       alert("Invalid QR Code");
-      navigation.navigate('AccountMainScreen');
-
+      navigation.navigate("AccountMainScreen");
     }
   };
 
@@ -96,11 +105,12 @@ const ProfileEmergencyContacts = () => {
         token
       );
 
-      //Clear
-      setContactEmail("");
-      setRelationship("");
+      // Clear
+      // setContactEmail("");
+      // setRelationship("");
 
       alert("Emergency Contact Added");
+      navigation.navigate("AccountMainScreen");
     } catch (error) {
       alert(error);
     }
@@ -117,9 +127,8 @@ const ProfileEmergencyContacts = () => {
           </Text>
         </View>
 
-        {!openCamera && (
+        {!openCamera && !loading && (
           <ScrollView className="flex">
-
             {/* Email */}
             <View className="flex justify-start py-4 gap-2">
               <View className="flex flex-row justify-between items-end">
@@ -128,7 +137,8 @@ const ProfileEmergencyContacts = () => {
 
               <TextInput
                 className="border-b-[1px] font-SatoshiBold"
-                editable={false} selectTextOnFocus={false}
+                editable={false}
+                selectTextOnFocus={false}
                 value={contactName}
                 onChangeText={(value) => setContactName(value)}
               />
@@ -142,7 +152,8 @@ const ProfileEmergencyContacts = () => {
 
               <TextInput
                 className="border-b-[1px] font-SatoshiBold"
-                editable={false} selectTextOnFocus={false}
+                editable={false}
+                selectTextOnFocus={false}
                 value={contactEmail}
                 onChangeText={(value) => setContactEmail(value)}
               />
@@ -163,7 +174,7 @@ const ProfileEmergencyContacts = () => {
           </ScrollView>
         )}
 
-        {openCamera && (
+        {openCamera  && (
           <View className="flex flex-1 flex-col justify-center mb-4">
             <BarCodeScanner
               barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
@@ -179,7 +190,13 @@ const ProfileEmergencyContacts = () => {
           </View>
         )}
 
-        {!openCamera && (
+        {!openCamera && loading && (
+          <View className="flex flex-1 flex-col justify-center mb-4">
+            <LoadingSpinner />
+          </View>
+        )}
+
+        {!openCamera && !loading && (
           <TouchableOpacity
             className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
             onPress={handleAddEmergencyContact}
@@ -189,7 +206,7 @@ const ProfileEmergencyContacts = () => {
             </Text>
           </TouchableOpacity>
         )}
-        {openCamera && (
+        {openCamera && !loading &&  (
           <View className="px-2">
             <TouchableOpacity
               className={`px-4 py-3 rounded-xl w-full mb-4 ${
