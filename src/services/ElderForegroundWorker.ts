@@ -23,13 +23,15 @@ export const useElderForegroundWorker = (
     console.log("Foreground worker running...");
     getCriticalHeartRateThreshold();
     getHeartRate();
+
+    getFitbitHeartRateData();
     interval = setInterval(() => {
       const date = new Date();
       const timeInMinutes = date.getMinutes();
-      if (timeInMinutes % 10 !== 0) {
+      if (timeInMinutes % 2 !== 0) {
         console.log("Foreground worker running...", date.toLocaleTimeString());
       }
-      if (timeInMinutes % 10 === 0) {
+      if (timeInMinutes % 2 === 0) {
         console.log(
           "GETTING HEART RATE DATA FROM FITBIT:",
           date.toLocaleTimeString()
@@ -95,6 +97,7 @@ export const useElderForegroundWorker = (
               beatsPerMinute: dataItem.beatsPerMinute,
               timestamp: new Date(dataItem.time).toISOString(),
             });
+            console.log(response);
           } catch (error) {
             console.log(error.message);
           }
@@ -109,6 +112,7 @@ export const useElderForegroundWorker = (
               beatsPerMinute: filteredHeartRateData[i].beatsPerMinute,
               timestamp: new Date(filteredHeartRateData[i].time).toISOString(),
             });
+            console.log(response);
           } catch (error) {
             console.log(error.message);
           }
@@ -151,7 +155,7 @@ export const useElderForegroundWorker = (
     const filteredData = data.filter((item: any) => {
       const dateTime = new Date(item.time);
       const timeInMinutes = dateTime.getMinutes();
-      return timeInMinutes % 10 === 0;
+      return timeInMinutes % 5 === 0;
     });
     return filteredData;
   };
