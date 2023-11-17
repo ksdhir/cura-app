@@ -82,6 +82,7 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
               beatsPerMinute: dataItem.beatsPerMinute,
               timestamp: new Date(dataItem.time).toISOString(),
             });
+            console.log(response);
           } catch (error) {
             console.log(error.message);
           }
@@ -96,6 +97,7 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
               beatsPerMinute: filteredHeartRateData[i].beatsPerMinute,
               timestamp: new Date(filteredHeartRateData[i].time).toISOString(),
             });
+            console.log(response);
           } catch (error) {
             console.log(error.message);
           }
@@ -138,7 +140,7 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
     const filteredData = data.filter((item: any) => {
       const dateTime = new Date(item.time);
       const timeInMinutes = dateTime.getMinutes();
-      return timeInMinutes % 10 === 0;
+      return timeInMinutes % 5 === 0;
     });
     return filteredData;
   };
@@ -196,13 +198,13 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
 
   const currentDate = new Date();
   const currentTime = currentDate.getMinutes();
-  if (currentTime % 10 !== 0) {
+  if (currentTime % 2 !== 0) {
     console.log(
       "Background worker running...",
       currentDate.toLocaleTimeString()
     );
   }
-  if (currentTime % 10 === 0) {
+  if (currentTime % 2 === 0) {
     console.log(
       "GETTING HEART RATE DATA FROM FITBIT:",
       currentDate.toLocaleTimeString()
