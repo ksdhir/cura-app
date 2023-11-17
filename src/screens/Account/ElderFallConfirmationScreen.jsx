@@ -2,7 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import {
+  useNavigation,
+  useFocusEffect,
+  useIsFocused,
+} from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
 import useAuth from "../../hooks/useAuth";
@@ -16,24 +20,15 @@ import currentLocation from "../../utils/getCurrentLocation";
 
 const ElderFallConfirmationScreen = () => {
   const { user, token } = useAuth();
-  const { userDetail, setUserDetail } = useState();
   const navigation = useNavigation();
   const [key, setKey] = useState(0);
+  const isFocused = useIsFocused();
 
-  useFocusEffect(
-    useCallback(() => {
-      if (!user) return;
+  useEffect(() => {
+    if (!useIsFocused) return;
 
-      // Push Notification when loaded
-      sendPushNotification();
-
-      // Screen Clean up
-      return () => {
-        // Code to run when the screen is unfocused (cleanup)
-        resetComponent();
-      };
-    }, [user]) // Dependencies array
-  );
+    resetComponent();
+  }, [isFocused]);
 
   const resetComponent = () => {
     setKey((prevKey) => prevKey + 1);
@@ -48,25 +43,32 @@ const ElderFallConfirmationScreen = () => {
         },
       };
       console.log("Fall Detected: ", user.email, payload);
-      // fallDetectedPushNotification(user.email, token, payload);
+      fallDetectedPushNotification(user.email, token, payload);
     });
   };
 
   const handleOKTouchable = () => {
-    navigation.goBack();
+    // navigation.goBack();
+    navigation.navigate("HeartRateStack", {
+      screen: "HeartRateMainScreen",
+    });
+
+    console.log("OK CLICKED");
     // navigation.navigate("Home", { screen: "HeartRateStack" });
   };
   const handleCallTouchable = () => {
-    Linking.openURL(`tel:${+1234567890}`);
-    navigation.goBack();
+    // Linking.openURL(`tel:${+1234567890}`);
+    // navigation.navigate("Home");
     // navigation.navigate("Home", { screen: "HeartRateStack" });
   };
 
   const handleComplete = () => {
     // Send Push Notification to caregiver before calling
     sendPushNotification();
-    Linking.openURL(`tel:${+1234567890}`);
-    navigation.goBack();
+    // Linking.openURL(`tel:${+1234567890}`);
+    navigation.navigate("HeartRateStack", {
+      screen: "HeartRateMainScreen",
+    });
   };
 
   return (
@@ -78,16 +80,6 @@ const ElderFallConfirmationScreen = () => {
         <Text className="text-4xl font-SatoshiBold">We detected a fall</Text>
       </View>
       <View className="flex w-full mt-6">
-        <TouchableOpacity
-          className="bg-success rounded-xl py-2.5 px-4"
-          onPress={() => {
-            handleOKTouchable();
-          }}
-        >
-          <Text className="text-curaWhite text-lg text-center font-SatoshiMedium">
-            I'M OK
-          </Text>
-        </TouchableOpacity>
         <View className="flex items-center py-10">
           <CountdownCircleTimer
             isPlaying
@@ -109,7 +101,19 @@ const ElderFallConfirmationScreen = () => {
             )}
           </CountdownCircleTimer>
         </View>
+
         <TouchableOpacity
+          className="bg-success rounded-xl py-2.5 px-4"
+          onPress={() => {
+            handleOKTouchable();
+          }}
+        >
+          <Text className="text-curaWhite text-lg text-center font-SatoshiMedium">
+            I'M OK
+          </Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity
           className="bg-error rounded-xl py-2.5 px-4"
           onPress={() => {
             handleCallTouchable();
@@ -118,7 +122,7 @@ const ElderFallConfirmationScreen = () => {
           <Text className="text-curaWhite text-lg text-center font-SatoshiMedium">
             CALL
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );
