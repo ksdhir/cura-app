@@ -24,8 +24,11 @@ const ElderFallConfirmationScreen = () => {
   const [key, setKey] = useState(0);
   const isFocused = useIsFocused();
 
+  //Flag
+  const [isFallDetected, setIsFallDetected] = useState(false);
+
   useEffect(() => {
-    if (!useIsFocused) return;
+    if (!isFocused) return;
 
     resetComponent();
   }, [isFocused]);
@@ -48,18 +51,9 @@ const ElderFallConfirmationScreen = () => {
   };
 
   const handleOKTouchable = () => {
-    // navigation.goBack();
     navigation.navigate("HeartRateStack", {
       screen: "HeartRateMainScreen",
     });
-
-    console.log("OK CLICKED");
-    // navigation.navigate("Home", { screen: "HeartRateStack" });
-  };
-  const handleCallTouchable = () => {
-    // Linking.openURL(`tel:${+1234567890}`);
-    // navigation.navigate("Home");
-    // navigation.navigate("Home", { screen: "HeartRateStack" });
   };
 
   const handleComplete = () => {
