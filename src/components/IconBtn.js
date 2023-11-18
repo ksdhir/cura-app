@@ -12,6 +12,9 @@ import ElderlyIcon from "../assets/icons/svg/elderly.svg";
 import CaregiverIcon from "../assets/icons/svg/caregiver.svg";
 import PolygonUp from "../assets/icons/svg/polygonup.svg";
 import PolygonDown from "../assets/icons/svg/polygondown.svg";
+import CriticalHeartrate from "../assets/icons/svg/criticalheartrate.svg";
+import FallDetected from "../assets/icons/svg/falldetection.svg";
+import ElderFarFromHome from "../assets/icons/svg/monitoring.svg";
 
 // Define your icon mapping
 const iconMapping = {
@@ -27,6 +30,9 @@ const iconMapping = {
   elderly: ElderlyIcon,
   polygonup: PolygonUp,
   polygondown: PolygonDown,
+  criticalHeartrate: CriticalHeartrate,
+  fallDetected: FallDetected,
+  elderFarFromHome: ElderFarFromHome,
 };
 
 const IconWithTouchableOpacity = ({

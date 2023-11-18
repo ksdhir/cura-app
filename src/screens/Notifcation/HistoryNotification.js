@@ -11,6 +11,7 @@ import { getAllNotificationLog } from "../../services/caregiver";
 import { timeDifference } from "../../helpers";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
+import { Icon } from "@rneui/base";
 
 export default function HistoryNotification() {
   const navigation = useNavigation();
@@ -33,11 +34,11 @@ export default function HistoryNotification() {
         if (userLoggedIn === "Caregiver") {
           const data = await getElderEmailFromCaregiverEmail(caregiverEmail);
           email = data.caregiver?.elderEmails[0];
-          console.log("user is caregiver", email);
+          // console.log("user is caregiver", email);
         } else {
           //Elder flow
           email = user.email;
-          console.log("user is elder", email);
+          // console.log("user is elder", email);
         }
 
         if (email !== "") {
@@ -125,26 +126,35 @@ export default function HistoryNotification() {
             <View className="flex flex-col">
               {todayNotification?.map((log, index) => {
                 return (
-                  <View
-                    key={index}
-                    className="flex flex-row justify-between items-center w-full h-20 "
-                  >
-                    <View className="flex flex-col justify-center items-start">
-                      <Text className="text-lg text-curaBlack font-SatoshiBold">
-                        {log.type === "MOVEMENT_LOCATION"
-                          ? "Elder is far from home."
-                          : log.type === "CRITICAL_HEART_RATE"
-                          ? "Heart rate is abnormal."
-                          : "Fall detected."}
-                      </Text>
-                      <Text className="text-sm text-curaGrey">
-                        {timeDifference(log.timestamp)}
-                      </Text>
-                    </View>
-                    <View className="flex flex-col justify-center items-end">
-                      <Text className="text-lg text-curaBlack font-SatoshiBold">
-                        {log.message}
-                      </Text>
+                  <View key={index} className="flex flex-row w-full h-20">
+                    <IconBtn
+                      name="criticalHeartrate"
+                      iconStyle={{
+                        color: curaTheme.lightColors.primary,
+                      }}
+                      bgStyle={{
+                        borderWidth: 1,
+                        borderColor: curaTheme.lightColors.primary,
+                      }}
+                    />
+                    <View className="flex flex-col justify-center items-center border">
+                      <View className="flex flex-col justify-center">
+                        <Text className="text-lg text-curaBlack font-SatoshiBold">
+                          {log.type === "MOVEMENT_LOCATION"
+                            ? "Elder is far from home."
+                            : log.type === "CRITICAL_HEART_RATE"
+                            ? "Heart rate is abnormal."
+                            : "Fall detected."}
+                        </Text>
+                        <Text className="text-sm text-curaGrey">
+                          {timeDifference(log.timestamp)}
+                        </Text>
+                      </View>
+                      <View className="flex flex-col">
+                        <Text className="text-lg text-curaBlack font-SatoshiBold">
+                          {log.message}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 );
@@ -187,3 +197,11 @@ export default function HistoryNotification() {
     </SafeAreaView>
   );
 }
+
+// <IconBtn
+//   name="bell"
+//   onPress={() => navigation.navigate("NotificationHistory")}
+//   iconStyle={{
+//     color: curaTheme.lightColors.primary,
+//   }}
+// />;
