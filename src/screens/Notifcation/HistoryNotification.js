@@ -119,7 +119,7 @@ export default function HistoryNotification() {
             showsVerticalScrollIndicator={false}
             className="w-full flex "
           >
-            <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4 ">
+            <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4">
               Today
             </Text>
             <View className="flex w-full flex-col space-y-4">
@@ -160,18 +160,33 @@ export default function HistoryNotification() {
                 );
               })}
             </View>
-            <Text className="text-lg text-curaBlack font-SatoshiMedium pt-4 pb-4 border-b border-b-curaGray/20">
+            <Text className="mt-8 text-lg text-curaBlack font-SatoshiMedium pb-4">
               Earlier
             </Text>
-            <View className="flex flex-col">
+            <View className="flex w-full flex-col space-y-4">
               {earlierNotification?.map((log, index) => {
                 return (
                   <View
                     key={index}
-                    className="flex flex-row justify-between items-center w-full h-20 "
+                    className="flex flex-row py-4 space-x-2 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
                   >
-                    <View className="flex flex-col justify-center items-start">
-                      <Text className="text-lg text-curaBlack font-SatoshiBold">
+                    <IconBtn
+                      name={
+                        log.type === "MOVEMENT_LOCATION"
+                          ? "elderFarFromHome"
+                          : log.type === "CRITICAL_HEART_RATE"
+                          ? "criticalHeartrate"
+                          : "fallDetected"
+                      }
+                      iconStyle={{
+                        color: curaTheme.lightColors.error,
+                        marginHorizontal: 24,
+                      }}
+                      height={32}
+                      width={32}
+                    />
+                    <View className="pr-24">
+                      <Text className="text-lg  text-curaBlack font-SatoshiBold">
                         {log.type === "MOVEMENT_LOCATION"
                           ? "Elder is far from home."
                           : log.type === "CRITICAL_HEART_RATE"

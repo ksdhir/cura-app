@@ -42,7 +42,7 @@ const AnimatedTabBar = ({
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: withTiming(xOffset.value, { duration: 50 }) }],
+      transform: [{ translateX: withTiming(xOffset.value) }],
     };
   });
 

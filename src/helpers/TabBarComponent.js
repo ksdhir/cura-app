@@ -24,7 +24,7 @@ const TabBarComponent = ({ active, options, onLayout, onPress }) => {
           scale: withSpring(active ? 1 : 0, { damping: 10 }),
         },
         {
-          translateY: withTiming(active ? -15 : 0, { duration: 400 }),
+          translateY: withTiming(active ? -15 : 0),
         },
       ],
     };
@@ -35,7 +35,7 @@ const TabBarComponent = ({ active, options, onLayout, onPress }) => {
       opacity: withTiming(active ? 1 : 0.7, { duration: 400 }),
       transform: [
         {
-          translateY: withTiming(active ? -15 : 0, { duration: 400 }),
+          translateY: withTiming(active ? -15 : 0),
         },
       ],
     };
