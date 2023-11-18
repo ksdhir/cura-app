@@ -12,6 +12,7 @@ import useAuth from "../../hooks/useAuth";
 import { caregiverSignup, getCaregiverProfile } from "../../services/caregiver";
 import Header from "../../components/layouts/Header";
 import IconBtn from "../../components/IconBtn";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 
 const CaregiverProfile = () => {
   const navigation = useNavigation();
@@ -67,21 +68,18 @@ const CaregiverProfile = () => {
   }
 
   return (
-    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+    <SafeAreaView className="flex h-full space-y-4 px-4   bg-curaWhite">
       <View className="flex flex-column flex-1">
         <Header />
 
-        <View className="flex justify-start py-4 mb-4">
-          <Text className="font-SatoshiBold text-2xl">
-            {" "}
-            Care Person Profile{" "}
-          </Text>
-        </View>
+        <ScreenTitle title="Care Person Profile" />
 
-        <ScrollView className="flex">
+        <ScrollView className="flex my-4">
           <View className="flex justify-start py-4 gap-2">
             <View className="flex flex-row justify-between items-end">
-              <Text className="font-SatoshiBold"> Preferred Name/s: </Text>
+              <Text className="text-lg text-curaBlack font-SatoshiBold">
+                Preferred Name/s:
+              </Text>
 
               {!isEdit && (
                 <IconBtn
@@ -103,18 +101,22 @@ const CaregiverProfile = () => {
                 onChangeText={(v) => setName(v)}
               />
             ) : (
-              <Text> {name} </Text>
+              <Text>{name}</Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Email: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Email:
+            </Text>
 
-            <Text> {user.email} </Text>
+            <Text>{user.email}</Text>
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Contact Number: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Contact Number:
+            </Text>
 
             {isEdit ? (
               <TextInput
@@ -123,14 +125,14 @@ const CaregiverProfile = () => {
                 onChangeText={(v) => setPhoneNumber(v)}
               />
             ) : (
-              <Text> {phoneNumber} </Text>
+              <Text>{phoneNumber}</Text>
             )}
           </View>
         </ScrollView>
 
         {isEdit && (
           <TouchableOpacity
-            className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
+            className="px-4 py-3 rounded-xl w-full mb-8 bg-primary"
             onPress={handleConfirm}
           >
             <Text className="text-[17px] text-center font-SatoshiBold text-white">

@@ -14,6 +14,7 @@ import { getSpecificNotificationLog } from "../../services/caregiver";
 import { timeDifference } from "../../helpers";
 import Header from "../../components/layouts/Header";
 import IconBtn from "../../components/IconBtn";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
@@ -36,12 +37,7 @@ export default function CriticalHeartRateScreen() {
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
       <StatusBar />
       <Header />
-
-      <View className="w-full">
-        <Text className="text-5xl text-curaBlack font-SatoshiBold">
-          Critical Heart Rate
-        </Text>
-      </View>
+      <ScreenTitle title="Critical Heart Rate" />
       <View className="flex flex-row w-full h-40  justify-between relative rounded-xl ">
         <Image
           source={require("../../assets/images/character/maleCritical.png")}
@@ -85,6 +81,8 @@ export default function CriticalHeartRateScreen() {
           </Text>
         </View>
       </View>
+
+      {/* History log */}
       <View className="w-full flex-1 justify-center ">
         <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4 ">
           History
@@ -93,14 +91,14 @@ export default function CriticalHeartRateScreen() {
           showsVerticalScrollIndicator={false}
           className="w-full flex "
         >
-          <View className="flex flex-1 flex-col space-y-4">
+          <View className="flex flex-1 flex-col space-y-4 ">
             {heartrateLog &&
             heartrateLog.notificationLog &&
             heartrateLog.notificationLog.length > 0 ? (
               heartrateLog.notificationLog.map((item, index) => (
                 <View
                   key={item.id}
-                  className="flex flex-row py-4 bg-curaWhite space-x-2 "
+                  className="flex flex-row py-4 space-x-2 w-full items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
                 >
                   <IconBtn
                     name={
@@ -117,7 +115,7 @@ export default function CriticalHeartRateScreen() {
                     }}
                   />
                   <View>
-                    <Text className="text-xl text-curaBlack font-SatoshiBold">
+                    <Text className="text-lg text-curaBlack font-SatoshiBold">
                       {item.payload?.detectedAbnormalHeartRate} BPM
                     </Text>
                     <Text className="text-curaGray text-xs">

@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useReducer } from "react";
 import TabBarComponent from "../helpers/TabBarComponent";
 import Svg, { Path } from "react-native-svg";
-// reanimated
+
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -42,7 +42,7 @@ const AnimatedTabBar = ({
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: withTiming(xOffset.value, { duration: 50 }) }],
+      transform: [{ translateX: withTiming(xOffset.value) }],
     };
   });
 

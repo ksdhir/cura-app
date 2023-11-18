@@ -11,7 +11,6 @@ import Monitoring from "../assets/icons/svg/heartrate.svg";
 const Tab = createBottomTabNavigator();
 const PROFILE_TYPE = "CAREGIVER";
 
-
 export default function TabAnimated() {
   return (
     <>
@@ -26,7 +25,6 @@ export default function TabAnimated() {
             headerShown: false,
             tabBarLabel: "Movement",
 
-            // MaterialCommunityIcons
             tabBarIcon: ({ color, size }) => (
               <Movement
                 width={34}
@@ -46,7 +44,6 @@ export default function TabAnimated() {
             headerShown: false,
             tabBarLabel: "Monitor", // Add this line for the label
 
-            // MaterialCommunityIcons
             tabBarIcon: ({ color, size, focused }) => (
               <Monitoring
                 width={34}

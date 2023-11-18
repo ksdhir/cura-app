@@ -118,17 +118,17 @@ export default function MovementMainScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-start bg-curaWhite px-4">
+    <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
       <StatusBar />
       {/* Header of the Page */}
       <Header toHome={true} />
       <ScreenTitle title="Movement" />
 
       {/* Main Content of the page */}
-      <View className="h-[75vh] w-full flex space-y-4">
+      <View className="h-[75vh] w-full flex">
         {/* Dynamically Render the Image of the  */}
         {/* TODO: replace with lottie animation */}
-        <View className="pt-8 items-center ">
+        <View className="items-center ">
           {isElderVisible ? (
             <Image
               source={require("../../assets/images/movement/elder_visible.png")}
@@ -143,11 +143,11 @@ export default function MovementMainScreen() {
             <MovementStatus isActive={isElderVisible} />
           </View>
         </View>
-        <Text className="text-lg text-curaBlack font-SatoshiMedium">
+        <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4">
           History
         </Text>
         <ScrollView
-          className=""
+          className="w-full flex"
           //hide scrollbar
           showsVerticalScrollIndicator={false}
         >
