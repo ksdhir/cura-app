@@ -11,7 +11,6 @@ import { getAllNotificationLog } from "../../services/caregiver";
 import { timeDifference } from "../../helpers";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useAuth from "../../hooks/useAuth";
-import { Icon } from "@rneui/base";
 
 export default function HistoryNotification() {
   const navigation = useNavigation();
@@ -100,7 +99,7 @@ export default function HistoryNotification() {
   return (
     <SafeAreaView className="flex-1 items-center justify-start bg-curaWhite px-4 space-y-4">
       <StatusBar />
-      <View className="w-full flex-row justify-between py-4">
+      <View className="w-full flex-row justify-between pb-4">
         <IconBtn
           name="back"
           onPress={() => navigation.goBack()}
@@ -120,47 +119,48 @@ export default function HistoryNotification() {
             showsVerticalScrollIndicator={false}
             className="w-full flex "
           >
-            <Text className="text-lg text-curaBlack font-SatoshiMedium pb-1 border-b border-b-curaGray/20">
+            <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4 ">
               Today
             </Text>
-            <View className="flex flex-col">
+            <View className="flex w-full flex-col space-y-4">
               {todayNotification?.map((log, index) => {
                 return (
-                  <View key={index} className="flex flex-row w-full h-20">
+                  <View
+                    key={index}
+                    className="flex flex-row py-4 space-x-2 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
+                  >
                     <IconBtn
-                      name="criticalHeartrate"
+                      name={
+                        log.type === "MOVEMENT_LOCATION"
+                          ? "elderFarFromHome"
+                          : log.type === "CRITICAL_HEART_RATE"
+                          ? "criticalHeartrate"
+                          : "fallDetected"
+                      }
                       iconStyle={{
-                        color: curaTheme.lightColors.primary,
+                        color: curaTheme.lightColors.error,
+                        marginHorizontal: 24,
                       }}
-                      bgStyle={{
-                        borderWidth: 1,
-                        borderColor: curaTheme.lightColors.primary,
-                      }}
+                      height={32}
+                      width={32}
                     />
-                    <View className="flex flex-col justify-center items-center border">
-                      <View className="flex flex-col justify-center">
-                        <Text className="text-lg text-curaBlack font-SatoshiBold">
-                          {log.type === "MOVEMENT_LOCATION"
-                            ? "Elder is far from home."
-                            : log.type === "CRITICAL_HEART_RATE"
-                            ? "Heart rate is abnormal."
-                            : "Fall detected."}
-                        </Text>
-                        <Text className="text-sm text-curaGrey">
-                          {timeDifference(log.timestamp)}
-                        </Text>
-                      </View>
-                      <View className="flex flex-col">
-                        <Text className="text-lg text-curaBlack font-SatoshiBold">
-                          {log.message}
-                        </Text>
-                      </View>
+                    <View className="pr-24">
+                      <Text className="text-lg text-curaBlack font-SatoshiBold">
+                        {log.type === "MOVEMENT_LOCATION"
+                          ? "Elder is far from home."
+                          : log.type === "CRITICAL_HEART_RATE"
+                          ? "Heart rate is abnormal."
+                          : "Fall detected."}
+                      </Text>
+                      <Text className="text-xs font-SatoshiMedium text-curaGray">
+                        {timeDifference(log.timestamp)}
+                      </Text>
                     </View>
                   </View>
                 );
               })}
             </View>
-            <Text className="text-lg text-curaBlack font-SatoshiMedium pt-4 pb-1 border-b border-b-curaGray/20">
+            <Text className="text-lg text-curaBlack font-SatoshiMedium pt-4 pb-4 border-b border-b-curaGray/20">
               Earlier
             </Text>
             <View className="flex flex-col">

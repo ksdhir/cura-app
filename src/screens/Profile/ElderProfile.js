@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 import IconBtn from "../../components/IconBtn";
 import { elderSignUp, getElderProfile } from "../../services/elder";
 import { Picker } from "@react-native-picker/picker";
@@ -29,7 +30,6 @@ const ElderProfile = () => {
   const [bloodType, setBloodType] = useState();
 
   const handleConfirm = async () => {
-
     if (!age) {
       alert("Please enter your age");
       return;
@@ -61,7 +61,6 @@ const ElderProfile = () => {
         },
         token
       );
-
     } catch (error) {
       alert(error.message);
     } finally {
@@ -98,18 +97,18 @@ const ElderProfile = () => {
   }
 
   return (
-    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+    <SafeAreaView className="flex h-full space-y-4 px-4 bg-curaWhite">
       <View className="flex flex-column flex-1">
         <Header />
 
-        <View className="flex justify-start py-4 mb-4">
-          <Text className="font-SatoshiBold text-2xl"> Elderly Profile </Text>
-        </View>
+        <ScreenTitle title="Personal Information" />
 
-        <ScrollView className="flex">
+        <ScrollView className="flex my-4">
           <View className="flex justify-start py-4 gap-2">
             <View className="flex flex-row justify-between items-end">
-              <Text className="font-SatoshiBold"> Preferred Name/s: </Text>
+              <Text className="text-lg text-curaBlack font-SatoshiBold">
+                Preferred Name/s:
+              </Text>
 
               {!isEdit && (
                 <IconBtn
@@ -131,46 +130,54 @@ const ElderProfile = () => {
                 onChangeText={(v) => setName(v)}
               />
             ) : (
-              <Text> {name} </Text>
+              <Text className="font-SatoshiMedium">{name} </Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Email: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Email:
+            </Text>
 
-            <Text> {user.email} </Text>
+            <Text className="font-SatoshiMedium">{user.email} </Text>
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Age: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Age:{" "}
+            </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-SatoshiBold"
+                className="border-b-[1px] font-SatoshiMedium"
                 value={age}
                 onChangeText={(v) => setAge(v)}
               />
             ) : (
-              <Text> {age} </Text>
+              <Text className="font-SatoshiMedium">{age}</Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Contact Number: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Contact Number:{" "}
+            </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-SatoshiBold"
+                className="border-b-[1px] font-SatoshiMedium"
                 value={phoneNumber}
                 onChangeText={(v) => setPhoneNumber(v)}
               />
             ) : (
-              <Text> {phoneNumber} </Text>
+              <Text className="font-SatoshiMedium">{phoneNumber} </Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Sex: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Sex:{" "}
+            </Text>
 
             {isEdit ? (
               <View className="border-[1px] rounded-md">
@@ -188,8 +195,7 @@ const ElderProfile = () => {
                 </Picker>
               </View>
             ) : (
-              <Text>
-                {" "}
+              <Text className="font-SatoshiMedium">
                 {sex
                   ? SEX_LIST.find((item) => item.value === sex).label
                   : "None"}{" "}
@@ -198,7 +204,9 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Blood Type: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Blood Type:{" "}
+            </Text>
 
             {isEdit ? (
               <View className="border-[1px] rounded-md">
@@ -218,8 +226,7 @@ const ElderProfile = () => {
                 </Picker>
               </View>
             ) : (
-              <Text>
-                {" "}
+              <Text className="font-SatoshiMedium">
                 {bloodType
                   ? BLOOD_TYPES.find((item) => item.value === bloodType).label
                   : "None"}
@@ -228,65 +235,81 @@ const ElderProfile = () => {
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Medical Conditions: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Medical Conditions:{" "}
+            </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-SatoshiBold"
+                className="border-b-[1px] font-SatoshiMedium"
                 value={medicalConditions}
                 onChangeText={(v) => setMedicalConditions(v)}
               />
             ) : (
-              <Text> {medicalConditions ?? "None Listed"} </Text>
+              <Text className="font-SatoshiMedium">
+                {medicalConditions ?? "None Listed"}
+              </Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Allergies: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Allergies:{" "}
+            </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-SatoshiBold"
+                className="border-b-[1px] font-SatoshiMedium"
                 value={allergies}
                 onChangeText={(v) => setAllergies(v)}
               />
             ) : (
-              <Text> {allergies ?? "None Listed"} </Text>
+              <Text className="font-SatoshiMedium">
+                {allergies ?? "None Listed"}{" "}
+              </Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Medications: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Medications:{" "}
+            </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-SatoshiBold"
+                className="border-b-[1px] font-SatoshiMedium"
                 value={medications}
                 onChangeText={(v) => setMedications(v)}
               />
             ) : (
-              <Text> {medications ?? "None Listed"} </Text>
+              <Text className="font-SatoshiMedium">
+                {medications ?? "None Listed"}{" "}
+              </Text>
             )}
           </View>
 
           <View className="flex justify-start py-4 gap-2">
-            <Text className="font-SatoshiBold"> Notes: </Text>
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Notes:{" "}
+            </Text>
 
             {isEdit ? (
               <TextInput
-                className="border-b-[1px] font-SatoshiBold"
+                className="border-b-[1px] font-SatoshiMedium"
                 value={notes}
                 onChangeText={(v) => setNotes(v)}
               />
             ) : (
-              <Text> {notes ?? "None Listed"} </Text>
+              <Text className="font-SatoshiMedium">
+                {notes ?? "None Listed"}{" "}
+              </Text>
             )}
           </View>
         </ScrollView>
 
         {isEdit && (
           <TouchableOpacity
-            className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
+            className="px-4 py-3 rounded-xl w-full mb-8 bg-primary"
             onPress={handleConfirm}
           >
             <Text className="text-[17px] text-center font-SatoshiBold text-white">

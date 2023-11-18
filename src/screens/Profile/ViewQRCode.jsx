@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import useAuth from "../../hooks/useAuth";
 import Header from "../../components/layouts/Header";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 
 import { getCaregiverProfile } from "../../services/caregiver";
 
@@ -31,7 +32,7 @@ const ViewQRCode = () => {
 
   }, [user, token]);
 
-  
+
   // stop of user isn't found
   if (!user || !caregiverName) {
     return null;
@@ -39,20 +40,18 @@ const ViewQRCode = () => {
 
 
   return (
-    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+    <SafeAreaView className="flex h-full space-y-4 px-4  bg-curaWhite">
       <View className="flex flex-column flex-1">
         <Header />
 
-        <View className="flex justify-start py-4 mb-4">
-          <Text className="font-SatoshiBold text-2xl">View QR Code</Text>
-        </View>
+        <ScreenTitle title="Scan to add caregiver" />
 
-        <View className="flex flex-1 justify-center items-center">
-          <View className="items-center border-4 border-primary rounded-[30px] w-full py-7">
+        <View className="flex flex-1 items-center justify-center ">
+          <View className="items-center border-4 border-primary rounded-[30px] w-full py-7 ">
             <Text className="text-4xl font-bold">{caregiverName}</Text>
             <Text className="text-xl mb-6">Contact Person</Text>
             <View className="mb-8">
-              <QRCode fgColor={"#09C1CB"} value={JSON.stringify({email: user.email, name: caregiverName})} size={275} />
+              <QRCode fgColor={"#09C1CB"} value={JSON.stringify({ email: user.email, name: caregiverName })} size={275} />
             </View>
           </View>
         </View>

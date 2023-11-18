@@ -15,6 +15,7 @@ import PolygonDown from "../assets/icons/svg/polygondown.svg";
 import CriticalHeartrate from "../assets/icons/svg/criticalheartrate.svg";
 import FallDetected from "../assets/icons/svg/falldetection.svg";
 import ElderFarFromHome from "../assets/icons/svg/monitoring.svg";
+import Location from "../assets/icons/svg/location.svg";
 
 // Define your icon mapping
 const iconMapping = {
@@ -33,6 +34,7 @@ const iconMapping = {
   criticalHeartrate: CriticalHeartrate,
   fallDetected: FallDetected,
   elderFarFromHome: ElderFarFromHome,
+  location: Location,
 };
 
 const IconWithTouchableOpacity = ({

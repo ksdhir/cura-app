@@ -14,6 +14,7 @@ import { addEmergencyContact } from "../../services/elder";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 
 // Function to validate email using a regular expression
 function isValidEmail(email) {
@@ -73,7 +74,7 @@ const ProfileEmergencyContacts = () => {
       setTimeout(() => {
         setLoading(false);
       }, 1000);
-  
+
 
 
     } catch (error) {
@@ -117,15 +118,19 @@ const ProfileEmergencyContacts = () => {
   };
 
   return (
-    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-white">
+    <SafeAreaView className="flex h-full space-y-4 px-4  bg-white">
       <View className="flex flex-column flex-1">
         <Header />
 
-        <View className="flex justify-start py-4 mb-4">
+        <ScreenTitle title={
+          openCamera ? "Scan QR Code" : "Add Emergency Contact"
+        } />
+
+        {/* <View className="flex justify-start py-4 mb-4">
           <Text className="font-SatoshiBold text-2xl">
             {openCamera ? "Scan QR Code" : "Add Emergency Contact"}
           </Text>
-        </View>
+        </View> */}
 
         {!openCamera && !loading && (
           <ScrollView className="flex">
@@ -174,7 +179,7 @@ const ProfileEmergencyContacts = () => {
           </ScrollView>
         )}
 
-        {openCamera  && (
+        {openCamera && (
           <View className="flex flex-1 flex-col justify-center mb-4">
             <BarCodeScanner
               barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
@@ -206,19 +211,17 @@ const ProfileEmergencyContacts = () => {
             </Text>
           </TouchableOpacity>
         )}
-        {openCamera && !loading &&  (
+        {openCamera && !loading && (
           <View className="px-2">
             <TouchableOpacity
-              className={`px-4 py-3 rounded-xl w-full mb-4 ${
-                scanned ? "bg-primary" : "bg-curaBlack/10"
-              }`}
+              className={`px-4 py-3 rounded-xl w-full mb-4 ${scanned ? "bg-primary" : "bg-curaBlack/10"
+                }`}
               onPress={() => setScanned(false)}
               disabled={!scanned}
             >
               <Text
-                className={`text-[17px] text-center font-SatoshiBold ${
-                  scanned ? "text-white" : " text-curaGray"
-                }`}
+                className={`text-[17px] text-center font-SatoshiBold ${scanned ? "text-white" : " text-curaGray"
+                  }`}
               >
                 Scan Again
               </Text>

@@ -8,6 +8,7 @@ import auth from "@react-native-firebase/auth";
 import Header from "../../components/layouts/Header";
 import UserIcon from "../../assets/icons/svg/avatar.svg";
 import SettingIcon from "../../assets/icons/svg/setting.svg";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 
 export default function AccountMainScreen(props) {
   const navigation = useNavigation();
@@ -48,12 +49,19 @@ export default function AccountMainScreen(props) {
       </View>
 
       <View className="flex w-full flex-1 space-y-4">
-        <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
-          <UserIcon width={20} height={20} style={{ color: "#323333" }} />
+        <View className="w-full flex flex-row items-center justify-start border-b-[1px] pb-4 px-4">
+          <UserIcon
+            width={24}
+            height={24}
+            style={{
+              color: "#323333",
+            }}
+          />
 
-          <Text className="text-lg text-curaBlack font-SatoshiBold">
+          <ScreenTitle title=" Account" />
+          {/* <Text className="text-lg text-curaBlack font-SatoshiBold">
             Account
-          </Text>
+          </Text> */}
         </View>
 
         <TouchableOpacity onPress={navigateToProfile} className="w-full p-4">
@@ -73,7 +81,7 @@ export default function AccountMainScreen(props) {
           >
             <View className="flex flex-row  items-center justify-between gap-2">
               <Text className="text-lg text-neutral-800 font-SatoshiBold">
-                  Scan QR Code
+                Scan QR Code
               </Text>
 
               <MaterialCommunityIcons name={"chevron-right"} size={24} />
@@ -94,12 +102,13 @@ export default function AccountMainScreen(props) {
           </TouchableOpacity>
         )}
 
-        <View className="w-full flex flex-row  items-center justify-start gap-2 border-b-[1px] pb-4 px-4 mt-4">
-          <SettingIcon width={20} height={20} style={{ color: "#323333" }} />
+        <View className="w-full flex flex-row items-center justify-start border-b-[1px] pb-4 px-4 mt-4">
+          <SettingIcon width={24} height={24} style={{ color: "#323333" }} />
 
-          <Text className="text-lg text-curaBlack font-SatoshiBold">
+          <ScreenTitle title=" Settings" />
+          {/* <Text className="text-lg text-curaBlack font-SatoshiBold">
             Settings
-          </Text>
+          </Text> */}
         </View>
 
         <View className="w-full flex flex-row items-center justify-between py-2 px-4">
@@ -132,36 +141,6 @@ export default function AccountMainScreen(props) {
             </Text>
           </View>
         </TouchableOpacity>
-
-        {/* <ScrollView
-          className="flex flex-1 w-full px-4 space-y-3"
-          contentContainerStyle={{
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("GoogleHealthScreen")}
-          >
-            <Text>Google Health</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("HeartRateThresholdScreen")}
-          >
-            <Text>Adjust Heartrate Threshold</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("FallDetectionScreen")}
-          >
-            <Text>Fall Detection Screen</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PushNotificationScreen")}
-          >
-            <Text>Push Notification Screen</Text>
-          </TouchableOpacity>
-        </ScrollView> */}
       </View>
     </SafeAreaView>
   );

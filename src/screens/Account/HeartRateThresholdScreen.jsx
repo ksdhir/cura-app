@@ -8,6 +8,7 @@ import {
   updateElderHeartRateThreshold,
 } from "../../services/elder";
 import useAuth from "../../hooks/useAuth";
+import ScreenTitle from "../../components/layouts/ScreenTitle";
 
 export default function HeartRateThresholdScreen() {
   const [minHeartRate, setMinHeartRate] = useState(80);
@@ -55,53 +56,51 @@ export default function HeartRateThresholdScreen() {
   }, [user]);
 
   return (
-    <SafeAreaView className="flex h-full space-y-4 px-4 py-4 bg-curaWhite">
-      <Header />
+    <SafeAreaView className="flex h-full space-y-4 px-4 bg-curaWhite">
+      <View className="flex flex-column flex-1">
 
-      <View className="shadow-2xl p-4 bg-white flex-1 mb-4 justify-between">
-        <View>
-          <Text className="text-[20px] font-SatoshiBold text-[#263130] leading-5 mb-2 font-bold">
-            Heart Rate Threshold
-          </Text>
+        <Header />
 
-          <Text className="text-[16px] font-SatoshiMedium text-[#263130] leading-5">
+        <View className="mb-8 p-4 w-full flex-1 bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl">
+          <ScreenTitle title="Heart Rate Threshold" />
+
+          <Text className=" text-base font-SatoshiMedium  text-curaBlack leading-5  text-left">
             Adjust preferred minimum and maximum threshold. The values indicated
             below is the average range of BPM based on the elderly’s age.
           </Text>
-        </View>
+          <View className="flex-1 p-4">
+            <View className="py-4">
+              <ThresholdItem
+                title="Minimum"
+                value={minHeartRate}
+                onChange={setMinHeartRate}
+              />
+            </View>
 
-        <View className="flex-1">
-          <View className="py-4">
-            <ThresholdItem
-              title="Minimum"
-              value={minHeartRate}
-              onChange={setMinHeartRate}
-            />
+            <View className="py-4">
+              <ThresholdItem
+                title="Maximum"
+                value={maxHeartRate}
+                onChange={setMaxHeartRate}
+              />
+            </View>
+
+            {lastUpdated && (
+              <Text className="text-[18px] font-SatoshiMedium text-center mt-4">
+                Last Updated: {lastUpdated}
+              </Text>
+            )}
           </View>
 
-          <View className="py-4">
-            <ThresholdItem
-              title="Maximum"
-              value={maxHeartRate}
-              onChange={setMaxHeartRate}
-            />
-          </View>
-
-          {lastUpdated && (
-            <Text className="text-[18px] font-SatoshiMedium text-center mt-4">
-              Last Updated: {lastUpdated}
+          <TouchableOpacity
+            className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
+            onPress={handleChangeThreshold}
+          >
+            <Text className="text-[18px] text-center font-SatoshiBold text-white">
+              Change Threshold
             </Text>
-          )}
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          className="px-4 py-3 rounded-xl w-full mb-4 bg-primary"
-          onPress={handleChangeThreshold}
-        >
-          <Text className="text-[18px] text-center font-SatoshiBold text-white">
-            Change Threshold
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
