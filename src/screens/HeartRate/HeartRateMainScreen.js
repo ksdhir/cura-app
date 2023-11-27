@@ -38,7 +38,7 @@ export default function HeartRateMainScreen() {
     if (!isFocused) {
       return;
     }
-    console.log("inside here now")
+    console.log("inside here now");
     if (!user) return;
     const caregiverEmail = user.email;
     let elderEmail;

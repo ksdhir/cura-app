@@ -90,11 +90,13 @@ export default function HistoryNotification() {
     setEarlierNotification(earlierLog);
   }, [notificationLog]);
 
-  // const logTimestamp = notificationLog?.notificationLog[0]?.timestamp;
-  // console.log("logTimestamp", logTimestamp);
-
-  // const todayLogTimestamp = todayNotification[0]?.timestamp;
-  // console.log("todayLogTimestamp", todayLogTimestamp);
+  if (loading) {
+    return (
+      <View className="w-full flex-1 items-center justify-center bg-curaWhite border pb-[80px]">
+        <LoadingSpinner />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 items-center justify-start bg-curaWhite px-4 space-y-4">
@@ -112,102 +114,98 @@ export default function HistoryNotification() {
       <ScreenTitle title="Notifications" />
 
       <View className="w-full flex-1">
-        {loading ? (
-          <LoadingSpinner /> // Display the loading spinner while data is being fetched
-        ) : (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            className="w-full flex "
-          >
-            <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4">
-              Today
-            </Text>
-            <View className="flex w-full flex-col space-y-4">
-              {todayNotification?.map((log, index) => {
-                return (
-                  <View
-                    key={index}
-                    className="flex flex-row py-4 space-x-2 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
-                  >
-                    <IconBtn
-                      name={
-                        log.type === "MOVEMENT_LOCATION"
-                          ? "elderFarFromHome"
-                          : log.type === "CRITICAL_HEART_RATE"
-                          ? "criticalHeartrate"
-                          : "fallDetected"
-                      }
-                      iconStyle={{
-                        color: curaTheme.lightColors.error,
-                        marginHorizontal: 24,
-                      }}
-                      height={32}
-                      width={32}
-                    />
-                    <View className="pr-24">
-                      <Text className="text-lg text-curaBlack font-SatoshiBold">
-                        {log.type === "MOVEMENT_LOCATION"
-                          ? "Elder is far from home."
-                          : log.type === "CRITICAL_HEART_RATE"
-                          ? "Heart rate is abnormal."
-                          : "Fall detected."}
-                      </Text>
-                      <Text className="text-xs font-SatoshiMedium text-curaGray">
-                        {timeDifference(log.timestamp)}
-                      </Text>
-                    </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className="w-full flex "
+        >
+          <Text className="text-lg text-curaBlack font-SatoshiMedium pb-4">
+            Today
+          </Text>
+          <View className="flex w-full flex-col space-y-4">
+            {todayNotification?.map((log, index) => {
+              return (
+                <View
+                  key={index}
+                  className="flex flex-row py-4 space-x-2 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
+                >
+                  <IconBtn
+                    name={
+                      log.type === "MOVEMENT_LOCATION"
+                        ? "elderFarFromHome"
+                        : log.type === "CRITICAL_HEART_RATE"
+                        ? "criticalHeartrate"
+                        : "fallDetected"
+                    }
+                    iconStyle={{
+                      color: curaTheme.lightColors.error,
+                      marginHorizontal: 24,
+                    }}
+                    height={32}
+                    width={32}
+                  />
+                  <View className="pr-24">
+                    <Text className="text-lg text-curaBlack font-SatoshiBold">
+                      {log.type === "MOVEMENT_LOCATION"
+                        ? "Elder is far from home."
+                        : log.type === "CRITICAL_HEART_RATE"
+                        ? "Heart rate is abnormal."
+                        : "Fall detected."}
+                    </Text>
+                    <Text className="text-xs font-SatoshiMedium text-curaGray">
+                      {timeDifference(log.timestamp)}
+                    </Text>
                   </View>
-                );
-              })}
-            </View>
-            <Text className="mt-8 text-lg text-curaBlack font-SatoshiMedium pb-4">
-              Earlier
-            </Text>
-            <View className="flex w-full flex-col space-y-4">
-              {earlierNotification?.map((log, index) => {
-                return (
-                  <View
-                    key={index}
-                    className="flex flex-row py-4 space-x-2 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
-                  >
-                    <IconBtn
-                      name={
-                        log.type === "MOVEMENT_LOCATION"
-                          ? "elderFarFromHome"
-                          : log.type === "CRITICAL_HEART_RATE"
-                          ? "criticalHeartrate"
-                          : "fallDetected"
-                      }
-                      iconStyle={{
-                        color: curaTheme.lightColors.error,
-                        marginHorizontal: 24,
-                      }}
-                      height={32}
-                      width={32}
-                    />
-                    <View className="pr-24">
-                      <Text className="text-lg  text-curaBlack font-SatoshiBold">
-                        {log.type === "MOVEMENT_LOCATION"
-                          ? "Elder is far from home."
-                          : log.type === "CRITICAL_HEART_RATE"
-                          ? "Heart rate is abnormal."
-                          : "Fall detected."}
-                      </Text>
-                      <Text className="text-sm text-curaGrey">
-                        {timeDifference(log.timestamp)}
-                      </Text>
-                    </View>
-                    <View className="flex flex-col justify-center items-end">
-                      <Text className="text-lg text-curaBlack font-SatoshiBold">
-                        {log.message}
-                      </Text>
-                    </View>
+                </View>
+              );
+            })}
+          </View>
+          <Text className="mt-8 text-lg text-curaBlack font-SatoshiMedium pb-4">
+            Earlier
+          </Text>
+          <View className="flex w-full flex-col space-y-4">
+            {earlierNotification?.map((log, index) => {
+              return (
+                <View
+                  key={index}
+                  className="flex flex-row py-4 space-x-2 items-center bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl"
+                >
+                  <IconBtn
+                    name={
+                      log.type === "MOVEMENT_LOCATION"
+                        ? "elderFarFromHome"
+                        : log.type === "CRITICAL_HEART_RATE"
+                        ? "criticalHeartrate"
+                        : "fallDetected"
+                    }
+                    iconStyle={{
+                      color: curaTheme.lightColors.error,
+                      marginHorizontal: 24,
+                    }}
+                    height={32}
+                    width={32}
+                  />
+                  <View className="pr-24">
+                    <Text className="text-lg  text-curaBlack font-SatoshiBold">
+                      {log.type === "MOVEMENT_LOCATION"
+                        ? "Elder is far from home."
+                        : log.type === "CRITICAL_HEART_RATE"
+                        ? "Heart rate is abnormal."
+                        : "Fall detected."}
+                    </Text>
+                    <Text className="text-sm text-curaGrey">
+                      {timeDifference(log.timestamp)}
+                    </Text>
                   </View>
-                );
-              })}
-            </View>
-          </ScrollView>
-        )}
+                  <View className="flex flex-col justify-center items-end">
+                    <Text className="text-lg text-curaBlack font-SatoshiBold">
+                      {log.message}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
