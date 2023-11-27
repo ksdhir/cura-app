@@ -123,7 +123,7 @@ const AppNavigator = () => {
           options={{ headerShown: false }}
           name="Home"
           //if profileType === Elder, component = TabElder, if profile = Caregiver, component = TabCaregiver
-          component={profileType === "Elder" ? TabElder : TabCaregiver}
+          component={profileType === "Caregiver" ? TabCaregiver : TabElder}
         />
         <Stack.Screen
           options={{ headerShown: false }}

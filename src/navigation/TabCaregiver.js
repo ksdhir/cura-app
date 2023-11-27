@@ -25,7 +25,7 @@ export default function TabAnimated() {
             headerShown: false,
             tabBarLabel: "Movement",
 
-            tabBarIcon: ({ color, size }) => (
+            tabBarIcon: ({ color, size, focused }) => (
               <Movement
                 width={34}
                 height={34}
