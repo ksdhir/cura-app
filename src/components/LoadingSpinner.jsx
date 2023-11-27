@@ -1,15 +1,15 @@
-import Lottie from "lottie-react-native";
 import { View } from "react-native";
+import LottieView from "lottie-react-native";
 
 const LoadingSpinner = () => {
   return (
-    <View className="flex-1 items-center justify-center px-4 bg-curaWhite">
-      <Lottie
+    ///make it absolute and center it's position in the parent
+    <View className="w-full flex-1 items-center justify-center bg-curaWhite pt-[80px]">
+      <LottieView
         source={require("../assets/lottie/loading/loading.json")}
         autoPlay
         loop
         speed={0.8}
-        delay={100}
         style={{
           width: 300,
           height: 300,

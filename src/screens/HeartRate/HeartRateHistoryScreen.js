@@ -280,19 +280,3 @@ export default function HeartRateHistoryScreen() {
     </SafeAreaView>
   );
 }
-
-// Button: {
-//   containerStyle: {
-//     height: 48,
-//     width: "100%",
-//     borderRadius: 12,
-//     marginVertical: 8,
-//   },
-//   buttonStyle: {
-//     height: 48,
-//     borderRadius: 12,
-//   },
-//   titleStyle: {
-//     color: "#F8FFFE",
-//   },
-// },

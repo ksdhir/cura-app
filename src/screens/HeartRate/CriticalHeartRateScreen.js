@@ -15,11 +15,13 @@ import { timeDifference } from "../../helpers";
 import Header from "../../components/layouts/Header";
 import IconBtn from "../../components/IconBtn";
 import ScreenTitle from "../../components/layouts/ScreenTitle";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function CriticalHeartRateScreen() {
   const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
   const [heartrateLog, setHeartrateLog] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const route = useRoute();
 
@@ -29,9 +31,14 @@ export default function CriticalHeartRateScreen() {
     getSpecificNotificationLog(elderEmail, "CRITICAL_HEART_RATE").then(
       (data) => {
         setHeartrateLog(data);
+        setLoading(false);
       }
     );
   }, []);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-curaWhite px-4 space-y-4">
