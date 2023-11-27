@@ -84,6 +84,7 @@ export default function HeartRateHistoryScreen() {
     .map(([dateString, value], index, arr) => ({
       value: value,
       label: getDayName(dateString),
+      frontColor: index === arr.length - 1 ? "#F66490" : "#FCD3DF",
     }));
 
   const dailyData = Object.entries(dailyRawData).map(
@@ -92,6 +93,7 @@ export default function HeartRateHistoryScreen() {
       label: convertUTCtoVancouverTime(dateString)
         .toLowerCase()
         ?.replace(/\s/g, ""),
+      frontColor: index === arr.length - 1 ? "#F66490" : "#FCD3DF",
     })
   );
 
@@ -192,7 +194,6 @@ export default function HeartRateHistoryScreen() {
                 noOfSections={4}
                 barBorderTopLeftRadius={50}
                 barBorderTopRightRadius={50}
-                frontColor="#FCD3DF"
                 data={dailyData}
                 yAxisThickness={0}
                 xAxisThickness={0}
@@ -218,7 +219,6 @@ export default function HeartRateHistoryScreen() {
                 noOfSections={4}
                 barBorderTopLeftRadius={50}
                 barBorderTopRightRadius={50}
-                frontColor="#FCD3DF"
                 data={weeklyData}
                 yAxisThickness={0}
                 xAxisThickness={0}
