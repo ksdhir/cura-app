@@ -16,16 +16,6 @@ export default function HomeStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="AccelScreen"
-        component={AccelScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="GyroScreen"
-        component={GyroScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
         name="PushNotificationScreen"
         component={PushNotificationScreen}
         options={{ headerShown: false }}

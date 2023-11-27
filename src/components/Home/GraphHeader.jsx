@@ -13,9 +13,7 @@ const GraphHeader = ({ data, heartRateThreshold, elderEmailData }) => {
   const bpmStatus =
     bpm >= minThreshold && bpm <= maxThreshold
       ? "Normal"
-      : bpm < minThreshold
-        ? "Low"
-        : "High";
+      : "Critical";
 
   return (
     <View className="flex flex-row w-full justify-between  items-start">

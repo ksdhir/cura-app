@@ -5,13 +5,14 @@ const LoadingSpinner = () => {
   return (
     <View className="flex-1 items-center justify-center px-4 bg-curaWhite">
       <Lottie
-        source={require("../assets/lottie/cura_loading.json")}
+        source={require("../assets/lottie/loading/loading.json")}
         autoPlay
         loop
-        speed={0.7}
+        speed={0.8}
+        delay={100}
         style={{
-          width: 150,
-          height: 150,
+          width: 300,
+          height: 300,
         }}
       />
     </View>
