@@ -23,7 +23,7 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
       setHeartSource(require("../../assets/lottie/heart/low.json"));
     } else if (bpm > maxThreshold) {
       setSpeed(4);
-      setHeartSource(require("../../assets/lottie/heart/high.json"));
+      setHeartSource(require("../../assets/lottie/heart/critical.json"));
     } else {
       setSpeed(1);
       setHeartSource(require("../../assets/lottie/heart/normal.json"));
@@ -40,10 +40,10 @@ const HeartRateGraph = ({ heartRateDetail, heartRateThreshold }) => {
           autoPlay
           speed={speed}
           style={{
-            width: 180,
-            height: height > 780 ? 210 : 180,
+            width: 260,
+            height: height > 780 ? 260 : 230,
             position: "relative",
-            bottom: 8,
+            bottom: 15,
           }}
         />
       </View>
