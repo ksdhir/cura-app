@@ -10,6 +10,8 @@ const GraphHeader = ({ data, heartRateThreshold, elderEmailData }) => {
   const minThreshold = heartRateThreshold?.detail?.minimum;
   const maxThreshold = heartRateThreshold?.detail?.maximum;
 
+  //heart rate status over or under threshold will be "Critical"
+  //And the bg color will be errorDark
   const bpmStatus =
     bpm >= minThreshold && bpm <= maxThreshold
       ? "Normal"
