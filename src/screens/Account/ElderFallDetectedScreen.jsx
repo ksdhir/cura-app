@@ -3,62 +3,53 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/layouts/Header";
 import ImgFallDetected from "../../assets/images/fall-detection.svg";
 
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import { useRoute } from "@react-navigation/native";
 
 const ElderFallDetectedScreen = () => {
   const handleCallTouchable = () => {
     console.log("Call");
   };
 
+  const route = useRoute();
+
+  const { elderPhoneNumber, elderName, location } = route.params;
+
+  console.log(elderPhoneNumber, elderName, location);
+
   return (
     <SafeAreaView className="flex-1 p-4 items-center bg-curaWhite">
       {/* Header of the Page */}
       <Header />
-      <View className="pt-8 px-6 flex w-full items-center gap-2">
-        <ImgFallDetected style={{ width: 150, height: 150 }} />
-        <View className="flex items-center">
-          <Text className="text-5xl font-SatoshiBold">Rocky Balboa</Text>
-          <Text className="text-5xl font-SatoshiBold">might have fallen!</Text>
-          <Text className="text-center text-lg">
-            We’ve detected a potential fall incident and is waiting for Rocky to
-            prompt.
-          </Text>
+      <View className="flex-1 flex flex-col items-center justify-between">
+        <View className="pt-8 px-6 flex w-full items-center space-y-8">
+          <View>
+            <ImgFallDetected style={{ width: 150, height: 150 }} />
+          </View>
+          <View className="flex items-center">
+            <Text className="text-5xl font-SatoshiBold">{elderName}</Text>
+            <Text className="text-5xl font-SatoshiBold">
+              might have fallen!
+            </Text>
+            <Text className="text-center text-lg mt-4">
+              We’ve detected a potential fall incident at{" "}
+              <Text className=" text-errorDark font-SatoshiBlack ">
+                {location}
+              </Text>
+            </Text>
+          </View>
         </View>
-      </View>
-      <View className="flex w-full pt-8">
-        {/* <View className="flex items-center py-8">
-          <CountdownCircleTimer
-            isPlaying
-            duration={15}
-            strokeWidth={18}
-            size={170}
-            colors={["#09C1CB", "#EE754E"]}
-            colorsTime={[15, 0]}
-            onComplete={() => {
-              // do your stuff here
-              return console.log("Call"), { shouldRepeat: true, delay: 1.5 }; // repeat animation in 1.5 seconds
+        <View className="flex px-4 min-w-full my-8">
+          <TouchableOpacity
+            className="bg-errorDark rounded-xl py-2.5 px-4"
+            onPress={() => {
+              handleCallTouchable();
             }}
           >
-            {({ remainingTime }) => (
-              <>
-                <Text className="font-SatoshiBold text-[60px]">
-                  {remainingTime}
-                </Text>
-                <Text>seconds</Text>
-              </>
-            )}
-          </CountdownCircleTimer> 
-            </View>*/}
-        <TouchableOpacity
-          className="bg-primary rounded-xl py-2.5 px-4"
-          onPress={() => {
-            handleCallTouchable();
-          }}
-        >
-          <Text className="text-curaWhite text-lg text-center font-SatoshiMedium">
-            CALL
-          </Text>
-        </TouchableOpacity>
+            <Text className="text-curaWhite text-lg text-center font-SatoshiMedium">
+              CALL
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );

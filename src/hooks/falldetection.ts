@@ -24,6 +24,16 @@ export const useFallDetectionChecker = (
       screen: "AccountStack",
       params: { screen: "ElderFallConfirmationScreen" },
     });
+
+    // For Testing
+    // navigation.navigate("AccountStack", {
+    //   screen: "ElderFallDetectedScreen",
+    //   params: {
+    //     elderPhoneNumber: "1234567890",
+    //     elderName: "Rocky Balboa",
+    //     location: "236 Main St, Vancouver, BC V6A 1A1",
+    //   },
+    // });
   }, 500);
 
   const _subscribe = () => {
