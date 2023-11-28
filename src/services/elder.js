@@ -252,6 +252,31 @@ export const movementPushNotification = async (
   }
 };
 
+export const heartRatePushNotification = async (email, token, payload) => {
+  try {
+    const response = await fetch(
+      `${process.env.EXPO_PUBLIC_API_URL}/elder/append-notification-record`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email: email,
+          type: "CRITICAL_HEART_RATE",
+          payload,
+        }),
+      }
+    );
+
+    return response.json();
+  } catch (error) {
+    console.error("error", error.message);
+    throw Error("Could not test notification");
+  }
+};
+
 export const criticalHeartRateNotification = async (email, token, payload) => {
   try {
     const response = await fetch(

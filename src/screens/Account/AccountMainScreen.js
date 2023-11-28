@@ -134,6 +134,19 @@ export default function AccountMainScreen(props) {
           </TouchableOpacity>
         ) : null}
 
+        <TouchableOpacity
+          onPress={() => navigation.navigate("DemoScreen")}
+          className="w-full p-4 pt-0"
+        >
+          <View className="flex flex-row  items-center justify-between gap-2">
+            <Text className="text-lg text-curaBlack font-SatoshiBold">
+              Demo Screen
+            </Text>
+
+            <MaterialCommunityIcons name={"chevron-right"} size={24} />
+          </View>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={handleSignout} className="w-full p-4">
           <View className="flex flex-row  items-center justify-between gap-2 ">
             <Text className="text-lg text-curaBlack font-SatoshiBold">
