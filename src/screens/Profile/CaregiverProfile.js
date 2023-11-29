@@ -24,6 +24,11 @@ const CaregiverProfile = () => {
   const handleConfirm = async () => {
     if (!name || !phoneNumber) return alert("Please fill in all fields");
 
+    var phoneRegex = new RegExp("^[0-9]+$");
+    if (!phoneRegex.test(phoneNumber)) {
+      return alert("Please enter a valid phone number");
+    }
+
     try {
       const data = await caregiverSignup(
         {
