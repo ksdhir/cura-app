@@ -18,6 +18,21 @@ export default function HeartRateThresholdScreen() {
 
   const handleChangeThreshold = async () => {
     try {
+      if (minHeartRate > maxHeartRate) {
+        alert("Minimum threshold cannot be greater than maximum threshold!");
+        return;
+      }
+
+      if (minHeartRate === maxHeartRate) {
+        alert("Minimum threshold cannot be equal to maximum threshold!");
+        return;
+      }
+
+      if (maxHeartRate < minHeartRate) {
+        alert("Maximum threshold cannot be less than minimum threshold!");
+        return;
+      }
+
       const result = await updateElderHeartRateThreshold(
         {
           email: user.email,
@@ -58,7 +73,6 @@ export default function HeartRateThresholdScreen() {
   return (
     <SafeAreaView className="flex h-full space-y-4 px-4 bg-curaWhite">
       <View className="flex flex-column flex-1">
-
         <Header />
 
         <View className="mb-8 p-4 w-full flex-1 bg-curaWhite border border-curaGray/20 shadow-sm shadow-curaBlack/60  rounded-xl">
