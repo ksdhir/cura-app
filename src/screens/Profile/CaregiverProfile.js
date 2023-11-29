@@ -80,8 +80,8 @@ const CaregiverProfile = () => {
         <ScreenTitle title="Care Person Profile" />
 
         <ScrollView className="flex my-4">
-          <View className="flex justify-start py-4 gap-2">
-            <View className="flex flex-row justify-between items-end">
+          <View className="flex justify-start py-4 gap-1">
+            <View className="flex flex-row justify-between items-center">
               <Text className="text-lg text-curaBlack font-SatoshiBold">
                 Preferred Name/s:
               </Text>
@@ -90,8 +90,8 @@ const CaregiverProfile = () => {
                 <IconBtn
                   name="edit"
                   onPress={handleEdit}
-                  width={20}
-                  height={20}
+                  width={25}
+                  height={25}
                   iconStyle={{
                     color: "#263130",
                   }}
