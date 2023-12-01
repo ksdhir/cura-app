@@ -101,13 +101,8 @@ export default function HeartRateHistoryScreen() {
     <SafeAreaView className="flex flex-1 w-full items-center justify-center bg-curaWhite px-4">
       <StatusBar style="auto" />
       <View className="flex flex-1 w-full">
-        <View className="flex w-full justify-between rounded-t-xl pt-4 pb-8 relative -z-10 items-center bg-primary/20">
-          <Text className=" text-base text-primaryDark font-SatoshiBold">
-            Current Heart Rate
-          </Text>
-          <Text className="text-base text-primaryDark font-SatoshiBold">
-            {bpm} BPM
-          </Text>
+        <View className="my-4">
+          <Header />
         </View>
 
         {/*  CARD  */}
@@ -199,9 +194,10 @@ export default function HeartRateHistoryScreen() {
                 xAxisThickness={0}
                 dashGap={0}
                 initialSpacing={width / 32}
-                scrollToEnd={false}
+                scrollToEnd
                 isAnimated={true}
                 disablePress={true}
+
                 // onPress={(item, index) => console.log("item", item)}
               />
             </View>
