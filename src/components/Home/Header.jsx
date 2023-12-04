@@ -13,18 +13,22 @@ const HomeHeader = ({ userLoggedIn, profile, elderEmailData }) => {
     <View className="w-full flex-row justify-between py-4">
       <View>
         {userLoggedIn === "Caregiver" ? (
-          <Text className="text-xl text-curaBlack font-SatoshiBold">
-            {elderName}
-          </Text>
+          <>
+            <Text className="text-xl text-curaBlack font-SatoshiBold">
+              {elderName}
+            </Text>
+            <Text className=" text-base text-curaBlack font-SatoshiMedium ">
+              {elderAge} years old
+            </Text>
+          </>
         ) : (
           <Text className="text-xl text-curaBlack font-SatoshiBold">
-            {elderName}
+            Hi {elderName}!
           </Text>
+
         )}
 
-        <Text className=" text-base text-curaBlack font-SatoshiMedium ">
-          {elderAge} years old
-        </Text>
+
       </View>
 
       <IconBtn
