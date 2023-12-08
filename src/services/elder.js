@@ -1,3 +1,5 @@
+import auth from "@react-native-firebase/auth";
+
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 export const testPushNotification = async (email, token) => {
@@ -47,12 +49,14 @@ export const elderSignUp = async (body, token) => {
 
 export const getElderEmailFromCaregiverEmail = async (caregiverEmail) => {
   try {
+    const token = await auth().currentUser.getIdToken();
     const url = `${apiUrl}/caregiver/profile?email=${caregiverEmail}`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
       },
     });
 
@@ -88,8 +92,16 @@ export const getElderProfile = async (email, token) => {
 
 export const getElderHeartRateDetail = async (email) => {
   try {
+    const token = await auth().currentUser.getIdToken();
     const response = await fetch(
-      `${apiUrl}/elder/heart-rate-details?email=${email}`
+      `${apiUrl}/elder/heart-rate-details?email=${email}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token ?? ""}`,
+        },
+      }
     );
 
     const data = await response.json();
@@ -105,8 +117,16 @@ export const getElderHeartRateDetail = async (email) => {
 
 export const getElderHeartRateThreshold = async (email) => {
   try {
+    const token = await auth().currentUser.getIdToken();
     const response = await fetch(
-      `${apiUrl}/elder/heart-threshold?email=${email}`
+      `${apiUrl}/elder/heart-threshold?email=${email}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token ?? ""}`,
+        },
+      }
     );
 
     const data = await response.json();
@@ -140,8 +160,16 @@ export const updateElderHeartRateThreshold = async (body, token) => {
 
 export const getElderWeeklyHeartRateDataVisualisation = async (email) => {
   try {
+    const token = await auth().currentUser.getIdToken();
     const response = await fetch(
-      `${apiUrl}/elder/weekly-heart-rate-data-visualisation?email=${email}`
+      `${apiUrl}/elder/weekly-heart-rate-data-visualisation?email=${email}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token ?? ""}`,
+        },
+      }
     );
 
     const data = await response.json();
@@ -159,10 +187,13 @@ export const setElderHeartRateDetail = async (body) => {
       throw Error("Email is null");
     }
 
+    const token = await auth().currentUser.getIdToken();
+
     const response = await fetch(`${apiUrl}/elder/heart-rate-details`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
       },
       body: JSON.stringify(body),
     });
@@ -177,8 +208,16 @@ export const setElderHeartRateDetail = async (body) => {
 
 export const getElderDailyHeartRateDataVisualisation = async (email) => {
   try {
+    const token = await auth().currentUser.getIdToken();
     const response = await fetch(
-      `${apiUrl}/elder/daily-heart-rate-data-visualisation?email=${email}`
+      `${apiUrl}/elder/daily-heart-rate-data-visualisation?email=${email}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token ?? ""}`,
+        },
+      }
     );
 
     const data = await response.json();

@@ -1,4 +1,4 @@
-import { auth } from "../utils/FirebaseConfig";
+import auth from "@react-native-firebase/auth";
 
 export const getCaregiverProfile = async (email, token) => {
   try {
@@ -19,6 +19,7 @@ export const getCaregiverProfile = async (email, token) => {
     return null;
   }
 };
+
 export const caregiverSignup = async (body, token) => {
   try {
     const response = await fetch(
@@ -42,12 +43,14 @@ export const caregiverSignup = async (body, token) => {
 
 export const saveNotificationToken = async (expoToken, email) => {
   try {
+    const token = await auth().currentUser.getIdToken();
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/store-push-notification-token?email=${email}&token=${expoToken}`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
       },
     });
 
@@ -74,12 +77,14 @@ export const getSpecificNotificationLog = async (elderEmail, type) => {
       throw new Error("Invalid type");
     }
 
+    const token = await auth().currentUser.getIdToken();
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=${type}`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
       },
     });
 
@@ -112,12 +117,14 @@ export const getAllNotificationLog = async (elderEmail, type) => {
       throw new Error("Invalid type");
     }
 
+    const token = await auth().currentUser.getIdToken();
     const url = `${process.env.EXPO_PUBLIC_API_URL}/caregiver/all-notification-log?elderEmail=${elderEmail}&type=${type}`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token ?? ""}`,
       },
     });
 
