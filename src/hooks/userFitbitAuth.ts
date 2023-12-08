@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import { encode } from "js-base64";
+import useAuth from "./useAuth";
 
 type TokenData = {
   access_token: string;
@@ -23,6 +24,7 @@ const discovery = {
 };
 
 const useFitbitAuth = () => {
+  const { user } = useAuth();
   const [isRequestLoaded, setIsRequestLoaded] = useState(false);
   const [tokenData, setTokenData] = useState<TokenData | null>(null);
   const [request, response, promptAsync] = useAuthRequest(
@@ -144,7 +146,7 @@ const useFitbitAuth = () => {
   };
 
   useEffect(() => {
-    if (!request || isRequestLoaded) return;
+    if (!user || !request || isRequestLoaded) return;
 
     const init = async () => {
       console.log("INIT");
@@ -152,6 +154,7 @@ const useFitbitAuth = () => {
         // Get the stored access token and refresh token
         const tokenDetails = await AsyncStorage.getItem("@FITBIT_tokenDetails");
 
+        console.log("TOKEN DETAILS", tokenDetails);
         if (!tokenDetails) {
           console.log("PROMPTING ASYNC!");
           const result = await promptAsync();
@@ -164,10 +167,14 @@ const useFitbitAuth = () => {
     };
 
     init();
-  }, [request, isRequestLoaded]);
+
+    console.log("I GOT CALLED!");
+  }, [request, isRequestLoaded, user]);
 
   //Once promptAsync this hook will get triggered
   useEffect(() => {
+    if (!user) return;
+
     if (response?.type === "success") {
       const { code } = response.params;
 
@@ -181,7 +188,7 @@ const useFitbitAuth = () => {
       console.log("TOKEN DATA", tokenData);
       console.log("isRequestLoaded", isRequestLoaded, request);
     }
-  }, [response]);
+  }, [response, user]);
 
   return {
     tokenData,

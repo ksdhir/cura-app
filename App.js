@@ -9,6 +9,10 @@ import "expo-dev-client";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     SatoshiMedium: require("./src/assets/fonts/Satoshi-Medium.otf"),
